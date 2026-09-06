@@ -2,20 +2,28 @@ import React, { useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp } from '../context';
-import heroVideo from '../../lime_spark_B6FF2E_10s.mp4';
+import darkHeroVideo from '../../lime_spark_B6FF2E_10s.mp4';
+import lightHeroVideo from '../../lime_spark_black_on_white_sharp_10s.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const isLight = theme === 'light';
+  const activeVideo = isLight ? lightHeroVideo : darkHeroVideo;
+  const activeVideoFallback = isLight
+    ? '/lime_spark_black_on_white_sharp_10s.mp4'
+    : '/lime_spark_B6FF2E_10s.mp4';
+
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
+      videoRef.current.load();
       videoRef.current.play().catch(() => {});
     }
-  }, []);
+  }, [theme]);
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
@@ -58,8 +66,9 @@ export const LandingPage: React.FC = () => {
         {/* Full-width video background extending horizontally to both sides */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <video
+            key={theme}
             ref={videoRef}
-            src={heroVideo}
+            src={activeVideo}
             autoPlay
             loop
             muted
@@ -67,11 +76,11 @@ export const LandingPage: React.FC = () => {
             preload="auto"
             className="w-full h-full object-cover"
           >
-            <source src={heroVideo} type="video/mp4" />
-            <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
+            <source src={activeVideo} type="video/mp4" />
+            <source src={activeVideoFallback} type="video/mp4" />
           </video>
-          {/* Subtle dark tint to maintain headline contrast */}
-          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+          {/* Tint overlay tailored for dark and light modes */}
+          <div className={`absolute inset-0 pointer-events-none ${isLight ? 'bg-transparent' : 'bg-black/40'}`} />
           {/* Edge gradients blending smoothly with header and solid background */}
           <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
           <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
