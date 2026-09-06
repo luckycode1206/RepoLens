@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { AppSidebar } from './AppSidebar';
 import { AppHeader } from './AppHeader';
 import { CommandPaletteModal } from '../common/CommandPaletteModal';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 
 export const AppLayout: React.FC = () => {
   const { sidebarCollapsed } = useApp();

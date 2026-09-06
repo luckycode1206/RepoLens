@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context';
 import { architectureService } from '../services/api';
 import { GraphNode, GraphLink } from '../types';
 import { InteractiveGraph } from '../components/graph/InteractiveGraph';

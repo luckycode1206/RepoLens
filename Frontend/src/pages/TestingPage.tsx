@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context';
 import { testingService } from '../services/api';
 import { TestingRecommendation } from '../types';
 

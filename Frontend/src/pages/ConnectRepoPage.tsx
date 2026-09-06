@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context';
 import { repoService } from '../services/api';
 
 export const ConnectRepoPage: React.FC = () => {

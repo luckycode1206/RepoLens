@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../context/AppContext';
+import { useApp } from '../context';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { ChatMessage } from '../types';
 
@@ -9,6 +9,7 @@ export const AiAssistantPage: React.FC = () => {
   const navigate = useNavigate();
 
   const [input, setInput] = useState('');
+  const msgIdCounter = React.useRef(10);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: '1',
@@ -28,8 +29,9 @@ export const AiAssistantPage: React.FC = () => {
     const text = textToSend || input;
     if (!text.trim()) return;
 
+    msgIdCounter.current += 1;
     const userMsg: ChatMessage = {
-      id: Date.now().toString(),
+      id: `msg-${msgIdCounter.current}`,
       role: 'user',
       content: text,
       timestamp: 'Just now',
@@ -42,9 +44,12 @@ export const AiAssistantPage: React.FC = () => {
     setTimeout(() => {
       let aiReply: ChatMessage;
 
+      msgIdCounter.current += 1;
+      const replyId = `msg-${msgIdCounter.current}`;
+
       if (text.toLowerCase().includes('blast') || text.toLowerCase().includes('auth')) {
         aiReply = {
-          id: (Date.now() + 1).toString(),
+          id: replyId,
           role: 'assistant',
           content:
             "I analyzed the blast radius for `services/auth_service.py::validate_token`.\n\n### Impact Summary:\n- **Risk Score**: 84% (High Risk)\n- **Direct Dependents**: 5 modules (`middleware/jwt_auth.py`, `api/v1/routers/user.py`, `api/v1/routers/billing.py`, etc.)\n- **Indirect Downstream**: 14 modules\n- **Affected Endpoints**: 4 critical routes including `/api/v1/billing/checkout`\n- **Targeted Tests**: 7 unit/integration suites recommended for execution.\n\nWould you like me to open the interactive ripple graph?",

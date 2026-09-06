@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { RepoLensLogo } from '../common/RepoLensLogo';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 
 export const AppSidebar: React.FC = () => {
   const { repositories, sidebarCollapsed, setSidebarCollapsed } = useApp();

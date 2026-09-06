@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { GraphNode, GraphLink } from '../../types';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 
 interface InteractiveGraphProps {
   nodes: GraphNode[];
@@ -20,9 +20,15 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   highlightPath,
 }) => {
   const { diffGlowEnabled } = useApp();
-  const [nodes, setNodes] = useState<GraphNode[]>(initialNodes);
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(controlledSelectedId || null);
+  const [draggedPositions, setDraggedPositions] = useState<Record<string, { x: number; y: number }>>({});
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(null);
+  const selectedNodeId = controlledSelectedId !== undefined ? controlledSelectedId : internalSelectedId;
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+
+  const nodes = initialNodes.map((n) => {
+    const pos = draggedPositions[n.id];
+    return pos ? { ...n, x: pos.x, y: pos.y } : n;
+  });
 
   // Pan & Zoom state
   const [zoom, setZoom] = useState(1);
@@ -32,16 +38,6 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   const panStartRef = useRef({ x: 0, y: 0 });
   const nodeDragStartRef = useRef({ x: 0, y: 0 });
   const svgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    setNodes(initialNodes);
-  }, [initialNodes]);
-
-  useEffect(() => {
-    if (controlledSelectedId !== undefined) {
-      setSelectedNodeId(controlledSelectedId);
-    }
-  }, [controlledSelectedId]);
 
   const activeId = hoveredNodeId || selectedNodeId;
 
@@ -92,9 +88,10 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
     } else if (draggedNodeId) {
       const newX = (e.clientX - pan.x) / zoom - nodeDragStartRef.current.x;
       const newY = (e.clientY - pan.y) / zoom - nodeDragStartRef.current.y;
-      setNodes((prev) =>
-        prev.map((n) => (n.id === draggedNodeId ? { ...n, x: newX, y: newY } : n))
-      );
+      setDraggedPositions((prev) => ({
+        ...prev,
+        [draggedNodeId]: { x: newX, y: newY },
+      }));
     }
   };
 
@@ -105,7 +102,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
 
   const handleNodeClick = (node: GraphNode) => {
     const newId = selectedNodeId === node.id ? null : node.id;
-    setSelectedNodeId(newId);
+    setInternalSelectedId(newId);
     if (onNodeSelect) {
       onNodeSelect(newId ? node : null);
     }
@@ -399,7 +396,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
             </div>
             <button
               onClick={() => {
-                setSelectedNodeId(null);
+                setInternalSelectedId(null);
                 if (onNodeSelect) onNodeSelect(null);
               }}
               className="text-outline hover:text-on-surface p-1 rounded hover:bg-surface-container"

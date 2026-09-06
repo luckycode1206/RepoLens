@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useApp } from '../../context/AppContext';
+import { useApp } from '../../context';
 
 export const CommandPaletteModal: React.FC = () => {
   const { isCommandPaletteOpen, setIsCommandPaletteOpen, repositories, setActiveRepoId, toggleTheme } = useApp();
@@ -11,10 +11,13 @@ export const CommandPaletteModal: React.FC = () => {
   useEffect(() => {
     if (isCommandPaletteOpen) {
       setTimeout(() => inputRef.current?.focus(), 50);
-    } else {
-      setQuery('');
     }
   }, [isCommandPaletteOpen]);
+
+  const handleClose = () => {
+    setQuery('');
+    setIsCommandPaletteOpen(false);
+  };
 
   if (!isCommandPaletteOpen) return null;
 
@@ -63,13 +66,13 @@ export const CommandPaletteModal: React.FC = () => {
 
   const handleSelect = (action: () => void) => {
     action();
-    setIsCommandPaletteOpen(false);
+    handleClose();
   };
 
   return (
     <div
       className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-24 px-4 animate-fade-in"
-      onClick={() => setIsCommandPaletteOpen(false)}
+      onClick={handleClose}
     >
       <div
         className="bg-surface-container-low border border-surface-container-highest rounded-xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col animate-scale-up"
@@ -88,7 +91,7 @@ export const CommandPaletteModal: React.FC = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Escape') setIsCommandPaletteOpen(false);
+              if (e.key === 'Escape') handleClose();
               if (e.key === 'Enter' && filtered.length > 0) {
                 handleSelect(filtered[0].action);
               }
