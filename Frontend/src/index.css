@@ -108,10 +108,6 @@ html.light,
   vertical-align: middle;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 /* Animation utilities */
 @keyframes pulseGlow {
   0%, 100% {
@@ -143,64 +139,6 @@ html {
   animation: rippleWave 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-14px) rotate(1.5deg);
-  }
-}
-
-.animate-float-slow {
-  animation: floatSlow 6s ease-in-out infinite;
-}
-
-@keyframes floatReverse {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(14px) rotate(-1.5deg);
-  }
-}
-
-.animate-float-reverse {
-  animation: floatReverse 7s ease-in-out infinite;
-}
-
-@keyframes laserSweep {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateX(300%);
-    opacity: 0;
-  }
-}
-
-.animate-laser-sweep {
-  animation: laserSweep 3.5s linear infinite;
-}
-
-@keyframes radarSweep {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-radar-sweep {
-  animation: radarSweep 6s linear infinite;
-  transform-origin: center center;
-}
-
 /* High Voltage Diff Glow toggle class */
 .diff-glow-active {
   box-shadow: 0 0 25px 2px rgba(182, 255, 46, 0.35);
@@ -209,4 +147,3 @@ html {
 .diff-glow-red {
   box-shadow: 0 0 25px 2px rgba(239, 68, 68, 0.45);
 }
-
