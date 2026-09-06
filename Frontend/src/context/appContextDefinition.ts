@@ -9,7 +9,7 @@ export interface AppContextType {
   refreshRepositories: () => Promise<void>;
   theme: ThemeMode;
   setTheme: (theme: ThemeMode) => void;
-  toggleTheme: () => void;
+  toggleTheme: (event?: React.MouseEvent | { clientX: number; clientY: number }) => void;
   diffGlowEnabled: boolean;
   setDiffGlowEnabled: (enabled: boolean) => void;
   isCommandPaletteOpen: boolean;

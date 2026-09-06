@@ -3,6 +3,7 @@ import { Repository, ThemeMode } from '../types';
 import { repoService } from '../services/api';
 import { MOCK_REPOSITORIES } from '../services/mockData';
 import { AppContext } from './appContextDefinition';
+import { triggerPixelThemeTransition } from '../utils/pixelThemeTransition';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [repositories, setRepositories] = useState<Repository[]>(() => MOCK_REPOSITORIES);
@@ -30,9 +31,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.setItem('repolens_theme', newTheme);
   };
 
-  const toggleTheme = () => {
+  const toggleTheme = (event?: React.MouseEvent | { clientX: number; clientY: number }) => {
     const next = theme === 'dark' ? 'light' : 'dark';
-    setTheme(next);
+    const originX = event?.clientX ?? window.innerWidth - 60;
+    const originY = event?.clientY ?? 32;
+
+    triggerPixelThemeTransition(originX, originY, next, () => {
+      setTheme(next);
+    });
   };
 
   const setDiffGlowEnabled = (val: boolean) => {
