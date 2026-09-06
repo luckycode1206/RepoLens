@@ -67,12 +67,6 @@ export const LandingPage: React.FC = () => {
             Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
           </h1>
 
-          <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl leading-relaxed">
-            The developer platform answering the essential pre-commit question:
-            <strong className="text-on-surface block mt-1">"If I change this code, what else could be affected?"</strong>
-            Maps downstream dependencies, flags security taint, and isolates regression tests before pull requests merge.
-          </p>
-
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <button
               onClick={() => navigate('/ingest')}
