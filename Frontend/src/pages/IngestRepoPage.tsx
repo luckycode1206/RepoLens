@@ -28,7 +28,7 @@ export const IngestRepoPage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Scan Depth State
-  const [depth, setDepth] = useState<'l1' | 'l3' | 'l4'>('l3');
+  const [depth, setDepth] = useState<'l1' | 'l3' | 'l4'>('l4');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle Drag & Drop
@@ -613,33 +613,47 @@ export const IngestRepoPage: React.FC = () => {
         </div>
 
         {/* Scan Depth Selection */}
-        <div className="bg-surface-container-low border border-surface-container-high rounded-xl p-space-lg space-y-space-md shadow-sm">
-          <h2 className="font-headline-md text-headline-md text-on-surface font-semibold flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary-container text-[20px]">
-              psychology
-            </span>
-            Analysis Depth &amp; Resolution
-          </h2>
+        <div className="relative overflow-hidden bg-[#0b0c10] border border-white/[0.08] rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          {/* Header with glowing circuit/brain icon and subtitle */}
+          <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-5">
+            <div className="w-10 h-10 rounded-xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E] shadow-[0_0_15px_rgba(182,255,46,0.2)] flex-shrink-0">
+              <span className="material-symbols-outlined text-[24px]">psychology</span>
+            </div>
+            <div>
+              <h2 className="font-sans text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                <span>Analysis Depth &amp; Resolution</span>
+              </h2>
+              <p className="font-sans text-xs text-white/50 mt-0.5">
+                Choose how deep the scan goes across AST symbols and dependency graphs
+              </p>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
             {[
               {
                 id: 'l1',
                 title: 'L1 Static AST',
+                icon: 'bolt',
                 time: '~30s initial scan',
-                desc: 'Fast lexical and syntactic parsing. Maps exports, function signatures, and simple imports.',
+                badge: 'Fast Syntax',
+                desc: 'Fast lexical and syntactic parsing. Maps exports, function signatures, and simple imports without cross-module taint propagation.',
               },
               {
                 id: 'l3',
-                title: 'L3 Deep Trace (Recommended)',
+                title: 'L3 Deep Trace',
+                icon: 'search_insights',
                 time: '~2m initial scan',
-                desc: 'Full semantic symbol graph, cross-module blast radius vectors, and CWE taint vulnerability flow.',
+                badge: 'Recommended',
+                desc: 'Full semantic symbol graph, cross-module blast radius vectors, and CWE taint vulnerability flow across module boundaries.',
               },
               {
                 id: 'l4',
                 title: 'L4 Monorepo Complete',
+                icon: 'layers',
                 time: '~5m initial scan',
-                desc: 'Exhaustive cross-package inter-dependency resolution with circular reference detection.',
+                badge: 'Deep / Exhaustive',
+                desc: 'Exhaustive cross-package inter-dependency resolution with circular reference detection and whole-workspace symbol indexing.',
               },
             ].map((d) => {
               const isSelected = depth === d.id;
@@ -647,25 +661,53 @@ export const IngestRepoPage: React.FC = () => {
                 <div
                   key={d.id}
                   onClick={() => setDepth(d.id as any)}
-                  className={`p-space-md rounded-lg border cursor-pointer transition-all flex flex-col justify-between ${
+                  className={`relative p-6 rounded-2xl border cursor-pointer transition-all duration-200 flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-surface-container border-primary-container ring-1 ring-primary-container'
-                      : 'bg-surface-container-lowest border-surface-container-highest hover:bg-surface-container-high'
+                      ? 'bg-gradient-to-b from-[#181d24] to-[#111319] border-[#B6FF2E]/80 ring-1 ring-[#B6FF2E]/40 shadow-[0_0_28px_rgba(182,255,46,0.12)] -translate-y-1'
+                      : 'bg-[#101217]/70 border-white/[0.08] hover:bg-[#151820] hover:border-white/20 hover:-translate-y-1 hover:shadow-xl'
                   }`}
                 >
                   <div>
+                    {/* Top Row: Tier Icon and Radio Indicator */}
                     <div className="flex items-center justify-between">
-                      <span className="font-headline-sm text-body-sm font-semibold text-on-surface">
-                        {d.title}
-                      </span>
-                      <span className={`material-symbols-outlined text-[16px] ${isSelected ? 'text-primary-container' : 'text-outline opacity-20'}`}>
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+                        isSelected
+                          ? 'bg-[#B6FF2E]/20 text-[#B6FF2E]'
+                          : 'bg-white/[0.04] text-white/40'
+                      }`}>
+                        <span className="material-symbols-outlined text-[18px]">
+                          {d.icon}
+                        </span>
+                      </div>
+                      <span className={`material-symbols-outlined text-[18px] transition-colors ${
+                        isSelected
+                          ? 'text-[#B6FF2E] shadow-[0_0_8px_rgba(182,255,46,0.5)]'
+                          : 'text-white/20'
+                      }`}>
                         {isSelected ? 'radio_button_checked' : 'radio_button_unchecked'}
                       </span>
                     </div>
-                    <div className="font-code text-[10px] text-primary-container font-semibold mt-1">
-                      {d.time}
+
+                    {/* Bold Title */}
+                    <h3 className="font-sans text-sm sm:text-base font-bold text-white mt-3.5 tracking-tight flex items-center justify-between">
+                      <span>{d.title}</span>
+                    </h3>
+
+                    {/* Colored Timing Badge */}
+                    <div className="mt-2 flex items-center gap-1.5 flex-wrap">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#B6FF2E]/10 border border-[#B6FF2E]/25 text-[#B6FF2E] font-mono text-[11px] font-semibold">
+                        <span className="material-symbols-outlined text-[12px]">timer</span>
+                        <span>{d.time}</span>
+                      </span>
+                      {d.badge && (
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/40">
+                          {d.badge}
+                        </span>
+                      )}
                     </div>
-                    <p className="font-body-sm text-xs text-outline mt-2">
+
+                    {/* Description */}
+                    <p className="font-sans text-xs text-white/55 mt-3.5 leading-relaxed">
                       {d.desc}
                     </p>
                   </div>
