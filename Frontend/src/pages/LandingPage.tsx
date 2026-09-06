@@ -126,10 +126,10 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center space-y-3">
             <h2 className="font-headline-xl text-3xl sm:text-4xl font-bold text-on-surface">
-              Architectural Intelligence Built for Modern Engineering
+              Built to Understand Your Codebase, Not Just Scan It
             </h2>
-            <p className="font-body-md text-on-surface-variant max-w-xl mx-auto">
-              Replace guesswork with deterministic AST parsing, cross-module taint propagation, and change-risk telemetry.
+            <p className="font-body-md text-on-surface-variant max-w-2xl mx-auto">
+              No more guessing what a change might affect — it parses your code's real structure, traces how data moves across modules, and flags exactly where risk shows up.
             </p>
           </div>
 
