@@ -175,38 +175,6 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Ingestion Methods Banner */}
-      <section className="py-16 px-4 lg:px-8 border-b border-surface-container-high bg-gradient-to-b from-surface-container-low/75 to-background/85 backdrop-blur-sm">
-        <div className="max-w-4xl mx-auto rounded-2xl bg-surface-container border border-surface-container-highest p-8 md:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
-          <span className="font-label-caps text-label-caps px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-mono font-bold">
-            ZERO FRICTION INGESTION
-          </span>
-          <h2 className="font-headline-xl text-3xl font-bold text-on-surface">
-            Two Ways to Analyze Any Repository in Seconds
-          </h2>
-          <p className="font-body-md text-on-surface-variant max-w-xl mx-auto">
-            Paste a public or private Git repository URL with branch &amp; PAT credentials, or drag and drop a local ZIP / Tarball archive.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <button
-              onClick={() => navigate('/ingest')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime"
-            >
-              <span className="material-symbols-outlined text-[18px]">add_link</span>
-              <span>Paste Git URL</span>
-            </button>
-            <button
-              onClick={() => navigate('/ingest')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-highest hover:bg-surface-bright text-on-surface font-headline-sm text-sm font-semibold transition-colors"
-            >
-              <span className="material-symbols-outlined text-[18px]">folder_zip</span>
-              <span>Upload ZIP File</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="mt-auto py-8 px-4 lg:px-8 bg-surface-container-lowest/80 backdrop-blur-sm border-t border-surface-container-high text-xs text-outline font-code">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
