@@ -43,49 +43,49 @@ export const LandingPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-24 px-4 lg:px-8 border-b border-surface-container-high">
-        {/* Background Photon Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-primary-container/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
+      {/* Hero Section with Full-Width Horizontal Video */}
+      <section className="relative overflow-hidden pt-16 pb-20 border-b border-surface-container-high">
+        {/* Full-width video background extending to both sides and covering down to the buttons */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
+          </video>
+          {/* Subtle dark tint to maintain contrast for headline and buttons */}
+          <div className="absolute inset-0 bg-black/45" />
+          {/* Soft edge gradients blending seamlessly with solid background */}
+          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+        </div>
 
-        <div className="max-w-6xl mx-auto flex flex-col items-center text-center space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low border border-surface-container-highest text-xs font-code">
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 flex flex-col items-center text-center space-y-6 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low/90 backdrop-blur-md border border-surface-container-highest text-xs font-code">
             <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
             <span className="text-on-surface font-semibold">RepoLens</span>
             <span className="text-surface-variant">•</span>
             <span className="text-primary-container font-semibold tracking-wider">SEE BEYOND THE CODE</span>
           </div>
 
-          {/* Localized Video Background around the Headline */}
-          <div className="relative px-6 sm:px-12 py-8 rounded-3xl overflow-hidden border border-primary-container/30 shadow-[0_0_40px_rgba(182,255,46,0.15)] my-1 max-w-4xl w-full">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-            >
-              <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 bg-black/35 pointer-events-none" />
-
-            <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface leading-tight relative z-10">
-              Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
-            </h1>
-          </div>
+          <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface max-w-4xl leading-tight drop-shadow-md">
+            Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
+          </h1>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <button
               onClick={() => navigate('/ingest')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="material-symbols-outlined text-[20px]">upload_file</span>
               <span>Ingest Repository / Upload ZIP</span>
             </button>
             <button
               onClick={() => navigate('/app')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-highest text-on-surface font-headline-sm text-sm font-semibold transition-colors"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low/90 backdrop-blur-md hover:bg-surface-container border border-surface-container-highest text-on-surface font-headline-sm text-sm font-semibold transition-colors hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="material-symbols-outlined text-[20px]">play_circle</span>
               <span>Explore Interactive Demo</span>
