@@ -121,20 +121,20 @@ export const IngestRepoPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-space-lg">
         {/* Unified Single Frame with Upper Git Repository, OR Divider, and Lower ZIP Archive */}
-        <div className="relative overflow-hidden bg-[#0b0c10] border border-[#B6FF2E]/40 ring-1 ring-[#B6FF2E]/20 rounded-2xl p-5 sm:p-7 space-y-7 shadow-[0_0_50px_rgba(182,255,46,0.12)]">
+        <div className="relative overflow-hidden bg-surface-container-low border border-primary-container/40 ring-1 ring-primary-container/20 rounded-2xl p-5 sm:p-7 space-y-7 shadow-sm dark:shadow-[0_0_50px_rgba(182,255,46,0.12)]">
           {/* Ambient Glowing Background Aura on Parent Frame */}
-          <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#B6FF2E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl pointer-events-none" />
 
           {/* Policy Notice Top Banner */}
-          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#14171f]/90 via-[#181c26]/80 to-[#14171f]/90 backdrop-blur-md border border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] text-xs font-sans">
-            <div className="flex items-center gap-2.5 text-white/90 font-medium">
-              <span className="material-symbols-outlined text-[#B6FF2E] text-[18px]">check_circle</span>
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 rounded-xl bg-surface-container border border-surface-container-highest shadow-sm text-xs font-sans">
+            <div className="flex items-center gap-2.5 text-on-surface font-medium">
+              <span className="material-symbols-outlined text-primary-container text-[18px]">check_circle</span>
               <span>
-                Single Ingestion Policy: Choose either <strong className="text-white font-semibold">Remote Git Repository</strong> OR <strong className="text-white font-semibold">Local ZIP File</strong>
+                Single Ingestion Policy: Choose either <strong className="text-on-surface font-semibold">Remote Git Repository</strong> OR <strong className="text-on-surface font-semibold">Local ZIP File</strong>
               </span>
             </div>
-            <div className="self-start sm:self-auto flex items-center gap-2 px-3 py-1 rounded-full bg-[#B6FF2E]/10 border border-[#B6FF2E]/25 text-[#B6FF2E] font-mono text-[11px] font-semibold tracking-wide shadow-[0_0_12px_rgba(182,255,46,0.15)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B6FF2E] animate-pulse" />
+            <div className="self-start sm:self-auto flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/15 border border-primary-container/30 text-primary-container font-mono text-[11px] font-semibold tracking-wide shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
               <span>{selectedMethod === 'url' ? 'Selected: Remote Git' : 'Selected: ZIP Archive'}</span>
             </div>
           </div>
@@ -144,25 +144,25 @@ export const IngestRepoPage: React.FC = () => {
             onClick={() => setSelectedMethod('url')}
             className={`relative z-10 rounded-2xl border transition-all duration-200 p-6 sm:p-8 space-y-7 ${
               selectedMethod === 'url'
-                ? 'bg-[#12151d] border-[#B6FF2E]/70'
-                : 'bg-[#0d0e12]/60 border-white/[0.08] opacity-60 hover:opacity-90 hover:border-white/20 cursor-pointer'
+                ? 'bg-surface-container border-primary-container ring-1 ring-primary-container/30 shadow-sm'
+                : 'bg-surface-container-lowest/50 border-surface-container-highest opacity-60 hover:opacity-90 hover:border-surface-container-high cursor-pointer'
             }`}
           >
             {/* Header: Title, Subtitle, Left Icon, and Right ACTIVE Pill */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-surface-container-high/60 pb-5">
               <div className="flex items-start sm:items-center gap-3.5">
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all ${
                   selectedMethod === 'url'
-                    ? 'bg-[#B6FF2E]/15 border border-[#B6FF2E]/40 text-[#B6FF2E] shadow-[0_0_15px_rgba(182,255,46,0.2)]'
-                    : 'bg-white/[0.04] border border-white/[0.08] text-white/40'
+                    ? 'bg-primary-container text-on-primary-container shadow-glow-lime'
+                    : 'bg-surface-container text-outline border border-surface-container-highest'
                 }`}>
                   <span className="material-symbols-outlined text-[22px]">add_link</span>
                 </div>
                 <div>
-                  <h2 className="font-sans text-base sm:text-lg font-bold text-white tracking-tight">
+                  <h2 className="font-sans text-base sm:text-lg font-bold text-on-surface tracking-tight">
                     Upper: Remote Git Repository
                   </h2>
-                  <p className="font-sans text-xs text-white/50 mt-0.5">
+                  <p className="font-sans text-xs text-outline mt-0.5">
                     Clone directly from GitHub, GitLab, Bitbucket, or custom Git endpoint
                   </p>
                 </div>
@@ -170,7 +170,7 @@ export const IngestRepoPage: React.FC = () => {
 
               <div className="self-start sm:self-auto flex-shrink-0">
                 {selectedMethod === 'url' ? (
-                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#B6FF2E]/15 border border-[#B6FF2E]/40 text-[#B6FF2E] text-xs font-sans font-semibold tracking-wide shadow-[0_0_12px_rgba(182,255,46,0.25)]">
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary-container text-xs font-sans font-semibold tracking-wide shadow-sm">
                     <span className="material-symbols-outlined text-[15px] font-bold">check</span>
                     <span>ACTIVE</span>
                   </div>
@@ -181,7 +181,7 @@ export const IngestRepoPage: React.FC = () => {
                       e.stopPropagation();
                       setSelectedMethod('url');
                     }}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/50 hover:text-white text-xs font-sans transition-colors"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-surface-container-highest text-outline hover:text-on-surface text-xs font-sans transition-colors"
                   >
                     <span className="material-symbols-outlined text-[14px]">radio_button_unchecked</span>
                     <span>Select Remote Git</span>
@@ -192,7 +192,7 @@ export const IngestRepoPage: React.FC = () => {
 
             {/* Git Host Selector: 4 Horizontal Tab-like Buttons */}
             <div className="space-y-3">
-              <label className="font-sans text-xs font-medium text-white/80 block">
+              <label className="font-sans text-xs font-medium text-on-surface block">
                 Target Git Host
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -244,18 +244,18 @@ export const IngestRepoPage: React.FC = () => {
                       }}
                       className={`h-11 px-3.5 rounded-xl border transition-all duration-200 flex items-center justify-between font-sans text-xs font-medium ${
                         isSelected
-                          ? 'bg-[#181c24] border-[#B6FF2E] text-white shadow-[0_0_15px_rgba(182,255,46,0.15)] ring-1 ring-[#B6FF2E]/40'
-                          : 'bg-[#111318]/70 border-white/[0.08] text-white/60 hover:bg-[#151820] hover:border-white/20 hover:text-white'
+                          ? 'bg-surface-container-high border-primary-container text-on-surface shadow-sm ring-1 ring-primary-container/40'
+                          : 'bg-surface-container-lowest border-surface-container-highest text-outline hover:bg-surface-container hover:border-surface-container-high hover:text-on-surface'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">
-                        <div className={isSelected ? 'text-[#B6FF2E]' : 'text-white/40'}>
+                        <div className={isSelected ? 'text-primary-container' : 'text-outline'}>
                           {g.icon}
                         </div>
                         <span>{g.name}</span>
                       </div>
                       <span className={`material-symbols-outlined text-[16px] transition-colors ${
-                        isSelected ? 'text-[#B6FF2E]' : 'text-white/20'
+                        isSelected ? 'text-primary-container' : 'text-outline/30'
                       }`}>
                         {isSelected ? 'radio_button_checked' : 'radio_button_unchecked'}
                       </span>
@@ -270,7 +270,7 @@ export const IngestRepoPage: React.FC = () => {
               {/* Git Clone URL */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="font-sans text-xs font-medium text-white/80">
+                  <label className="font-sans text-xs font-medium text-on-surface">
                     Git Clone URL (HTTPS or SSH)
                   </label>
                   <button
@@ -282,14 +282,14 @@ export const IngestRepoPage: React.FC = () => {
                       setRepoName('payments-core');
                       setGitHost('github');
                     }}
-                    className="text-[11px] font-sans text-[#B6FF2E] hover:underline flex items-center gap-1 transition-colors"
+                    className="text-[11px] font-sans text-primary-container hover:underline flex items-center gap-1 transition-colors"
                   >
                     <span className="material-symbols-outlined text-[13px]">auto_fix_high</span>
                     <span>Fill Demo Repo</span>
                   </button>
                 </div>
                 <div className="relative flex items-center">
-                  <span className="absolute left-3.5 text-white/30 pointer-events-none material-symbols-outlined text-[18px]">
+                  <span className="absolute left-3.5 text-outline pointer-events-none material-symbols-outlined text-[18px]">
                     link
                   </span>
                   <input
@@ -309,7 +309,7 @@ export const IngestRepoPage: React.FC = () => {
                       if (end) setRepoName(end);
                     }}
                     placeholder="https://github.com/organization/repository.git"
-                    className="w-full pl-10 pr-20 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
+                    className="w-full pl-10 pr-20 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-mono text-xs focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/40 shadow-inner transition-all placeholder:text-outline/40"
                   />
                   {repoUrl && (
                     <button
@@ -319,7 +319,7 @@ export const IngestRepoPage: React.FC = () => {
                         setRepoUrl('');
                         setRepoName('');
                       }}
-                      className="absolute right-3 p-1 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                      className="absolute right-3 p-1 rounded-md text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
                       title="Clear URL"
                     >
                       <span className="material-symbols-outlined text-[15px]">close</span>
@@ -331,7 +331,7 @@ export const IngestRepoPage: React.FC = () => {
               {/* Alias & Branch */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="font-sans text-xs font-medium text-white/80 block">
+                  <label className="font-sans text-xs font-medium text-on-surface block">
                     Workspace Repository Alias
                   </label>
                   <input
@@ -343,13 +343,13 @@ export const IngestRepoPage: React.FC = () => {
                       setRepoName(e.target.value);
                     }}
                     placeholder="payments-core"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-mono text-xs focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/40 shadow-inner transition-all placeholder:text-outline/40"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="font-sans text-xs font-medium text-white/80 block">
+                    <label className="font-sans text-xs font-medium text-on-surface block">
                       Target Analysis Branch
                     </label>
                     <div className="flex items-center gap-1">
@@ -364,8 +364,8 @@ export const IngestRepoPage: React.FC = () => {
                           }}
                           className={`text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors ${
                             branch === b
-                              ? 'bg-[#B6FF2E] text-black font-semibold'
-                              : 'bg-white/[0.06] text-white/50 hover:text-white'
+                              ? 'bg-primary-container text-on-primary-container font-semibold'
+                              : 'bg-surface-container-high text-outline hover:text-on-surface'
                           }`}
                         >
                           {b}
@@ -382,7 +382,7 @@ export const IngestRepoPage: React.FC = () => {
                       setBranch(e.target.value);
                     }}
                     placeholder="main"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-mono text-xs focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/40 shadow-inner transition-all placeholder:text-outline/40"
                   />
                 </div>
               </div>
@@ -390,12 +390,12 @@ export const IngestRepoPage: React.FC = () => {
               {/* Personal Access Token (PAT) */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between flex-wrap gap-1">
-                  <label className="font-sans text-xs font-medium text-white/80">
+                  <label className="font-sans text-xs font-medium text-on-surface">
                     Personal Access Token (PAT) — Optional for Public, Required for Private
                   </label>
                 </div>
                 <div className="relative flex items-center">
-                  <span className="absolute left-3.5 text-white/30 pointer-events-none material-symbols-outlined text-[18px]">
+                  <span className="absolute left-3.5 text-outline pointer-events-none material-symbols-outlined text-[18px]">
                     lock
                   </span>
                   <input
@@ -407,7 +407,7 @@ export const IngestRepoPage: React.FC = () => {
                       setToken(e.target.value);
                     }}
                     placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20 tracking-wider"
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-mono text-xs focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container/40 shadow-inner transition-all placeholder:text-outline/40 tracking-wider"
                   />
                   <button
                     type="button"
@@ -415,7 +415,7 @@ export const IngestRepoPage: React.FC = () => {
                       e.stopPropagation();
                       setShowToken(!showToken);
                     }}
-                    className="absolute right-3 text-white/40 hover:text-white transition-colors p-1"
+                    className="absolute right-3 text-outline hover:text-on-surface transition-colors p-1"
                     title={showToken ? 'Hide token' : 'Show token'}
                   >
                     <span className="material-symbols-outlined text-[17px]">
@@ -430,7 +430,7 @@ export const IngestRepoPage: React.FC = () => {
           {/* THE "OR" DIVIDER */}
           <div className="relative flex items-center justify-center my-6">
             <div className="border-t border-surface-container-highest w-full" />
-            <div className="absolute px-5 py-1 bg-surface-container-low border border-surface-container-highest rounded-full shadow-md flex items-center gap-2 text-xs font-code font-bold tracking-widest text-on-surface uppercase">
+            <div className="absolute px-5 py-1 bg-surface-container border border-surface-container-highest rounded-full shadow-md flex items-center gap-2 text-xs font-code font-bold tracking-widest text-on-surface uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
               <span className="text-primary-container font-extrabold">OR</span>
               <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
@@ -442,8 +442,8 @@ export const IngestRepoPage: React.FC = () => {
             onClick={() => setSelectedMethod('zip')}
             className={`relative z-10 rounded-2xl border transition-all duration-200 p-6 sm:p-8 space-y-6 ${
               selectedMethod === 'zip'
-                ? 'bg-[#12151d] border-[#B6FF2E]/70'
-                : 'bg-[#0d0e12]/60 border-white/[0.08] opacity-60 hover:opacity-90 hover:border-white/20 cursor-pointer'
+                ? 'bg-surface-container border-primary-container ring-1 ring-primary-container/30 shadow-sm'
+                : 'bg-surface-container-lowest/50 border-surface-container-highest opacity-60 hover:opacity-90 hover:border-surface-container-high cursor-pointer'
             }`}
           >
 
@@ -474,9 +474,9 @@ export const IngestRepoPage: React.FC = () => {
 
               <div className="self-start sm:self-auto flex-shrink-0">
                 {selectedMethod === 'zip' ? (
-                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary-container text-xs font-code font-bold tracking-wider shadow-[0_0_15px_rgba(182,255,46,0.35)]">
-                    <span className="w-2 h-2 rounded-full bg-on-primary-container animate-ping" />
-                    <span>ACTIVE METHOD</span>
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary-container text-xs font-sans font-semibold tracking-wide shadow-sm">
+                    <span className="material-symbols-outlined text-[15px] font-bold">check</span>
+                    <span>ACTIVE</span>
                   </div>
                 ) : (
                   <button
@@ -485,7 +485,7 @@ export const IngestRepoPage: React.FC = () => {
                       e.stopPropagation();
                       setSelectedMethod('zip');
                     }}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-surface-container-highest text-outline hover:text-on-surface text-xs font-code transition-colors"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-surface-container-highest text-outline hover:text-on-surface text-xs font-sans transition-colors"
                   >
                     <span className="material-symbols-outlined text-[14px]">radio_button_unchecked</span>
                     <span>Select Local ZIP</span>
@@ -613,17 +613,17 @@ export const IngestRepoPage: React.FC = () => {
         </div>
 
         {/* Scan Depth Selection */}
-        <div className="relative overflow-hidden bg-[#0b0c10] border border-white/[0.08] rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl">
+        <div className="relative overflow-hidden bg-surface-container-low border border-surface-container-high rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
           {/* Header with glowing circuit/brain icon and subtitle */}
-          <div className="flex items-center gap-3.5 border-b border-white/[0.08] pb-5">
-            <div className="w-10 h-10 rounded-xl bg-[#B6FF2E]/10 border border-[#B6FF2E]/30 flex items-center justify-center text-[#B6FF2E] shadow-[0_0_15px_rgba(182,255,46,0.2)] flex-shrink-0">
+          <div className="flex items-center gap-3.5 border-b border-surface-container-high/60 pb-5">
+            <div className="w-10 h-10 rounded-xl bg-primary-container/15 border border-primary-container/30 flex items-center justify-center text-primary-container shadow-sm flex-shrink-0">
               <span className="material-symbols-outlined text-[24px]">psychology</span>
             </div>
             <div>
-              <h2 className="font-sans text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+              <h2 className="font-sans text-base sm:text-lg font-bold text-on-surface tracking-tight flex items-center gap-2">
                 <span>Analysis Depth &amp; Resolution</span>
               </h2>
-              <p className="font-sans text-xs text-white/50 mt-0.5">
+              <p className="font-sans text-xs text-outline mt-0.5">
                 Choose how deep the scan goes across AST symbols and dependency graphs
               </p>
             </div>
@@ -663,8 +663,8 @@ export const IngestRepoPage: React.FC = () => {
                   onClick={() => setDepth(d.id as any)}
                   className={`relative p-6 rounded-2xl border cursor-pointer transition-all duration-200 flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-gradient-to-b from-[#181d24] to-[#111319] border-[#B6FF2E]/80 ring-1 ring-[#B6FF2E]/40 shadow-[0_0_28px_rgba(182,255,46,0.12)] -translate-y-1'
-                      : 'bg-[#101217]/70 border-white/[0.08] hover:bg-[#151820] hover:border-white/20 hover:-translate-y-1 hover:shadow-xl'
+                      ? 'bg-surface-container border-primary-container ring-1 ring-primary-container/40 shadow-md -translate-y-1'
+                      : 'bg-surface-container-lowest border border-surface-container-highest hover:bg-surface-container hover:border-surface-container-high hover:-translate-y-1 hover:shadow-lg'
                   }`}
                 >
                   <div>
@@ -672,8 +672,8 @@ export const IngestRepoPage: React.FC = () => {
                     <div className="flex items-center justify-between">
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
                         isSelected
-                          ? 'bg-[#B6FF2E]/20 text-[#B6FF2E]'
-                          : 'bg-white/[0.04] text-white/40'
+                          ? 'bg-primary-container/20 text-primary-container'
+                          : 'bg-surface-container text-outline'
                       }`}>
                         <span className="material-symbols-outlined text-[18px]">
                           {d.icon}
@@ -681,33 +681,33 @@ export const IngestRepoPage: React.FC = () => {
                       </div>
                       <span className={`material-symbols-outlined text-[18px] transition-colors ${
                         isSelected
-                          ? 'text-[#B6FF2E] shadow-[0_0_8px_rgba(182,255,46,0.5)]'
-                          : 'text-white/20'
+                          ? 'text-primary-container'
+                          : 'text-outline/30'
                       }`}>
                         {isSelected ? 'radio_button_checked' : 'radio_button_unchecked'}
                       </span>
                     </div>
 
                     {/* Bold Title */}
-                    <h3 className="font-sans text-sm sm:text-base font-bold text-white mt-3.5 tracking-tight flex items-center justify-between">
+                    <h3 className="font-sans text-sm sm:text-base font-bold text-on-surface mt-3.5 tracking-tight flex items-center justify-between">
                       <span>{d.title}</span>
                     </h3>
 
                     {/* Colored Timing Badge */}
                     <div className="mt-2 flex items-center gap-1.5 flex-wrap">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#B6FF2E]/10 border border-[#B6FF2E]/25 text-[#B6FF2E] font-mono text-[11px] font-semibold">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-container/15 border border-primary-container/30 text-primary-container font-mono text-[11px] font-semibold">
                         <span className="material-symbols-outlined text-[12px]">timer</span>
                         <span>{d.time}</span>
                       </span>
                       {d.badge && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] border border-white/[0.08] text-white/40">
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-container border border-surface-container-highest text-outline">
                           {d.badge}
                         </span>
                       )}
                     </div>
 
                     {/* Description */}
-                    <p className="font-sans text-xs text-white/55 mt-3.5 leading-relaxed">
+                    <p className="font-sans text-xs text-outline mt-3.5 leading-relaxed">
                       {d.desc}
                     </p>
                   </div>
