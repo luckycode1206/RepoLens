@@ -94,7 +94,7 @@ export const LandingPage: React.FC = () => {
           </h1>
 
           <p className="font-body-md text-base sm:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-            Deterministic architectural intelligence that maps downstream dependencies, pinpoints affected tests, and prevents breaking cascades before you merge.
+            It maps out dependencies automatically, tells you exactly which tests are at risk, and stops breaking changes before they reach merge.
           </p>
         </div>
       </section>
