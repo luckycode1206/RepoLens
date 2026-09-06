@@ -8,7 +8,23 @@ export const LandingPage: React.FC = () => {
   const { theme, toggleTheme } = useApp();
 
   return (
-    <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col">
+    <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
+      {/* Ambient Infinite Looping Background Video */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 select-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-35"
+        >
+          <source src="/background.mp4" type="video/mp4" />
+          <source src="/background.webm" type="video/webm" />
+        </video>
+        {/* Soft Vignette Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-background/60" />
+      </div>
+
       {/* Navigation Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-container-high px-4 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
@@ -81,7 +97,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="features" className="py-20 px-4 lg:px-8 border-b border-surface-container-high bg-surface-container-lowest">
+      <section id="features" className="py-20 px-4 lg:px-8 border-b border-surface-container-high bg-surface-container-lowest/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center space-y-3">
             <h2 className="font-headline-xl text-3xl sm:text-4xl font-bold text-on-surface">
@@ -160,7 +176,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Ingestion Methods Banner */}
-      <section className="py-16 px-4 lg:px-8 border-b border-surface-container-high bg-gradient-to-b from-surface-container-low to-background">
+      <section className="py-16 px-4 lg:px-8 border-b border-surface-container-high bg-gradient-to-b from-surface-container-low/75 to-background/85 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto rounded-2xl bg-surface-container border border-surface-container-highest p-8 md:p-12 text-center space-y-6 shadow-xl relative overflow-hidden">
           <span className="font-label-caps text-label-caps px-3 py-1 rounded-full bg-primary-container text-on-primary-container font-mono font-bold">
             ZERO FRICTION INGESTION
@@ -192,7 +208,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 px-4 lg:px-8 bg-surface-container-lowest border-t border-surface-container-high text-xs text-outline font-code">
+      <footer className="mt-auto py-8 px-4 lg:px-8 bg-surface-container-lowest/80 backdrop-blur-sm border-t border-surface-container-high text-xs text-outline font-code">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RepoLensLogo size="md" />
