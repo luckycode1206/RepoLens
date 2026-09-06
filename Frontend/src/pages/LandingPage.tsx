@@ -19,6 +19,7 @@ export const LandingPage: React.FC = () => {
           className="w-full h-full object-cover opacity-35"
         >
           <source src="/background.mp4" type="video/mp4" />
+          <source src="/13506132_1920_1080_30fps.mp4" type="video/mp4" />
           <source src="/background.webm" type="video/webm" />
         </video>
         {/* Soft Vignette Overlay to ensure text readability */}
