@@ -1,33 +1,19 @@
 /**
  * Pixel Theme Transition
- * Spectacular full-screen 8-bit / cyber square pixel particle explosion
- * blasting outwards from the theme toggle switch button across the entire viewport.
+ * Stationary digital pixel dissolve wave expanding outward from the theme switch button.
+ * 
+ * - Strictly Black & White:
+ *   • Switching to Light Mode -> Black pixel matrix blocks (#000000 / #111318)
+ *   • Switching to Dark Mode  -> White pixel matrix blocks (#FFFFFF / #E2E2E9)
+ * - Zero kinetic energy / physics: pixels are stationary on the screen grid,
+ *   scaling and dissolving in place as the digital wave sweeps across the entire page.
  */
 
-interface PixelParticle {
+interface GridCell {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
   size: number;
-  rotation: number;
-  vRot: number;
-  color: string;
-  alpha: number;
-  decay: number;
-  drag: number;
-  gravity: number;
-  isGlitch?: boolean;
-}
-
-interface PixelWave {
-  radius: number;
-  maxRadius: number;
-  speed: number;
-  blockSize: number;
-  color: string;
-  alpha: number;
-  decay: number;
+  delay: number;
 }
 
 let activeCanvas: HTMLCanvasElement | null = null;
@@ -74,162 +60,107 @@ export function triggerPixelThemeTransition(
     onThemeSwitch();
     return;
   }
-  const renderCtx: CanvasRenderingContext2D = ctx;
 
+  const renderCtx: CanvasRenderingContext2D = ctx;
   renderCtx.scale(dpr, dpr);
   renderCtx.imageSmoothingEnabled = false;
   document.body.appendChild(canvas);
   activeCanvas = canvas;
 
-  // Max distance from origin to viewport corners
-  const maxDistance = Math.hypot(
-    Math.max(originX, width - originX),
-    Math.max(originY, height - originY)
-  );
+  // Grid configuration for stationary digital pixels
+  const GRID_SIZE = 24;
+  const cols = Math.ceil(width / GRID_SIZE) + 1;
+  const rows = Math.ceil(height / GRID_SIZE) + 1;
 
-  // Clean, cohesive minimalist palette: Signature Lime + Crisp White + Deep Charcoal
-  const palette = targetTheme === 'light'
-    ? ['#B6FF2E', '#FFFFFF', '#191C1D', 'rgba(182, 255, 46, 0.85)']
-    : ['#B6FF2E', '#FFFFFF', '#111318', 'rgba(182, 255, 46, 0.85)'];
+  // Colors: Strictly Black & White based on theme transition
+  // • Switching to Light: Black pixels
+  // • Switching to Dark: White pixels
+  const isTargetLight = targetTheme === 'light';
+  const primaryColor = isTargetLight ? '#000000' : '#FFFFFF';
+  const accentColor = isTargetLight ? '#191C1D' : '#F0F0F5';
 
-  // Generate 220-280 clean square pixel particles
-  const particleCount = Math.min(260, Math.floor(Math.max(width, height) / 4.5));
-  const particles: PixelParticle[] = [];
+  const waveSpeed = 2.4; // px per millisecond sweep speed
+  const cellDuration = 240; // ms duration each stationary pixel stays active
 
-  const possibleSizes = [4, 6, 8, 12, 16, 20, 28];
+  // Precompute grid cells and their activation delay based on distance from button
+  const cells: GridCell[] = [];
+  let maxDelay = 0;
 
-  for (let i = 0; i < particleCount; i++) {
-    const angle = Math.random() * Math.PI * 2;
-    const speed = Math.random() < 0.35 
-      ? Math.random() * 24 + 12 // Fast primary blast
-      : Math.random() * 14 + 4; // Ambient wave
+  for (let c = 0; c < cols; c++) {
+    for (let r = 0; r < rows; r++) {
+      const x = c * GRID_SIZE;
+      const y = r * GRID_SIZE;
+      const centerX = x + GRID_SIZE / 2;
+      const centerY = y + GRID_SIZE / 2;
 
-    const size = possibleSizes[Math.floor(Math.random() * possibleSizes.length)];
-    const color = palette[Math.floor(Math.random() * palette.length)];
+      const dist = Math.hypot(centerX - originX, centerY - originY);
+      // Dithered pseudo-random jitter for an authentic organic digital matrix wave
+      const jitter = ((c * 43 + r * 79) % 25) * 4;
+      const delay = dist / waveSpeed + jitter;
 
-    particles.push({
-      x: originX + (Math.random() - 0.5) * 16,
-      y: originY + (Math.random() - 0.5) * 16,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed,
-      size,
-      rotation: 0, // Clean axis-aligned digital pixels, no tilted confetti
-      vRot: 0,
-      color,
-      alpha: 1.0,
-      decay: Math.random() * 0.018 + 0.014,
-      drag: 0.965,
-      gravity: 0, // Zero gravity for crisp radial digital blast
-      isGlitch: Math.random() < 0.12,
-    });
+      if (delay > maxDelay) {
+        maxDelay = delay;
+      }
+
+      cells.push({ x, y, size: GRID_SIZE, delay });
+    }
   }
 
-  // Expanding digital pixel shockwaves in unified signature lime
-  const waves: PixelWave[] = [
-    {
-      radius: 0,
-      maxRadius: maxDistance + 80,
-      speed: 40,
-      blockSize: 16,
-      color: '#B6FF2E',
-      alpha: 0.8,
-      decay: 0.02,
-    },
-    {
-      radius: -45, // slight delay
-      maxRadius: maxDistance + 80,
-      speed: 48,
-      blockSize: 20,
-      color: '#FFFFFF',
-      alpha: 0.7,
-      decay: 0.018,
-    },
-  ];
-
-  let frame = 0;
   let themeSwitched = false;
   const startTime = performance.now();
 
   function animate(now: number) {
-    frame++;
+    const elapsed = now - startTime;
 
-    // Switch theme at frame 3 (~50ms) right as the explosion blankets the switch
-    if (!themeSwitched && frame >= 3) {
+    // Switch the underlying theme at 100ms as the wave front washes over the button
+    if (!themeSwitched && elapsed >= 100) {
       onThemeSwitch();
       themeSwitched = true;
     }
 
     renderCtx.clearRect(0, 0, width, height);
 
-    let hasActiveElements = false;
+    let hasActiveCells = false;
 
-    // 1. Draw and update expanding pixelated shockwaves
-    for (const wave of waves) {
-      wave.radius += wave.speed;
-      if (wave.radius > 0 && wave.radius < wave.maxRadius && wave.alpha > 0.02) {
-        hasActiveElements = true;
-        renderCtx.fillStyle = wave.color;
+    // Draw stationary grid cells active at current timestamp
+    for (let i = 0; i < cells.length; i++) {
+      const cell = cells[i];
+      const timeSinceActivation = elapsed - cell.delay;
 
-        const circumference = 2 * Math.PI * wave.radius;
-        const stepCount = Math.max(16, Math.floor(circumference / (wave.blockSize * 1.6)));
-        const angleStep = (Math.PI * 2) / stepCount;
+      if (timeSinceActivation >= 0 && timeSinceActivation <= cellDuration) {
+        hasActiveCells = true;
+        const progress = timeSinceActivation / cellDuration;
 
-        for (let i = 0; i < stepCount; i++) {
-          // Pixelate to discrete grid
-          const angle = i * angleStep;
-          const rawX = originX + Math.cos(angle) * wave.radius;
-          const rawY = originY + Math.sin(angle) * wave.radius;
+        // Smooth pulse: ramp up quickly, then dissolve away
+        let alpha: number;
+        let scale: number;
 
-          const gridX = Math.round(rawX / wave.blockSize) * wave.blockSize;
-          const gridY = Math.round(rawY / wave.blockSize) * wave.blockSize;
-
-          // Pseudo-random stutter for authentic cyber pixel breakup
-          if ((i + frame) % 5 === 0) continue;
-
-          renderCtx.globalAlpha = Math.max(0, wave.alpha * (1 - wave.radius / wave.maxRadius));
-          renderCtx.fillRect(gridX, gridY, wave.blockSize, wave.blockSize);
+        if (progress < 0.35) {
+          const t = progress / 0.35;
+          alpha = t;
+          scale = t;
+        } else {
+          const t = (progress - 0.35) / 0.65;
+          alpha = 1 - t;
+          scale = 1 - t * 0.4;
         }
 
-        wave.alpha -= wave.decay;
+        const currentSize = Math.max(2, Math.round(cell.size * scale));
+        // Stationary: perfectly centered at the cell's fixed grid position
+        const drawX = Math.round(cell.x + (cell.size - currentSize) / 2);
+        const drawY = Math.round(cell.y + (cell.size - currentSize) / 2);
+
+        // Subtly alternate between pure black/white and slight depth contrast
+        renderCtx.fillStyle = (i % 5 === 0) ? accentColor : primaryColor;
+        renderCtx.globalAlpha = Math.max(0, Math.min(1, alpha * 0.95));
+
+        // Sharp axis-aligned square pixel block
+        renderCtx.fillRect(drawX, drawY, currentSize, currentSize);
       }
     }
 
-    // 2. Draw and update pixel particles (square shards)
-    for (const p of particles) {
-      if (p.alpha > 0.02) {
-        hasActiveElements = true;
-
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vx *= p.drag;
-        p.vy = p.vy * p.drag + p.gravity;
-        p.rotation += p.vRot;
-        p.alpha -= p.decay;
-
-        // Snap to nearest integer pixel for razor-sharp retro rendering
-        const drawSize = Math.max(2, Math.round(p.size * Math.max(0.2, p.alpha)));
-        const drawX = Math.round(p.x - drawSize / 2);
-        const drawY = Math.round(p.y - drawSize / 2);
-
-        renderCtx.fillStyle = p.color;
-        // Glitch flicker effect on select particles
-        renderCtx.globalAlpha = p.isGlitch && frame % 2 === 0 ? p.alpha * 0.4 : Math.max(0, p.alpha);
-
-        // Crisp square pixel drawing
-        renderCtx.fillRect(drawX, drawY, drawSize, drawSize);
-
-        // Subtle clean luminous accent on medium/large pixels
-        if (drawSize >= 12) {
-          renderCtx.strokeStyle = 'rgba(182, 255, 46, 0.5)';
-          renderCtx.lineWidth = 1;
-          renderCtx.strokeRect(drawX + 0.5, drawY + 0.5, drawSize - 1, drawSize - 1);
-        }
-      }
-    }
-
-    // Max 1200ms hard stop or finish when particles have dissolved
-    const elapsed = now - startTime;
-    if (hasActiveElements && elapsed < 1200) {
+    // Continue animation until all cells have dissolved
+    if (elapsed < maxDelay + cellDuration + 60 && (hasActiveCells || elapsed < maxDelay)) {
       activeAnimId = requestAnimationFrame(animate);
     } else {
       // Clean up canvas
