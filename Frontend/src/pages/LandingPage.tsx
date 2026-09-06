@@ -21,43 +21,9 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
-      {/* Navigation Header */}
-      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-container-high px-4 lg:px-8 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-            <RepoLensLogo size="lg" />
-          </Link>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
-            title="Toggle theme"
-          >
-            <span className="material-symbols-outlined text-[20px]">
-              {theme === 'dark' ? 'light_mode' : 'dark_mode'}
-            </span>
-          </button>
-          <button
-            onClick={() => navigate('/login')}
-            className="px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container transition-colors font-headline-sm text-xs font-semibold"
-          >
-            Sign In
-          </button>
-          <button
-            onClick={() => navigate('/app')}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-xs font-semibold transition-all shadow-glow-lime"
-          >
-            <span>Launch Console</span>
-            <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-          </button>
-        </div>
-      </header>
-
-      {/* Top Half: Edge-to-edge Video Section (Above action buttons & below sign-in bar) */}
-      <section className="relative isolate overflow-hidden pt-16 pb-14 border-b border-surface-container-high/40">
-        {/* Full-width video background only rendered in dark mode */}
+      {/* Top Half: Video extends to top void; logo, signin, and controls sit directly on the video */}
+      <div className="relative isolate overflow-hidden border-b border-surface-container-high/40">
+        {/* Full-width video background extending from the top void down to the action buttons */}
         {!isLight && (
           <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
             <video
@@ -73,15 +39,49 @@ export const LandingPage: React.FC = () => {
               <source src={darkHeroVideo} type="video/mp4" />
               <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
             </video>
-            {/* Subtle dark tint to maintain headline contrast */}
+            {/* Subtle dark tint to maintain headline and header contrast */}
             <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-            {/* Edge gradients blending smoothly with header and solid background */}
-            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+            {/* Bottom edge gradient blending smoothly into the solid background */}
             <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
           </div>
         )}
 
-        <div className="max-w-6xl mx-auto px-4 lg:px-8 flex flex-col items-center text-center space-y-6 relative z-10">
+        {/* Navigation Header sitting directly on the video */}
+        <header className="relative z-50 px-4 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+              <RepoLensLogo size="lg" />
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors"
+              title="Toggle theme"
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+              </span>
+            </button>
+            <button
+              onClick={() => navigate('/login')}
+              className="px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => navigate('/app')}
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-xs font-semibold transition-all shadow-glow-lime"
+            >
+              <span>Launch Console</span>
+              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+          </div>
+        </header>
+
+        {/* Hero Content Area */}
+        <div className="pt-12 pb-16 px-4 lg:px-8 max-w-6xl mx-auto flex flex-col items-center text-center space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low/90 backdrop-blur-md border border-surface-container-highest text-xs font-code">
             <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
             <span className="text-on-surface font-semibold">RepoLens</span>
@@ -97,7 +97,7 @@ export const LandingPage: React.FC = () => {
             It maps out dependencies automatically, tells you exactly which tests are at risk, and stops breaking changes before they reach merge.
           </p>
         </div>
-      </section>
+      </div>
 
       {/* Other Half: Action Buttons on Solid Background as before */}
       <section className="py-12 px-4 lg:px-8 bg-background border-b border-surface-container-high">
