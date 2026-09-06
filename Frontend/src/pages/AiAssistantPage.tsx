@@ -139,7 +139,7 @@ export const AiAssistantPage: React.FC = () => {
           >
             {msg.role === 'assistant' && (
               <div className="mt-1 flex-shrink-0">
-                <RepoLensLogo size="sm" showVersion={false} />
+                <RepoLensLogo size="sm" variant="icon" />
               </div>
             )}
 

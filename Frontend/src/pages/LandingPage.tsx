@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp } from '../context';
 
@@ -12,7 +12,9 @@ export const LandingPage: React.FC = () => {
       {/* Navigation Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-container-high px-4 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <RepoLensLogo size="md" />
+          <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+            <RepoLensLogo size="lg" />
+          </Link>
           <nav className="hidden md:flex items-center gap-5 text-xs font-semibold text-outline">
             <a href="#features" className="hover:text-on-surface transition-colors">Features</a>
             <a href="#blast-radius" className="hover:text-on-surface transition-colors">Blast Radius</a>
@@ -56,9 +58,9 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low border border-surface-container-highest text-xs font-code">
             <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
-            <span className="text-on-surface font-semibold">RepoLens v2.4 Active</span>
+            <span className="text-on-surface font-semibold">RepoLens</span>
             <span className="text-surface-variant">•</span>
-            <span className="text-primary-container">Topological AST Intelligence</span>
+            <span className="text-primary-container font-semibold tracking-wider">SEE BEYOND THE CODE</span>
           </div>
 
           <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface max-w-4xl leading-tight">
@@ -277,9 +279,9 @@ export const LandingPage: React.FC = () => {
       {/* Footer */}
       <footer className="mt-auto py-8 px-4 lg:px-8 bg-surface-container-lowest border-t border-surface-container-high text-xs text-outline font-code">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <RepoLensLogo size="sm" showVersion={false} />
-            <span>© 2026 RepoLens. AST Topological Engine active.</span>
+          <div className="flex items-center gap-3">
+            <RepoLensLogo size="md" />
+            <span>© 2026 RepoLens. All rights reserved.</span>
           </div>
           <div className="flex items-center gap-6 text-outline">
             <a

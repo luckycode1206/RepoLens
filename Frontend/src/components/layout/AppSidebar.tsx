@@ -69,10 +69,10 @@ export const AppSidebar: React.FC = () => {
       {/* Brand Header */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-surface-container-high">
         {!sidebarCollapsed ? (
-          <RepoLensLogo />
+          <RepoLensLogo size="md" />
         ) : (
           <div className="mx-auto">
-            <RepoLensLogo showVersion={false} size="sm" />
+            <RepoLensLogo variant="icon" size="md" />
           </div>
         )}
         <button
