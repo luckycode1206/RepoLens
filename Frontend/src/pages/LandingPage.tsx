@@ -15,12 +15,6 @@ export const LandingPage: React.FC = () => {
           <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
             <RepoLensLogo size="lg" />
           </Link>
-          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold text-outline">
-            <a href="#features" className="hover:text-on-surface transition-colors">Features</a>
-            <a href="#blast-radius" className="hover:text-on-surface transition-colors">Blast Radius</a>
-            <a href="#security" className="hover:text-on-surface transition-colors">Security</a>
-            <a href="#architecture" className="hover:text-on-surface transition-colors">Architecture</a>
-          </nav>
         </div>
 
         <div className="flex items-center gap-3">
