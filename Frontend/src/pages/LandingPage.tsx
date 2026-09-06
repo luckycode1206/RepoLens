@@ -8,21 +8,26 @@ export const LandingPage: React.FC = () => {
   const { theme, toggleTheme } = useApp();
 
   return (
-    <div className="min-h-screen bg-transparent text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
-      {/* Infinite Video Replacing the Solid Background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none"
-      >
-        <source src="/13506132_1920_1080_30fps.mp4" type="video/mp4" />
-        <source src="/background.mp4" type="video/mp4" />
-      </video>
+    <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
+      {/* Ambient Infinite Looping Background Video */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 select-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-35"
+        >
+          <source src="/background.mp4" type="video/mp4" />
+          <source src="/13506132_1920_1080_30fps.mp4" type="video/mp4" />
+          <source src="/background.webm" type="video/webm" />
+        </video>
+        {/* Soft Vignette Overlay to ensure text readability */}
+        <div className="absolute inset-0 bg-background/60" />
+      </div>
 
       {/* Navigation Header */}
-      <header className="sticky top-0 z-50 bg-black/30 backdrop-blur-md border-b border-white/10 px-4 lg:px-8 h-16 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-container-high px-4 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
             <RepoLensLogo size="lg" />
@@ -56,7 +61,7 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-24 px-4 lg:px-8 border-b border-white/10 bg-transparent">
+      <section className="relative overflow-hidden pt-16 pb-24 px-4 lg:px-8 border-b border-surface-container-high">
         {/* Background Photon Glows */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-primary-container/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute top-1/3 right-10 w-[400px] h-[300px] bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
@@ -93,7 +98,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Core Capabilities Section */}
-      <section id="features" className="py-20 px-4 lg:px-8 border-b border-white/10 bg-black/20 backdrop-blur-[2px]">
+      <section id="features" className="py-20 px-4 lg:px-8 border-b border-surface-container-high bg-surface-container-lowest/80 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto space-y-16">
           <div className="text-center space-y-3">
             <h2 className="font-headline-xl text-3xl sm:text-4xl font-bold text-on-surface">
@@ -108,7 +113,7 @@ export const LandingPage: React.FC = () => {
             <div
               id="blast-radius"
               onClick={() => navigate('/blast-radius')}
-              className="p-6 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-lg"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-sm"
             >
               <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[28px]">radar</span>
@@ -124,7 +129,7 @@ export const LandingPage: React.FC = () => {
             <div
               id="security"
               onClick={() => navigate('/security')}
-              className="p-6 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-error/50 cursor-pointer transition-all space-y-3 group shadow-lg"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-error/50 cursor-pointer transition-all space-y-3 group shadow-sm"
             >
               <div className="w-12 h-12 rounded-xl bg-error/10 text-error flex items-center justify-center group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[28px]">security</span>
@@ -140,7 +145,7 @@ export const LandingPage: React.FC = () => {
             <div
               id="architecture"
               onClick={() => navigate('/architecture')}
-              className="p-6 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-secondary/50 cursor-pointer transition-all space-y-3 group shadow-lg"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-secondary/50 cursor-pointer transition-all space-y-3 group shadow-sm"
             >
               <div className="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[28px]">hub</span>
@@ -155,7 +160,7 @@ export const LandingPage: React.FC = () => {
 
             <div
               onClick={() => navigate('/testing')}
-              className="p-6 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-lg"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-sm"
             >
               <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 transition-transform">
                 <span className="material-symbols-outlined text-[28px]">checklist</span>
@@ -172,7 +177,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 px-4 lg:px-8 bg-black/30 backdrop-blur-md border-t border-white/10 text-xs text-outline font-code">
+      <footer className="mt-auto py-8 px-4 lg:px-8 bg-surface-container-lowest/80 backdrop-blur-sm border-t border-surface-container-high text-xs text-outline font-code">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <RepoLensLogo size="md" />
