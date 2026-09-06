@@ -43,9 +43,9 @@ export const LandingPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Hero Section with Full-Width Horizontal Video */}
-      <section className="relative overflow-hidden pt-16 pb-20 border-b border-surface-container-high">
-        {/* Full-width video background extending to both sides and covering down to the buttons */}
+      {/* Top Half: Edge-to-edge Video Section (Above action buttons & below sign-in bar) */}
+      <section className="relative overflow-hidden pt-16 pb-14 border-b border-surface-container-high/40">
+        {/* Full-width video background extending horizontally to both sides */}
         <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
           <video
             autoPlay
@@ -56,11 +56,11 @@ export const LandingPage: React.FC = () => {
           >
             <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
           </video>
-          {/* Subtle dark tint to maintain contrast for headline and buttons */}
-          <div className="absolute inset-0 bg-black/45" />
-          {/* Soft edge gradients blending seamlessly with solid background */}
-          <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-background to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background to-transparent" />
+          {/* Subtle dark tint to maintain headline contrast */}
+          <div className="absolute inset-0 bg-black/40" />
+          {/* Edge gradients blending smoothly with header and solid background */}
+          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
         </div>
 
         <div className="max-w-6xl mx-auto px-4 lg:px-8 flex flex-col items-center text-center space-y-6 relative z-10">
@@ -74,8 +74,13 @@ export const LandingPage: React.FC = () => {
           <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface max-w-4xl leading-tight drop-shadow-md">
             Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
           </h1>
+        </div>
+      </section>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+      {/* Other Half: Action Buttons on Solid Background as before */}
+      <section className="py-12 px-4 lg:px-8 bg-background border-b border-surface-container-high">
+        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
+          <div className="flex flex-col sm:flex-row items-center gap-3">
             <button
               onClick={() => navigate('/ingest')}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime hover:scale-[1.02] active:scale-[0.98]"
@@ -85,7 +90,7 @@ export const LandingPage: React.FC = () => {
             </button>
             <button
               onClick={() => navigate('/app')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low/90 backdrop-blur-md hover:bg-surface-container border border-surface-container-highest text-on-surface font-headline-sm text-sm font-semibold transition-colors hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-surface-container-low hover:bg-surface-container border border-surface-container-highest text-on-surface font-headline-sm text-sm font-semibold transition-colors hover:scale-[1.02] active:scale-[0.98]"
             >
               <span className="material-symbols-outlined text-[20px]">play_circle</span>
               <span>Explore Interactive Demo</span>
