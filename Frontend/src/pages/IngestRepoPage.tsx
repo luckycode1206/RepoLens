@@ -121,63 +121,60 @@ export const IngestRepoPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-space-lg">
         {/* Unified Single Frame with Upper Git Repository, OR Divider, and Lower ZIP Archive */}
-        <div className="bg-surface-container-low border border-surface-container-high rounded-2xl p-4 sm:p-6 space-y-6 shadow-sm">
-          {/* Policy Notice Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-4 py-3 rounded-xl bg-surface-container border border-surface-container-highest text-xs font-code">
-            <div className="flex items-center gap-2 text-on-surface">
-              <span className="material-symbols-outlined text-primary-container text-[18px]">verified</span>
-              <span>Single Ingestion Policy: Choose either <strong>Remote Git Repository</strong> OR <strong>Local ZIP File</strong> (only one allowed)</span>
+        <div className="bg-[#0b0c10] border border-white/[0.08] rounded-2xl p-5 sm:p-7 space-y-7 shadow-2xl">
+          {/* Policy Notice Top Banner */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#14171f]/90 via-[#181c26]/80 to-[#14171f]/90 backdrop-blur-md border border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] text-xs font-sans">
+            <div className="flex items-center gap-2.5 text-white/90 font-medium">
+              <span className="material-symbols-outlined text-[#B6FF2E] text-[18px]">check_circle</span>
+              <span>
+                Single Ingestion Policy: Choose either <strong className="text-white font-semibold">Remote Git Repository</strong> OR <strong className="text-white font-semibold">Local ZIP File</strong>
+              </span>
             </div>
-            <span className="font-semibold text-primary-container flex items-center gap-1.5 self-start sm:self-auto">
-              <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
+            <div className="self-start sm:self-auto flex items-center gap-2 px-3 py-1 rounded-full bg-[#B6FF2E]/10 border border-[#B6FF2E]/25 text-[#B6FF2E] font-mono text-[11px] font-semibold tracking-wide shadow-[0_0_12px_rgba(182,255,46,0.15)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B6FF2E] animate-pulse" />
               <span>{selectedMethod === 'url' ? 'Selected: Remote Git' : 'Selected: ZIP Archive'}</span>
-            </span>
+            </div>
           </div>
 
-          {/* UPPER SIDE: Remote Git Repository */}
+          {/* Main Card: Upper: Remote Git Repository */}
           <div
             onClick={() => setSelectedMethod('url')}
-            className={`relative overflow-hidden rounded-2xl border transition-all duration-300 p-5 sm:p-7 space-y-6 ${
+            className={`relative overflow-hidden rounded-2xl border transition-all duration-300 p-6 sm:p-8 space-y-7 ${
               selectedMethod === 'url'
-                ? 'bg-surface-container/70 border-primary-container ring-1 ring-primary-container/60 shadow-[0_0_30px_rgba(182,255,46,0.07)]'
-                : 'bg-surface-container-lowest/30 border-surface-container-highest opacity-70 hover:opacity-95 hover:border-primary-container/30 cursor-pointer'
+                ? 'bg-[#101217]/90 border-[#B6FF2E]/60 ring-1 ring-[#B6FF2E]/30 shadow-[0_0_35px_rgba(182,255,46,0.08)]'
+                : 'bg-[#0d0e12]/60 border-white/[0.08] opacity-60 hover:opacity-90 hover:border-white/20 cursor-pointer'
             }`}
           >
-            {/* Ambient Background Aura when Active */}
+            {/* Soft Glow/Aura when Active */}
             {selectedMethod === 'url' && (
-              <div className="absolute -top-24 -right-24 w-72 h-72 bg-primary-container/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#B6FF2E]/10 rounded-full blur-3xl pointer-events-none" />
             )}
 
-            {/* Upper Header Selector */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-container-high/60 pb-4">
-              <div className="flex items-center gap-3.5">
+            {/* Header: Title, Subtitle, Left Icon, and Right ACTIVE Pill */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
+              <div className="flex items-start sm:items-center gap-3.5">
                 <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all ${
                   selectedMethod === 'url'
-                    ? 'bg-primary-container text-on-primary-container shadow-glow-lime'
-                    : 'bg-surface-container text-outline border border-surface-container-highest'
+                    ? 'bg-[#B6FF2E]/15 border border-[#B6FF2E]/40 text-[#B6FF2E] shadow-[0_0_15px_rgba(182,255,46,0.2)]'
+                    : 'bg-white/[0.04] border border-white/[0.08] text-white/40'
                 }`}>
-                  <span className="material-symbols-outlined text-[24px]">add_link</span>
+                  <span className="material-symbols-outlined text-[22px]">add_link</span>
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="font-headline-md text-base sm:text-lg font-bold text-on-surface">
-                      Remote Git Repository
-                    </h2>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-code font-bold uppercase tracking-wider bg-primary-container/15 text-primary-container border border-primary-container/30">
-                      Live Clone
-                    </span>
-                  </div>
-                  <p className="text-xs text-outline mt-0.5 font-body-sm">
-                    Clone and analyze full syntax trees directly from GitHub, GitLab, Bitbucket, or private Git servers
+                  <h2 className="font-sans text-base sm:text-lg font-bold text-white tracking-tight">
+                    Upper: Remote Git Repository
+                  </h2>
+                  <p className="font-sans text-xs text-white/50 mt-0.5">
+                    Clone directly from GitHub, GitLab, Bitbucket, or custom Git endpoint
                   </p>
                 </div>
               </div>
 
               <div className="self-start sm:self-auto flex-shrink-0">
                 {selectedMethod === 'url' ? (
-                  <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-container text-on-primary-container text-xs font-code font-bold tracking-wider shadow-[0_0_15px_rgba(182,255,46,0.35)]">
-                    <span className="w-2 h-2 rounded-full bg-on-primary-container animate-ping" />
-                    <span>ACTIVE METHOD</span>
+                  <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#B6FF2E]/15 border border-[#B6FF2E]/40 text-[#B6FF2E] text-xs font-sans font-semibold tracking-wide shadow-[0_0_12px_rgba(182,255,46,0.25)]">
+                    <span className="material-symbols-outlined text-[15px] font-bold">check</span>
+                    <span>ACTIVE</span>
                   </div>
                 ) : (
                   <button
@@ -186,7 +183,7 @@ export const IngestRepoPage: React.FC = () => {
                       e.stopPropagation();
                       setSelectedMethod('url');
                     }}
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-surface-container-highest text-outline hover:text-on-surface text-xs font-code transition-colors"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white/50 hover:text-white text-xs font-sans transition-colors"
                   >
                     <span className="material-symbols-outlined text-[14px]">radio_button_unchecked</span>
                     <span>Select Remote Git</span>
@@ -195,23 +192,18 @@ export const IngestRepoPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Target Git Provider Selector */}
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <label className="font-body-sm text-xs text-on-surface font-semibold flex items-center gap-1.5">
-                  <span className="material-symbols-outlined text-[15px] text-primary-container">hub</span>
-                  <span>Target Git Provider</span>
-                </label>
-                <span className="text-[11px] font-code text-outline">Select your hosting platform</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-space-sm">
+            {/* Git Host Selector: 4 Horizontal Tab-like Buttons */}
+            <div className="space-y-3">
+              <label className="font-sans text-xs font-medium text-white/80 block">
+                Target Git Host
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
                   {
                     id: 'github',
                     name: 'GitHub',
-                    domain: 'github.com',
                     icon: (
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
                       </svg>
                     ),
@@ -219,9 +211,8 @@ export const IngestRepoPage: React.FC = () => {
                   {
                     id: 'gitlab',
                     name: 'GitLab',
-                    domain: 'gitlab.com',
                     icon: (
-                      <svg className="w-5 h-5 fill-current text-orange-400" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 fill-current text-[#fc6d26]" viewBox="0 0 24 24">
                         <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.29-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 5.51 2a.48.48 0 0 1 .4.24l2.62 8.08h6.94l2.62-8.08a.48.48 0 0 1 .4-.24.42.42 0 0 1 .39.16l2.44 7.51 1.22 3.78a.84.84 0 0 1-.29.94z"/>
                       </svg>
                     ),
@@ -229,9 +220,8 @@ export const IngestRepoPage: React.FC = () => {
                   {
                     id: 'bitbucket',
                     name: 'Bitbucket',
-                    domain: 'bitbucket.org',
                     icon: (
-                      <svg className="w-5 h-5 fill-current text-blue-400" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 fill-current text-[#2684ff]" viewBox="0 0 24 24">
                         <path d="M2.61 4.19A1.5 1.5 0 0 1 4.1 3h15.8a1.5 1.5 0 0 1 1.49 1.19l2.58 13.06a1.5 1.5 0 0 1-1.47 1.79H5.5a1.5 1.5 0 0 1-1.47-1.22L1.45 4.82a1.5 1.5 0 0 1 1.16-.63zm11.23 9.38h-3.68l-.86-4.54h5.4l-.86 4.54z"/>
                       </svg>
                     ),
@@ -239,57 +229,51 @@ export const IngestRepoPage: React.FC = () => {
                   {
                     id: 'custom',
                     name: 'Custom Git',
-                    domain: 'Self-Hosted / SSH',
                     icon: (
-                      <span className="material-symbols-outlined text-[20px] text-emerald-400">terminal</span>
+                      <span className="material-symbols-outlined text-[18px]">terminal</span>
                     ),
                   },
                 ].map((g) => {
                   const isSelected = gitHost === g.id && selectedMethod === 'url';
                   return (
-                    <div
+                    <button
                       key={g.id}
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedMethod('url');
                         setGitHost(g.id as any);
                       }}
-                      className={`p-3 rounded-xl border cursor-pointer transition-all duration-200 flex flex-col justify-between gap-2.5 ${
+                      className={`h-11 px-3.5 rounded-xl border transition-all duration-200 flex items-center justify-between font-sans text-xs font-medium ${
                         isSelected
-                          ? 'bg-surface-container border-primary-container ring-2 ring-primary-container/40 shadow-[0_0_15px_rgba(182,255,46,0.12)] -translate-y-0.5'
-                          : 'bg-surface-container-lowest border-surface-container-highest hover:bg-surface-container hover:border-surface-container-high'
+                          ? 'bg-[#181c24] border-[#B6FF2E] text-white shadow-[0_0_15px_rgba(182,255,46,0.15)] ring-1 ring-[#B6FF2E]/40'
+                          : 'bg-[#111318]/70 border-white/[0.08] text-white/60 hover:bg-[#151820] hover:border-white/20 hover:text-white'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className={`p-1.5 rounded-lg ${isSelected ? 'bg-primary-container/20 text-primary-container' : 'text-outline bg-surface-container-high/50'}`}>
+                      <div className="flex items-center gap-2.5">
+                        <div className={isSelected ? 'text-[#B6FF2E]' : 'text-white/40'}>
                           {g.icon}
                         </div>
-                        <span className={`material-symbols-outlined text-[16px] transition-colors ${isSelected ? 'text-primary-container' : 'text-outline/30'}`}>
-                          {isSelected ? 'check_circle' : 'radio_button_unchecked'}
-                        </span>
+                        <span>{g.name}</span>
                       </div>
-                      <div>
-                        <div className="font-headline-sm text-xs font-bold text-on-surface">
-                          {g.name}
-                        </div>
-                        <div className="font-code text-[10px] text-outline mt-0.5">
-                          {g.domain}
-                        </div>
-                      </div>
-                    </div>
+                      <span className={`material-symbols-outlined text-[16px] transition-colors ${
+                        isSelected ? 'text-[#B6FF2E]' : 'text-white/20'
+                      }`}>
+                        {isSelected ? 'radio_button_checked' : 'radio_button_unchecked'}
+                      </span>
+                    </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* URL & Credentials Form */}
-            <div className="space-y-4">
-              {/* Clone URL Input */}
-              <div className="space-y-1.5">
+            {/* Input Fields */}
+            <div className="space-y-5">
+              {/* Git Clone URL */}
+              <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="font-body-sm text-xs text-on-surface font-semibold flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[16px] text-primary-container">link</span>
-                    <span>Git Clone URL (HTTPS or SSH)</span>
+                  <label className="font-sans text-xs font-medium text-white/80">
+                    Git Clone URL (HTTPS or SSH)
                   </label>
                   <button
                     type="button"
@@ -300,15 +284,15 @@ export const IngestRepoPage: React.FC = () => {
                       setRepoName('payments-core');
                       setGitHost('github');
                     }}
-                    className="text-[11px] font-code text-primary-container hover:underline flex items-center gap-1 transition-colors"
+                    className="text-[11px] font-sans text-[#B6FF2E] hover:underline flex items-center gap-1 transition-colors"
                   >
                     <span className="material-symbols-outlined text-[13px]">auto_fix_high</span>
                     <span>Fill Demo Repo</span>
                   </button>
                 </div>
                 <div className="relative flex items-center">
-                  <span className="absolute left-3 text-outline pointer-events-none material-symbols-outlined text-[18px]">
-                    terminal
+                  <span className="absolute left-3.5 text-white/30 pointer-events-none material-symbols-outlined text-[18px]">
+                    link
                   </span>
                   <input
                     type="text"
@@ -327,7 +311,7 @@ export const IngestRepoPage: React.FC = () => {
                       if (end) setRepoName(end);
                     }}
                     placeholder="https://github.com/organization/repository.git"
-                    className="w-full pl-9 pr-20 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-code text-xs focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all shadow-inner"
+                    className="w-full pl-10 pr-20 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
                   />
                   {repoUrl && (
                     <button
@@ -337,25 +321,20 @@ export const IngestRepoPage: React.FC = () => {
                         setRepoUrl('');
                         setRepoName('');
                       }}
-                      className="absolute right-3 p-1 rounded-md text-outline hover:text-on-surface hover:bg-surface-container transition-colors"
+                      className="absolute right-3 p-1 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition-colors"
                       title="Clear URL"
                     >
                       <span className="material-symbols-outlined text-[15px]">close</span>
                     </button>
                   )}
                 </div>
-                <p className="text-[11px] text-outline font-body-sm flex items-center gap-1">
-                  <span className="material-symbols-outlined text-[14px] text-outline">info</span>
-                  <span>RepoLens automatically parses imports, exports, and call-graphs directly from source trees.</span>
-                </p>
               </div>
 
               {/* Alias & Branch */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
-                <div className="space-y-1.5">
-                  <label className="font-body-sm text-xs text-on-surface font-semibold flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[15px] text-outline">label</span>
-                    <span>Workspace Repository Alias</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="font-sans text-xs font-medium text-white/80 block">
+                    Workspace Repository Alias
                   </label>
                   <input
                     type="text"
@@ -365,16 +344,15 @@ export const IngestRepoPage: React.FC = () => {
                       setSelectedMethod('url');
                       setRepoName(e.target.value);
                     }}
-                    placeholder="e.g. payments-core"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-code text-xs focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all shadow-inner"
+                    placeholder="payments-core"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="font-body-sm text-xs text-on-surface font-semibold flex items-center gap-1.5">
-                      <span className="material-symbols-outlined text-[15px] text-outline">fork_right</span>
-                      <span>Target Analysis Branch</span>
+                    <label className="font-sans text-xs font-medium text-white/80 block">
+                      Target Analysis Branch
                     </label>
                     <div className="flex items-center gap-1">
                       {['main', 'master', 'develop'].map((b) => (
@@ -386,10 +364,10 @@ export const IngestRepoPage: React.FC = () => {
                             setSelectedMethod('url');
                             setBranch(b);
                           }}
-                          className={`text-[10px] font-code px-1.5 py-0.5 rounded transition-colors ${
+                          className={`text-[10px] font-mono px-1.5 py-0.5 rounded transition-colors ${
                             branch === b
-                              ? 'bg-primary-container text-on-primary-container font-bold'
-                              : 'bg-surface-container text-outline hover:text-on-surface'
+                              ? 'bg-[#B6FF2E] text-black font-semibold'
+                              : 'bg-white/[0.06] text-white/50 hover:text-white'
                           }`}
                         >
                           {b}
@@ -405,25 +383,21 @@ export const IngestRepoPage: React.FC = () => {
                       setSelectedMethod('url');
                       setBranch(e.target.value);
                     }}
-                    placeholder="e.g. main"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-code text-xs focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all shadow-inner"
+                    placeholder="main"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20"
                   />
                 </div>
               </div>
 
               {/* Personal Access Token (PAT) */}
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <div className="flex items-center justify-between flex-wrap gap-1">
-                  <label className="font-body-sm text-xs text-on-surface font-semibold flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-[15px] text-outline">key</span>
-                    <span>Personal Access Token (PAT)</span>
+                  <label className="font-sans text-xs font-medium text-white/80">
+                    Personal Access Token (PAT) — Optional for Public, Required for Private
                   </label>
-                  <span className="text-[10px] font-code px-2 py-0.5 rounded bg-surface-container border border-surface-container-highest text-outline">
-                    Optional for Public • Required for Private
-                  </span>
                 </div>
                 <div className="relative flex items-center">
-                  <span className="absolute left-3 text-outline pointer-events-none material-symbols-outlined text-[18px]">
+                  <span className="absolute left-3.5 text-white/30 pointer-events-none material-symbols-outlined text-[18px]">
                     lock
                   </span>
                   <input
@@ -434,8 +408,8 @@ export const IngestRepoPage: React.FC = () => {
                       setSelectedMethod('url');
                       setToken(e.target.value);
                     }}
-                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx or glpat-xxxxxxxxxxxx"
-                    className="w-full pl-9 pr-10 py-2.5 rounded-xl bg-surface-container-lowest border border-surface-container-highest text-on-surface font-code text-xs focus:outline-none focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 transition-all shadow-inner"
+                    placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-[#090a0d] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-[#B6FF2E] focus:ring-1 focus:ring-[#B6FF2E]/40 shadow-inner transition-all placeholder:text-white/20 tracking-wider"
                   />
                   <button
                     type="button"
@@ -443,7 +417,7 @@ export const IngestRepoPage: React.FC = () => {
                       e.stopPropagation();
                       setShowToken(!showToken);
                     }}
-                    className="absolute right-3 text-outline hover:text-on-surface transition-colors p-1"
+                    className="absolute right-3 text-white/40 hover:text-white transition-colors p-1"
                     title={showToken ? 'Hide token' : 'Show token'}
                   >
                     <span className="material-symbols-outlined text-[17px]">
@@ -451,10 +425,6 @@ export const IngestRepoPage: React.FC = () => {
                     </span>
                   </button>
                 </div>
-                <p className="text-[11px] text-outline/80 flex items-center gap-1.5 font-body-sm">
-                  <span className="material-symbols-outlined text-[13px] text-primary-container">shield</span>
-                  <span>Tokens are encrypted in session RAM and never stored persistently on disk.</span>
-                </p>
               </div>
             </div>
           </div>
