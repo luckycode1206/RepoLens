@@ -1,6 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
   /* Default Dark Mode: Graphite & Lime Spark */
@@ -72,6 +72,11 @@ html.light,
 }
 
 /* Base custom scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-container-high) var(--color-surface-container-lowest);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -103,6 +108,7 @@ html.light,
   white-space: nowrap;
   word-wrap: normal;
   direction: ltr;
+  font-feature-settings: 'liga';
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
