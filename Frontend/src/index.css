@@ -3,72 +3,88 @@
 @import "tailwindcss/utilities";
 
 :root {
-  /* Default Dark Mode: Graphite & Lime Spark */
-  --color-bg: #111318;
-  --color-surface: #111318;
-  --color-surface-container-lowest: #0c0e13;
-  --color-surface-container-low: #1a1c21;
-  --color-surface-container: #1e2025;
-  --color-surface-container-high: #282a2f;
-  --color-surface-container-highest: #33353a;
-  --color-surface-bright: #37393f;
-  --color-surface-dim: #111318;
-  --color-surface-variant: #33353a;
-  --color-outline: #8c947a;
-  --color-outline-variant: #424934;
-  --color-on-surface: #e2e2e9;
-  --color-on-surface-variant: #c2caae;
-  --color-inverse-surface: #e2e2e9;
-  --color-inverse-on-surface: #2e3036;
-  --color-primary: #ffffff;
-  --color-primary-container: #aff825;
-  --color-on-primary: #223600;
-  --color-on-primary-container: #4b6f00;
-  --color-primary-fixed: #aff825;
-  --color-primary-fixed-dim: #97da00;
-  --color-secondary: #7bd0ff;
-  --color-secondary-container: #00a6e0;
-  --color-on-secondary: #00354a;
+  /* THEME 1: Dark Mode (#0D0F0C Warm Near-Black & Refined Acid Green) */
+  --color-bg: #0D0F0C;
+  --color-surface: #0D0F0C;
+  --color-surface-container-lowest: #080A07;
+  --color-surface-container-low: #121511;
+  --color-surface-container: #171B16;
+  --color-surface-container-high: #1E231D;
+  --color-surface-container-highest: #282F26;
+  --color-surface-bright: #323A30;
+  --color-surface-dim: #0D0F0C;
+  --color-surface-variant: #282F26;
+  --color-outline: #7D8878;
+  --color-outline-variant: #414A3E;
+  --color-on-surface: #E4E8E1;
+  --color-on-surface-variant: #C0C8BC;
+  --color-inverse-surface: #E4E8E1;
+  --color-inverse-on-surface: #1E231D;
+  --color-primary: #FFFFFF;
+  --color-primary-container: #a3e635;
+  --color-on-primary: #172D00;
+  --color-on-primary-container: #0D0F0C;
+  --color-primary-fixed: #a3e635;
+  --color-primary-fixed-dim: #84cc16;
+  --color-secondary: #38bdf8;
+  --color-secondary-container: #0284c7;
+  --color-on-secondary: #002233;
   --color-on-secondary-container: #00374d;
-  --color-error: #ffb4ab;
-  --color-error-container: #93000a;
-  --color-on-error: #690005;
+  --color-error: #e05252;
+  --color-error-container: rgba(224, 82, 82, 0.15);
+  --color-on-error: #ffffff;
   --color-on-error-container: #ffdad6;
+
+  /* Instrument Signals */
+  --signal-amber: #f59e0b;
+  --signal-amber-bg: rgba(245, 158, 11, 0.12);
+  --signal-red: #e05252;
+  --signal-red-bg: rgba(224, 82, 82, 0.12);
+  --signal-green: #a3e635;
+  --signal-green-bg: rgba(163, 230, 53, 0.12);
 }
 
-/* Light Mode: Champagne & Emerald */
+/* THEME 2: Light Mode (Champagne White #F7F3E9 & Deep Emerald #046C4E) */
 html.light,
 [data-theme="light"] {
-  --color-bg: #F8E7E9;
-  --color-surface: #F8E7E9;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f5eeea;
-  --color-surface-container: #ebe3de;
-  --color-surface-container-high: #ded5cf;
-  --color-surface-container-highest: #cfc5bf;
-  --color-surface-bright: #ffffff;
-  --color-surface-dim: #ebe3de;
-  --color-surface-variant: #ded5cf;
-  --color-outline: #727a65;
-  --color-outline-variant: #bbc2af;
-  --color-on-surface: #191c1d;
-  --color-on-surface-variant: #43483e;
-  --color-inverse-surface: #191c1d;
-  --color-inverse-on-surface: #f8e7e9;
-  --color-primary: #111318;
-  --color-primary-container: #064e3b;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #aff825;
-  --color-primary-fixed: #064e3b;
-  --color-primary-fixed-dim: #0b634d;
+  --color-bg: #F7F3E9;
+  --color-surface: #F7F3E9;
+  --color-surface-container-lowest: #FFFFFF;
+  --color-surface-container-low: #FAF6EE;
+  --color-surface-container: #F2ECE0;
+  --color-surface-container-high: #E8E0D0;
+  --color-surface-container-highest: #DDD3BF;
+  --color-surface-bright: #FFFFFF;
+  --color-surface-dim: #F2ECE0;
+  --color-surface-variant: #E8E0D0;
+  --color-outline: #6E7866;
+  --color-outline-variant: #B5BEAC;
+  --color-on-surface: #181D17;
+  --color-on-surface-variant: #3E4639;
+  --color-inverse-surface: #181D17;
+  --color-inverse-on-surface: #F7F3E9;
+  --color-primary: #181D17;
+  --color-primary-container: #046C4E;
+  --color-on-primary: #FFFFFF;
+  --color-on-primary-container: #FFFFFF;
+  --color-primary-fixed: #046C4E;
+  --color-primary-fixed-dim: #03533C;
   --color-secondary: #0284c7;
   --color-secondary-container: #bae6fd;
   --color-on-secondary: #002233;
   --color-on-secondary-container: #0369a1;
-  --color-error: #ba1a1a;
-  --color-error-container: #ffdad6;
+  --color-error: #c53030;
+  --color-error-container: rgba(197, 48, 48, 0.12);
   --color-on-error: #ffffff;
   --color-on-error-container: #410002;
+
+  /* Instrument Signals */
+  --signal-amber: #b45309;
+  --signal-amber-bg: rgba(180, 83, 9, 0.10);
+  --signal-red: #c53030;
+  --signal-red-bg: rgba(197, 48, 48, 0.10);
+  --signal-green: #046C4E;
+  --signal-green-bg: rgba(4, 108, 78, 0.10);
 }
 
 /* Base custom scrollbar */
@@ -145,9 +161,60 @@ html.light,
   animation: rippleWave 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
+/* Live active dot slow pulse */
+@keyframes liveDotPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.92);
+  }
+}
+
+.animate-live-dot {
+  animation: liveDotPulse 2.8s ease-in-out infinite;
+}
+
+/* Critical Alert single pulse on mount */
+@keyframes singleMountPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(224, 82, 82, 0);
+  }
+  30% {
+    box-shadow: 0 0 16px 2px rgba(224, 82, 82, 0.28);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(224, 82, 82, 0);
+  }
+}
+
+.animate-mount-alert {
+  animation: singleMountPulse 1.8s ease-out forwards;
+}
+
 /* High Voltage Diff Glow toggle class */
 .diff-glow-active {
-  box-shadow: 0 0 25px 2px rgba(182, 255, 46, 0.35);
+  box-shadow: 0 0 25px rgba(182, 255, 46, 0.15);
+}
+
+/* Accessibility: Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-live-dot,
+  .animate-mount-alert,
+  .animate-pulse-glow,
+  .animate-ripple {
+    animation: none !important;
+  }
 }
 
 .diff-glow-red {
