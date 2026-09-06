@@ -121,9 +121,12 @@ export const IngestRepoPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="space-y-space-lg">
         {/* Unified Single Frame with Upper Git Repository, OR Divider, and Lower ZIP Archive */}
-        <div className="bg-[#0b0c10] border border-white/[0.08] rounded-2xl p-5 sm:p-7 space-y-7 shadow-2xl">
+        <div className="relative overflow-hidden bg-[#0b0c10] border border-[#B6FF2E]/40 ring-1 ring-[#B6FF2E]/20 rounded-2xl p-5 sm:p-7 space-y-7 shadow-[0_0_50px_rgba(182,255,46,0.12)]">
+          {/* Ambient Glowing Background Aura on Parent Frame */}
+          <div className="absolute -top-32 -right-32 w-96 h-96 bg-[#B6FF2E]/10 rounded-full blur-3xl pointer-events-none" />
+
           {/* Policy Notice Top Banner */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#14171f]/90 via-[#181c26]/80 to-[#14171f]/90 backdrop-blur-md border border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] text-xs font-sans">
+          <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 rounded-xl bg-gradient-to-r from-[#14171f]/90 via-[#181c26]/80 to-[#14171f]/90 backdrop-blur-md border border-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] text-xs font-sans">
             <div className="flex items-center gap-2.5 text-white/90 font-medium">
               <span className="material-symbols-outlined text-[#B6FF2E] text-[18px]">check_circle</span>
               <span>
@@ -139,17 +142,12 @@ export const IngestRepoPage: React.FC = () => {
           {/* Main Card: Upper: Remote Git Repository */}
           <div
             onClick={() => setSelectedMethod('url')}
-            className={`relative overflow-hidden rounded-2xl border transition-all duration-300 p-6 sm:p-8 space-y-7 ${
+            className={`relative z-10 rounded-2xl border transition-all duration-200 p-6 sm:p-8 space-y-7 ${
               selectedMethod === 'url'
-                ? 'bg-[#101217]/90 border-[#B6FF2E]/60 ring-1 ring-[#B6FF2E]/30 shadow-[0_0_35px_rgba(182,255,46,0.08)]'
+                ? 'bg-[#12151d] border-[#B6FF2E]/70'
                 : 'bg-[#0d0e12]/60 border-white/[0.08] opacity-60 hover:opacity-90 hover:border-white/20 cursor-pointer'
             }`}
           >
-            {/* Soft Glow/Aura when Active */}
-            {selectedMethod === 'url' && (
-              <div className="absolute -top-24 -right-24 w-80 h-80 bg-[#B6FF2E]/10 rounded-full blur-3xl pointer-events-none" />
-            )}
-
             {/* Header: Title, Subtitle, Left Icon, and Right ACTIVE Pill */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
               <div className="flex items-start sm:items-center gap-3.5">
@@ -442,16 +440,12 @@ export const IngestRepoPage: React.FC = () => {
           {/* LOWER SIDE: Local ZIP / Archive File */}
           <div
             onClick={() => setSelectedMethod('zip')}
-            className={`relative overflow-hidden rounded-2xl border transition-all duration-300 p-5 sm:p-7 space-y-6 ${
+            className={`relative z-10 rounded-2xl border transition-all duration-200 p-6 sm:p-8 space-y-6 ${
               selectedMethod === 'zip'
-                ? 'bg-surface-container/70 border-primary-container ring-1 ring-primary-container/60 shadow-[0_0_30px_rgba(182,255,46,0.07)]'
-                : 'bg-surface-container-lowest/30 border-surface-container-highest opacity-70 hover:opacity-95 hover:border-primary-container/30 cursor-pointer'
+                ? 'bg-[#12151d] border-[#B6FF2E]/70'
+                : 'bg-[#0d0e12]/60 border-white/[0.08] opacity-60 hover:opacity-90 hover:border-white/20 cursor-pointer'
             }`}
           >
-            {/* Ambient Background Aura when Active */}
-            {selectedMethod === 'zip' && (
-              <div className="absolute -top-24 -right-24 w-72 h-72 bg-primary-container/10 rounded-full blur-3xl pointer-events-none" />
-            )}
 
             {/* Lower Header Selector */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-surface-container-high/60 pb-4">
