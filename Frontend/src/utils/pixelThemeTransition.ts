@@ -87,92 +87,62 @@ export function triggerPixelThemeTransition(
     Math.max(originY, height - originY)
   );
 
-  // Curated theme-specific palettes
-  const lightPalette = [
-    '#AFF825', // Lime Spark
-    '#97DA00', // Vivid Lime
-    '#064E3B', // Deep Emerald
-    '#0B634D', // Mid Emerald
-    '#FFFFFF', // Crisp White
-    '#F8E7E9', // Champagne
-    '#0284C7', // Cyber Cyan
-    '#191C1D', // Charcoal Dark
-  ];
+  // Clean, cohesive minimalist palette: Signature Lime + Crisp White + Deep Charcoal
+  const palette = targetTheme === 'light'
+    ? ['#B6FF2E', '#FFFFFF', '#191C1D', 'rgba(182, 255, 46, 0.85)']
+    : ['#B6FF2E', '#FFFFFF', '#111318', 'rgba(182, 255, 46, 0.85)'];
 
-  const darkPalette = [
-    '#AFF825', // Lime Spark
-    '#B6FF2E', // Electric Neon Lime
-    '#FFFFFF', // Crisp White
-    '#7BD0FF', // Vivid Cyan
-    '#111318', // Obsidian
-    '#1E2025', // Surface Charcoal
-    '#FFB4AB', // Neon Coral
-    '#38BDF8', // Sky Light
-  ];
-
-  const palette = targetTheme === 'light' ? lightPalette : darkPalette;
-
-  // Generate 260-320 square pixel particles
-  const particleCount = Math.min(320, Math.floor(Math.max(width, height) / 4));
+  // Generate 220-280 clean square pixel particles
+  const particleCount = Math.min(260, Math.floor(Math.max(width, height) / 4.5));
   const particles: PixelParticle[] = [];
 
-  const possibleSizes = [5, 8, 10, 14, 18, 24, 32, 40];
+  const possibleSizes = [4, 6, 8, 12, 16, 20, 28];
 
   for (let i = 0; i < particleCount; i++) {
     const angle = Math.random() * Math.PI * 2;
-    // Varying speeds: core burst (fast) + outer drifts
     const speed = Math.random() < 0.35 
-      ? Math.random() * 26 + 14 // Ultra-fast blast particles
-      : Math.random() * 16 + 5; // Ambient scatter
+      ? Math.random() * 24 + 12 // Fast primary blast
+      : Math.random() * 14 + 4; // Ambient wave
 
     const size = possibleSizes[Math.floor(Math.random() * possibleSizes.length)];
     const color = palette[Math.floor(Math.random() * palette.length)];
 
     particles.push({
-      x: originX + (Math.random() - 0.5) * 24,
-      y: originY + (Math.random() - 0.5) * 24,
+      x: originX + (Math.random() - 0.5) * 16,
+      y: originY + (Math.random() - 0.5) * 16,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
       size,
-      rotation: (Math.floor(Math.random() * 4) * Math.PI) / 2, // 90-degree pixel turns or free
-      vRot: (Math.random() - 0.5) * 0.15,
+      rotation: 0, // Clean axis-aligned digital pixels, no tilted confetti
+      vRot: 0,
       color,
       alpha: 1.0,
-      decay: Math.random() * 0.016 + 0.012,
+      decay: Math.random() * 0.018 + 0.014,
       drag: 0.965,
-      gravity: (Math.random() - 0.5) * 0.12, // subtle drift
-      isGlitch: Math.random() < 0.15,
+      gravity: 0, // Zero gravity for crisp radial digital blast
+      isGlitch: Math.random() < 0.12,
     });
   }
 
-  // Generate expanding pixel wave shockwaves
+  // Expanding digital pixel shockwaves in unified signature lime
   const waves: PixelWave[] = [
     {
       radius: 0,
-      maxRadius: maxDistance + 100,
-      speed: 38,
+      maxRadius: maxDistance + 80,
+      speed: 40,
       blockSize: 16,
-      color: targetTheme === 'light' ? '#064E3B' : '#AFF825',
-      alpha: 0.9,
+      color: '#B6FF2E',
+      alpha: 0.8,
+      decay: 0.02,
+    },
+    {
+      radius: -45, // slight delay
+      maxRadius: maxDistance + 80,
+      speed: 48,
+      blockSize: 20,
+      color: '#FFFFFF',
+      alpha: 0.7,
       decay: 0.018,
-    },
-    {
-      radius: -40, // slight delay
-      maxRadius: maxDistance + 100,
-      speed: 46,
-      blockSize: 24,
-      color: targetTheme === 'light' ? '#AFF825' : '#7BD0FF',
-      alpha: 0.85,
-      decay: 0.016,
-    },
-    {
-      radius: -90, // second delayed wave
-      maxRadius: maxDistance + 100,
-      speed: 54,
-      blockSize: 32,
-      color: targetTheme === 'light' ? '#FFFFFF' : '#B6FF2E',
-      alpha: 0.75,
-      decay: 0.015,
     },
   ];
 
@@ -237,29 +207,23 @@ export function triggerPixelThemeTransition(
         p.alpha -= p.decay;
 
         // Snap to nearest integer pixel for razor-sharp retro rendering
-        const drawX = Math.round(p.x);
-        const drawY = Math.round(p.y);
         const drawSize = Math.max(2, Math.round(p.size * Math.max(0.2, p.alpha)));
-
-        renderCtx.save();
-        renderCtx.translate(drawX, drawY);
-        renderCtx.rotate(p.rotation);
+        const drawX = Math.round(p.x - drawSize / 2);
+        const drawY = Math.round(p.y - drawSize / 2);
 
         renderCtx.fillStyle = p.color;
         // Glitch flicker effect on select particles
         renderCtx.globalAlpha = p.isGlitch && frame % 2 === 0 ? p.alpha * 0.4 : Math.max(0, p.alpha);
 
         // Crisp square pixel drawing
-        renderCtx.fillRect(-drawSize / 2, -drawSize / 2, drawSize, drawSize);
+        renderCtx.fillRect(drawX, drawY, drawSize, drawSize);
 
-        // Inner glowing core on larger particles
-        if (drawSize >= 14) {
-          renderCtx.fillStyle = '#FFFFFF';
-          renderCtx.globalAlpha = p.alpha * 0.7;
-          renderCtx.fillRect(-drawSize / 4, -drawSize / 4, drawSize / 2, drawSize / 2);
+        // Subtle clean luminous accent on medium/large pixels
+        if (drawSize >= 12) {
+          renderCtx.strokeStyle = 'rgba(182, 255, 46, 0.5)';
+          renderCtx.lineWidth = 1;
+          renderCtx.strokeRect(drawX + 0.5, drawY + 0.5, drawSize - 1, drawSize - 1);
         }
-
-        renderCtx.restore();
       }
     }
 
