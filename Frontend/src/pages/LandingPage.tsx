@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp } from '../context';
 import darkHeroVideo from '../../lime_spark_B6FF2E_10s.mp4';
-import lightHeroVideo from '../../lime_spark_black_on_white_sharp_10s.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -11,19 +10,14 @@ export const LandingPage: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const isLight = theme === 'light';
-  const activeVideo = isLight ? lightHeroVideo : darkHeroVideo;
-  const activeVideoFallback = isLight
-    ? '/lime_spark_black_on_white_sharp_10s.mp4'
-    : '/lime_spark_B6FF2E_10s.mp4';
 
   useEffect(() => {
-    if (videoRef.current) {
+    if (!isLight && videoRef.current) {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
-      videoRef.current.load();
       videoRef.current.play().catch(() => {});
     }
-  }, [theme]);
+  }, [isLight]);
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
@@ -63,28 +57,29 @@ export const LandingPage: React.FC = () => {
 
       {/* Top Half: Edge-to-edge Video Section (Above action buttons & below sign-in bar) */}
       <section className="relative isolate overflow-hidden pt-16 pb-14 border-b border-surface-container-high/40">
-        {/* Full-width video background extending horizontally to both sides */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-          <video
-            key={theme}
-            ref={videoRef}
-            src={activeVideo}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          >
-            <source src={activeVideo} type="video/mp4" />
-            <source src={activeVideoFallback} type="video/mp4" />
-          </video>
-          {/* Tint overlay tailored for dark and light modes */}
-          <div className={`absolute inset-0 pointer-events-none ${isLight ? 'bg-transparent' : 'bg-black/40'}`} />
-          {/* Edge gradients blending smoothly with header and solid background */}
-          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-        </div>
+        {/* Full-width video background only rendered in dark mode */}
+        {!isLight && (
+          <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <video
+              ref={videoRef}
+              src={darkHeroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              className="w-full h-full object-cover"
+            >
+              <source src={darkHeroVideo} type="video/mp4" />
+              <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
+            </video>
+            {/* Subtle dark tint to maintain headline contrast */}
+            <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+            {/* Edge gradients blending smoothly with header and solid background */}
+            <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+          </div>
+        )}
 
         <div className="max-w-6xl mx-auto px-4 lg:px-8 flex flex-col items-center text-center space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low/90 backdrop-blur-md border border-surface-container-highest text-xs font-code">
