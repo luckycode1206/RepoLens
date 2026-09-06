@@ -129,12 +129,12 @@ export const LandingPage: React.FC = () => {
             <div
               id="blast-radius"
               onClick={() => navigate('/blast-radius')}
-              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-sm"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container cursor-pointer transition-all duration-300 ease-out space-y-3 group shadow-sm hover:shadow-xl hover:shadow-primary-container/15 hover:scale-105 hover:-translate-y-1.5 hover:bg-surface-container transform"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 group-hover:bg-primary-container/20 transition-all duration-300">
                 <span className="material-symbols-outlined text-[28px]">radar</span>
               </div>
-              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-primary-container transition-colors">
+              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-primary-container transition-colors duration-300">
                 Blast Radius Engine
               </h3>
               <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -145,12 +145,12 @@ export const LandingPage: React.FC = () => {
             <div
               id="security"
               onClick={() => navigate('/security')}
-              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-error/50 cursor-pointer transition-all space-y-3 group shadow-sm"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-error cursor-pointer transition-all duration-300 ease-out space-y-3 group shadow-sm hover:shadow-xl hover:shadow-error/15 hover:scale-105 hover:-translate-y-1.5 hover:bg-surface-container transform"
             >
-              <div className="w-12 h-12 rounded-xl bg-error/10 text-error flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-error/10 text-error flex items-center justify-center group-hover:scale-110 group-hover:bg-error/20 transition-all duration-300">
                 <span className="material-symbols-outlined text-[28px]">security</span>
               </div>
-              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-error transition-colors">
+              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-error transition-colors duration-300">
                 Syntactic Taint Audit
               </h3>
               <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -161,12 +161,12 @@ export const LandingPage: React.FC = () => {
             <div
               id="architecture"
               onClick={() => navigate('/architecture')}
-              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-secondary/50 cursor-pointer transition-all space-y-3 group shadow-sm"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-secondary cursor-pointer transition-all duration-300 ease-out space-y-3 group shadow-sm hover:shadow-xl hover:shadow-secondary/15 hover:scale-105 hover:-translate-y-1.5 hover:bg-surface-container transform"
             >
-              <div className="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-secondary/10 text-secondary flex items-center justify-center group-hover:scale-110 group-hover:bg-secondary/20 transition-all duration-300">
                 <span className="material-symbols-outlined text-[28px]">hub</span>
               </div>
-              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-secondary transition-colors">
+              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-secondary transition-colors duration-300">
                 Layer Topology
               </h3>
               <p className="text-xs text-on-surface-variant leading-relaxed">
@@ -176,12 +176,12 @@ export const LandingPage: React.FC = () => {
 
             <div
               onClick={() => navigate('/testing')}
-              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container/50 cursor-pointer transition-all space-y-3 group shadow-sm"
+              className="p-6 rounded-2xl bg-surface-container-low border border-surface-container-high hover:border-primary-container cursor-pointer transition-all duration-300 ease-out space-y-3 group shadow-sm hover:shadow-xl hover:shadow-primary-container/15 hover:scale-105 hover:-translate-y-1.5 hover:bg-surface-container transform"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-xl bg-primary-container/10 text-primary-container flex items-center justify-center group-hover:scale-110 group-hover:bg-primary-container/20 transition-all duration-300">
                 <span className="material-symbols-outlined text-[28px]">checklist</span>
               </div>
-              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-primary-container transition-colors">
+              <h3 className="font-headline-sm text-lg font-bold text-on-surface group-hover:text-primary-container transition-colors duration-300">
                 Test Impact Analysis
               </h3>
               <p className="text-xs text-on-surface-variant leading-relaxed">
