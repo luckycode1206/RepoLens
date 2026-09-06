@@ -11,7 +11,14 @@ export const AppSidebar: React.FC = () => {
     {
       label: 'WORKSPACE',
       items: [
-        { label: 'Overview', to: '/', icon: 'dashboard' },
+        { label: 'Overview', to: '/app', icon: 'dashboard' },
+        {
+          label: 'Ingest Codebase',
+          to: '/ingest',
+          icon: 'input',
+          badge: 'NEW',
+          badgeColor: 'bg-primary-container text-on-primary-container font-mono font-bold',
+        },
         { label: 'Repositories', to: '/repositories', icon: 'folder_data', badge: String(repositories.length || 3) },
         { label: 'Progress', to: '/progress', icon: 'terminal' },
       ],

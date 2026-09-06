@@ -47,11 +47,11 @@ export const RepositoriesPage: React.FC = () => {
         </div>
 
         <button
-          onClick={() => navigate('/repositories/connect')}
+          onClick={() => navigate('/ingest')}
           className="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-body-sm font-semibold transition-all shadow-glow-lime self-start sm:self-auto"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
-          <span>Connect Repository</span>
+          <span>Ingest Repository</span>
         </button>
       </div>
 
