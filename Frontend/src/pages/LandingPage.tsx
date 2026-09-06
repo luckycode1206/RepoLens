@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp } from '../context';
+import heroVideo from '../../lime_spark_B6FF2E_10s.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useApp();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
@@ -44,23 +54,27 @@ export const LandingPage: React.FC = () => {
       </header>
 
       {/* Top Half: Edge-to-edge Video Section (Above action buttons & below sign-in bar) */}
-      <section className="relative overflow-hidden pt-16 pb-14 border-b border-surface-container-high/40">
+      <section className="relative isolate overflow-hidden pt-16 pb-14 border-b border-surface-container-high/40">
         {/* Full-width video background extending horizontally to both sides */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none -z-10">
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
           <video
+            ref={videoRef}
+            src={heroVideo}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
             className="w-full h-full object-cover"
           >
+            <source src={heroVideo} type="video/mp4" />
             <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
           </video>
           {/* Subtle dark tint to maintain headline contrast */}
-          <div className="absolute inset-0 bg-black/40" />
+          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
           {/* Edge gradients blending smoothly with header and solid background */}
-          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-12 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
         </div>
 
         <div className="max-w-6xl mx-auto px-4 lg:px-8 flex flex-col items-center text-center space-y-6 relative z-10">
