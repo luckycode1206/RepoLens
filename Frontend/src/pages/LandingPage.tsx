@@ -9,23 +9,6 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container flex flex-col relative overflow-x-hidden">
-      {/* Ambient Infinite Looping Background Video */}
-      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-10 select-none">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-35"
-        >
-          <source src="/background.mp4" type="video/mp4" />
-          <source src="/13506132_1920_1080_30fps.mp4" type="video/mp4" />
-          <source src="/background.webm" type="video/webm" />
-        </video>
-        {/* Soft Vignette Overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-background/60" />
-      </div>
-
       {/* Navigation Header */}
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface-container-high px-4 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
@@ -74,9 +57,23 @@ export const LandingPage: React.FC = () => {
             <span className="text-primary-container font-semibold tracking-wider">SEE BEYOND THE CODE</span>
           </div>
 
-          <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface max-w-4xl leading-tight">
-            Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
-          </h1>
+          {/* Localized Video Background around the Headline */}
+          <div className="relative px-6 sm:px-12 py-8 rounded-3xl overflow-hidden border border-primary-container/30 shadow-[0_0_40px_rgba(182,255,46,0.15)] my-1 max-w-4xl w-full">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            >
+              <source src="/lime_spark_B6FF2E_10s.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-black/35 pointer-events-none" />
+
+            <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface leading-tight relative z-10">
+              Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
+            </h1>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
             <button
