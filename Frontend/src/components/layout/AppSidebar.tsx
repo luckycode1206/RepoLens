@@ -13,7 +13,6 @@ import {
   FolderTree,
   Bot,
   Settings,
-  Blocks,
   BookOpen,
   ChevronLeft,
   ChevronRight,
@@ -143,7 +142,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       label: 'SYSTEM & HELP',
       items: [
         { label: 'Settings', to: '/settings', icon: Settings },
-        { label: 'Integrations', to: '/settings?tab=integrations', icon: Blocks },
         { label: 'Documentation', to: '/progress', icon: BookOpen },
       ],
     },
