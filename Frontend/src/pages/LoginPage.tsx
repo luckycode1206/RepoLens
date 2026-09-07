@@ -11,6 +11,7 @@ import {
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp, useWaterNavigate } from '../context';
 import { ThemeToggle } from '../components/common/ThemeToggle';
+import { DoodleBackdrop } from '../components/common/DoodleBackdrop';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -44,25 +45,8 @@ export const LoginPage: React.FC = () => {
         isDark ? 'bg-[#0D0F0D] text-[#F2F2F2]' : 'bg-[#F7F1E3] text-[#181D17]'
       }`}
     >
-      {/* Background Depth & Subtle Gradient Noise/Aura */}
-      <div
-        className="absolute inset-0 pointer-events-none transition-opacity duration-500"
-        style={{
-          backgroundImage: isDark
-            ? 'radial-gradient(circle at 50% 18%, rgba(182, 255, 60, 0.05) 0%, transparent 60%), radial-gradient(circle at 80% 85%, rgba(56, 189, 248, 0.03) 0%, transparent 50%)'
-            : 'radial-gradient(circle at 50% 18%, rgba(4, 106, 56, 0.05) 0%, transparent 60%), radial-gradient(circle at 80% 85%, rgba(4, 106, 56, 0.03) 0%, transparent 50%)',
-        }}
-      />
-
-      {/* Atmospheric Micro Grid Texture */}
-      <div
-        className="absolute inset-0 opacity-[0.025] pointer-events-none"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
-          backgroundSize: '28px 28px',
-        }}
-      />
+      {/* Interactive Reactive Technical Doodle Backdrop */}
+      <DoodleBackdrop />
 
       {/* Top Header with Logo and Theme Switcher */}
       <header className="relative z-10 flex items-center justify-between max-w-5xl mx-auto w-full">

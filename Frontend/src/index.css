@@ -497,3 +497,83 @@ html.light,
   }
 }
 
+/* ==========================================================================
+   RepoLens Interactive Technical Doodle Backdrop
+   ========================================================================== */
+.repolens-doodle-field {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.repolens-doodle-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: background 80ms linear;
+}
+
+.repolens-doodle {
+  position: absolute;
+  transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg));
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease, filter 0.35s ease;
+  pointer-events: auto;
+  cursor: pointer;
+  will-change: transform, opacity, filter;
+  z-index: 2;
+}
+
+.repolens-doodle svg {
+  display: block;
+  overflow: visible;
+}
+
+/* Dark Mode Doodles */
+.dark .repolens-doodle,
+:root:not(.light) .repolens-doodle {
+  color: #B6FF2E;
+  opacity: var(--op, 0.28);
+  filter: drop-shadow(0 0 0 rgba(182, 255, 46, 0));
+}
+
+.dark .repolens-doodle:hover,
+:root:not(.light) .repolens-doodle:hover {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1.35) rotate(calc(var(--rot, 0deg) + 8deg)) !important;
+  filter: drop-shadow(0 0 16px rgba(182, 255, 46, 0.75)) !important;
+  z-index: 8;
+}
+
+/* Light Mode Doodles */
+.light .repolens-doodle,
+[data-theme="light"] .repolens-doodle {
+  color: #046A38;
+  opacity: var(--op, 0.30);
+  filter: drop-shadow(0 0 0 rgba(4, 106, 56, 0));
+}
+
+.light .repolens-doodle:hover,
+[data-theme="light"] .repolens-doodle:hover {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1.35) rotate(calc(var(--rot, 0deg) + 8deg)) !important;
+  filter: drop-shadow(0 0 16px rgba(4, 106, 56, 0.55)) !important;
+  z-index: 8;
+}
+
+/* Radar idle sweep animation */
+.repolens-doodle[data-type="radar"] .doodle-radar-sweep {
+  transform-origin: 50px 50px;
+  animation: repolens-radar-sweep 6s linear infinite;
+}
+
+@keyframes repolens-radar-sweep {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
