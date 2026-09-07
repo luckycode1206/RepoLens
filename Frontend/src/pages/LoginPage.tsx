@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Eye,
   EyeOff,
   ArrowRight,
-  Loader2,
   Check,
   ShieldCheck,
 } from 'lucide-react';
@@ -13,7 +11,6 @@ import { useApp, useWaterNavigate } from '../context';
 import { DoodleBackdrop } from '../components/common/DoodleBackdrop';
 
 export const LoginPage: React.FC = () => {
-  const navigate = useNavigate();
   const { waterNavigate } = useWaterNavigate();
   const { theme } = useApp();
 
@@ -21,22 +18,13 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('••••••••••••');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [authSuccess, setAuthSuccess] = useState(false);
   const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(null);
 
   const isDark = theme !== 'light';
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setAuthSuccess(true);
-      setTimeout(() => {
-        navigate('/');
-      }, 300);
-    }, 550);
+    waterNavigate('/');
   };
 
   return (
@@ -292,29 +280,15 @@ export const LoginPage: React.FC = () => {
             {/* Full-width Primary CTA Button */}
             <button
               type="submit"
-              disabled={loading || authSuccess}
-              className={`w-full h-11 rounded-xl font-sans text-xs font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 ${
+              onClick={(e) => waterNavigate('/', e)}
+              className={`page-link w-full h-11 rounded-xl font-sans text-xs font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 cursor-pointer ${
                 isDark
                   ? 'bg-[#B6FF3C] hover:bg-[#C4FF5E] text-[#0D0F0D] shadow-[0_0_20px_rgba(182,255,60,0.25)] hover:shadow-[0_0_28px_rgba(182,255,60,0.4)] focus-visible:ring-[#B6FF3C]'
                   : 'bg-[#046A38] hover:bg-[#03542C] text-[#FFFFFF] shadow-[0_2px_12px_rgba(4,106,56,0.25)] hover:shadow-[0_4px_16px_rgba(4,106,56,0.35)] focus-visible:ring-[#046A38]'
-              } disabled:opacity-75 disabled:cursor-not-allowed`}
+              }`}
             >
-              {loading ? (
-                <>
-                  <Loader2 size={16} strokeWidth={2.5} className="animate-spin" />
-                  <span>Authenticating AST Session...</span>
-                </>
-              ) : authSuccess ? (
-                <>
-                  <Check size={16} strokeWidth={2.5} />
-                  <span>Session Verified! Redirecting...</span>
-                </>
-              ) : (
-                <>
-                  <span>Sign In to Console</span>
-                  <ArrowRight size={15} strokeWidth={2.2} />
-                </>
-              )}
+              <span>Sign In to Console</span>
+              <ArrowRight size={15} strokeWidth={2.2} />
             </button>
           </form>
 
