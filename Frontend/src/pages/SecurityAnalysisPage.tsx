@@ -31,8 +31,7 @@ export const SecurityAnalysisPage: React.FC = () => {
             </span>
           </div>
           <p className="font-body-md text-body-md text-on-surface-variant mt-1">
-            Syntactic taint vectors, cryptographic audits, and CVE registry matching for{' '}
-            <span className="font-code text-on-surface font-semibold">{activeRepo?.name}</span>.
+            Syntactic taint vectors and cryptographic audits.
           </p>
         </div>
       </div>
