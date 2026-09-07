@@ -3,7 +3,7 @@ import { Repository, ThemeMode } from '../types';
 import { repoService } from '../services/api';
 import { MOCK_REPOSITORIES } from '../services/mockData';
 import { AppContext } from './appContextDefinition';
-import { triggerPixelThemeTransition } from '../utils/pixelThemeTransition';
+import { triggerParticleThemeTransition } from '../utils/particleThemeTransition';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [repositories, setRepositories] = useState<Repository[]>(() => MOCK_REPOSITORIES);
@@ -26,18 +26,35 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const activeRepo = repositories.find((r) => r.id === activeRepoId) || repositories[0];
 
-  const setTheme = (newTheme: ThemeMode) => {
-    setThemeState(newTheme);
-    localStorage.setItem('repolens_theme', newTheme);
+  const setTheme = (newTheme: ThemeMode, event?: { clientX: number; clientY: number }) => {
+    if (newTheme === theme) return;
+    const target = newTheme === 'system'
+      ? (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : newTheme;
+
+    if (target === theme) {
+      setThemeState(newTheme);
+      localStorage.setItem('repolens_theme', newTheme);
+      return;
+    }
+
+    const originX = event?.clientX ?? (typeof window !== 'undefined' ? window.innerWidth / 2 : 0);
+    const originY = event?.clientY ?? (typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
+
+    triggerParticleThemeTransition(originX, originY, target, () => {
+      setThemeState(newTheme);
+      localStorage.setItem('repolens_theme', newTheme);
+    });
   };
 
   const toggleTheme = (event?: React.MouseEvent | { clientX: number; clientY: number }) => {
     const next = theme === 'dark' ? 'light' : 'dark';
-    const originX = event?.clientX ?? window.innerWidth - 60;
+    const originX = event?.clientX ?? (typeof window !== 'undefined' ? window.innerWidth - 60 : 0);
     const originY = event?.clientY ?? 32;
 
-    triggerPixelThemeTransition(originX, originY, next, () => {
-      setTheme(next);
+    triggerParticleThemeTransition(originX, originY, next, () => {
+      setThemeState(next);
+      localStorage.setItem('repolens_theme', next);
     });
   };
 
