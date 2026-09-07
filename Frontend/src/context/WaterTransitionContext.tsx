@@ -40,7 +40,7 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
           setPhase('exiting');
           const exitTimer = window.setTimeout(() => {
             setPhase('idle');
-          }, 260);
+          }, 280);
           timersRef.current.push(exitTimer);
         });
       });
@@ -85,12 +85,12 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
       const navTimer = window.setTimeout(() => {
         setPhase('holding');
         navigate(to);
-      }, 280);
+      }, 300);
 
       // Safety fallback timer ONLY in case route listener was interrupted
       const fallbackTimer = window.setTimeout(() => {
         setPhase('exiting');
-        const cleanup = window.setTimeout(() => setPhase('idle'), 300);
+        const cleanup = window.setTimeout(() => setPhase('idle'), 280);
         timersRef.current.push(cleanup);
       }, 850);
 
@@ -115,6 +115,11 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
           }
           aria-hidden="true"
         >
+          {/* Concentric dynamic ripple shockwave rings */}
+          <div className="circle-ripple-ring ring-1" />
+          <div className="circle-ripple-ring ring-2" />
+          <div className="circle-ripple-ring ring-3" />
+          {/* Main dynamic enlarging circle */}
           <div className="water-drop" />
         </div>
       )}

@@ -357,26 +357,33 @@ html.light .repolens-theme-switch input:focus-visible + .slider,
 }
 
 /* ==========================================================================
-/* ==========================================================================
-   Subtle Smooth Circular Wipe / Ripple Page Transition
-   Refined, elegant origin-based circular wipe with delicate theme accent rim
+   Dynamic Circular Wipe & Expanding Ripple Page Transition
+   Multi-layered concentric shockwaves and dynamic enlarging circle transition
    ========================================================================== */
 
-/* Dark Mode: Deep obsidian surface with delicate lime spark edge */
+/* Dark Mode: Deep obsidian surface with electric lime spark crest & rings */
 :root {
-  --water-drop-bg: #0c1413;
-  --water-drop-rim: rgba(182, 255, 46, 0.35);
-  --water-drop-glow: rgba(182, 255, 46, 0.12);
-  --water-drop-ripple: rgba(182, 255, 46, 0.25);
+  --circle-bg: #0c1413;
+  --circle-bg-inner: rgba(18, 30, 27, 0.98);
+  --circle-accent: #B6FF2E;
+  --circle-accent-glow: rgba(182, 255, 46, 0.5);
+  --circle-rim: rgba(182, 255, 46, 0.85);
+  --circle-ring-1: rgba(182, 255, 46, 0.8);
+  --circle-ring-2: rgba(182, 255, 46, 0.5);
+  --circle-ring-3: rgba(182, 255, 46, 0.25);
 }
 
-/* Light Mode: Warm alabaster surface with delicate emerald edge */
+/* Light Mode: Warm alabaster surface with rich emerald crest & rings */
 html.light,
 [data-theme="light"] {
-  --water-drop-bg: #fbf9f5;
-  --water-drop-rim: rgba(4, 108, 78, 0.3);
-  --water-drop-glow: rgba(4, 108, 78, 0.08);
-  --water-drop-ripple: rgba(4, 108, 78, 0.2);
+  --circle-bg: #f8f6f0;
+  --circle-bg-inner: rgba(243, 239, 230, 0.98);
+  --circle-accent: #046C4E;
+  --circle-accent-glow: rgba(4, 108, 78, 0.4);
+  --circle-rim: rgba(4, 108, 78, 0.85);
+  --circle-ring-1: rgba(4, 108, 78, 0.75);
+  --circle-ring-2: rgba(4, 108, 78, 0.45);
+  --circle-ring-3: rgba(4, 108, 78, 0.2);
 }
 
 .water-transition {
@@ -387,114 +394,182 @@ html.light,
   overflow: hidden;
 }
 
+/* Concentric expanding ripple shockwaves */
+.circle-ripple-ring {
+  position: absolute;
+  left: var(--drop-x, 50%);
+  top: var(--drop-y, 50%);
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.circle-ripple-ring.ring-1 {
+  border: 2px solid var(--circle-ring-1);
+  box-shadow: 0 0 25px var(--circle-accent-glow);
+}
+
+.circle-ripple-ring.ring-2 {
+  border: 1.5px solid var(--circle-ring-2);
+  box-shadow: 0 0 35px var(--circle-ring-2);
+}
+
+.circle-ripple-ring.ring-3 {
+  border: 1px dashed var(--circle-ring-3);
+  box-shadow: 0 0 50px var(--circle-ring-3);
+}
+
+/* Main expanding circle */
 .water-drop {
   position: absolute;
   left: var(--drop-x, 50%);
   top: var(--drop-y, 50%);
-  width: 32px;
-  height: 32px;
-  margin-left: -16px;
-  margin-top: -16px;
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
   border-radius: 50%;
   pointer-events: none;
   transform: scale(0);
   background: radial-gradient(
     circle,
-    var(--water-drop-bg) 0%,
-    var(--water-drop-bg) 93%,
-    var(--water-drop-rim) 98%,
+    var(--circle-bg-inner) 0%,
+    var(--circle-bg) 88%,
+    var(--circle-rim) 97%,
     transparent 100%
   );
-  box-shadow: 0 0 35px var(--water-drop-glow);
+  box-shadow: 
+    0 0 45px var(--circle-accent-glow),
+    inset 0 0 30px rgba(182, 255, 46, 0.08);
+  border: 1.5px solid var(--circle-rim);
   will-change: transform, opacity;
 }
 
-/* Single delicate outer ripple wave */
-.water-drop::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1.5px solid var(--water-drop-ripple);
-  opacity: 0;
-  pointer-events: none;
+/* Entering Animations: Cascading dynamic circular surge */
+.water-transition.is-entering .circle-ripple-ring.ring-1 {
+  animation: dynamic-shockwave-1 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Entering: Smooth, non-flashy enlarging circle expanding from click point */
+.water-transition.is-entering .circle-ripple-ring.ring-2 {
+  animation: dynamic-shockwave-2 320ms cubic-bezier(0.16, 1, 0.3, 1) 30ms forwards;
+}
+
+.water-transition.is-entering .circle-ripple-ring.ring-3 {
+  animation: dynamic-shockwave-3 320ms cubic-bezier(0.16, 1, 0.3, 1) 60ms forwards;
+}
+
 .water-transition.is-entering .water-drop {
-  animation: circle-wipe-surge 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: dynamic-circle-expand 300ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
-.water-transition.is-entering .water-drop::before {
-  animation: subtle-ripple-wave 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-/* Suppress ripple ring in holding and exit states */
-.water-transition.is-holding .water-drop::before,
-.water-transition.is-exiting .water-drop::before {
+/* Suppress ripple rings when submerged in holding and exit states */
+.water-transition.is-holding .circle-ripple-ring,
+.water-transition.is-exiting .circle-ripple-ring {
   display: none !important;
   opacity: 0 !important;
 }
 
-/* Holding state: Viewport softly covered in site background */
+/* Holding state: Screen fully enveloped in the theme background */
 .water-transition.is-holding .water-drop {
   transform: scale(180);
   opacity: 1;
 }
 
-/* Exiting: Gentle dissolve revealing destination page seamlessly */
+/* Exiting state: Smoothly dissolves outward revealing the target page */
 .water-transition.is-exiting .water-drop {
   transform: scale(185);
   opacity: 1;
-  animation: circle-wipe-dissolve 260ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
+  animation: dynamic-circle-dissolve 280ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
 }
 
-@keyframes circle-wipe-surge {
+@keyframes dynamic-shockwave-1 {
   0% {
-    transform: scale(0);
-    opacity: 0.9;
+    transform: scale(0.2);
+    opacity: 0;
   }
   20% {
     opacity: 1;
   }
   100% {
-    transform: scale(180);
-    opacity: 1;
+    transform: scale(16);
+    opacity: 0;
   }
 }
 
-@keyframes subtle-ripple-wave {
+@keyframes dynamic-shockwave-2 {
   0% {
-    transform: scale(0.6);
+    transform: scale(0.2);
     opacity: 0;
   }
   25% {
-    opacity: 0.6;
+    opacity: 0.85;
   }
   100% {
-    transform: scale(2.2);
+    transform: scale(26);
     opacity: 0;
   }
 }
 
-@keyframes circle-wipe-dissolve {
+@keyframes dynamic-shockwave-3 {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(38);
+    opacity: 0;
+  }
+}
+
+@keyframes dynamic-circle-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  25% {
+    opacity: 1;
+    transform: scale(8);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(80);
+  }
+  100% {
+    transform: scale(180);
+    opacity: 1;
+  }
+}
+
+@keyframes dynamic-circle-dissolve {
   0% {
     opacity: 1;
     transform: scale(180);
   }
   100% {
     opacity: 0;
-    transform: scale(190);
+    transform: scale(195);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .water-transition.is-entering .circle-ripple-ring {
+    display: none !important;
+  }
   .water-transition.is-entering .water-drop,
   .water-transition.is-exiting .water-drop {
-    animation: wipe-reduced 150ms ease-in-out forwards;
+    animation: dynamic-reduced 150ms ease-in-out forwards;
   }
 
-  @keyframes wipe-reduced {
+  @keyframes dynamic-reduced {
     0% { opacity: 0; }
     50% { opacity: 1; }
     100% { opacity: 0; }
