@@ -21,13 +21,11 @@ import { FileDetailPage } from './pages/FileDetailPage';
 import { AiAssistantPage } from './pages/AiAssistantPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { WaterTransitionProvider } from './context';
-import { ReactiveCursor } from './components/common/ReactiveCursor';
 
 export const App: React.FC = () => {
   return (
     <AppProvider>
       <BrowserRouter>
-        <ReactiveCursor />
         <WaterTransitionProvider>
           <Routes>
             {/* Public Landing, Authentication & Standalone Ingest */}
