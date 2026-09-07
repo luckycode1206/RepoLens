@@ -40,7 +40,7 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
           setPhase('exiting');
           const exitTimer = window.setTimeout(() => {
             setPhase('idle');
-          }, 300);
+          }, 260);
           timersRef.current.push(exitTimer);
         });
       });

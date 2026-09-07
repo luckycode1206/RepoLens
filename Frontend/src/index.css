@@ -357,27 +357,26 @@ html.light .repolens-theme-switch input:focus-visible + .slider,
 }
 
 /* ==========================================================================
-   Water Drop Page Transition
-   Liquid droplet splash & expanding ripple transition with dual-theme contrast
+/* ==========================================================================
+   Subtle Smooth Circular Wipe / Ripple Page Transition
+   Refined, elegant origin-based circular wipe with delicate theme accent rim
    ========================================================================== */
 
-/* Dark Mode: Vibrant Lime Spark contrasting against dark near-black */
+/* Dark Mode: Deep obsidian surface with delicate lime spark edge */
 :root {
-  --water-drop-color: #B6FF2E;
-  --water-drop-core: #EAFF99;
-  --water-drop-glow: rgba(182, 255, 46, 0.9);
-  --water-drop-ring: rgba(182, 255, 46, 0.65);
-  --water-surface-glow: rgba(182, 255, 46, 0.35);
+  --water-drop-bg: #0c1413;
+  --water-drop-rim: rgba(182, 255, 46, 0.35);
+  --water-drop-glow: rgba(182, 255, 46, 0.12);
+  --water-drop-ripple: rgba(182, 255, 46, 0.25);
 }
 
-/* Light Mode: Deep Rich Emerald contrasting against warm champagne */
+/* Light Mode: Warm alabaster surface with delicate emerald edge */
 html.light,
 [data-theme="light"] {
-  --water-drop-color: #046C4E;
-  --water-drop-core: #10B981;
-  --water-drop-glow: rgba(4, 108, 78, 0.9);
-  --water-drop-ring: rgba(4, 108, 78, 0.55);
-  --water-surface-glow: rgba(4, 108, 78, 0.25);
+  --water-drop-bg: #fbf9f5;
+  --water-drop-rim: rgba(4, 108, 78, 0.3);
+  --water-drop-glow: rgba(4, 108, 78, 0.08);
+  --water-drop-ripple: rgba(4, 108, 78, 0.2);
 }
 
 .water-transition {
@@ -392,146 +391,110 @@ html.light,
   position: absolute;
   left: var(--drop-x, 50%);
   top: var(--drop-y, 50%);
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -12px;
+  width: 32px;
+  height: 32px;
+  margin-left: -16px;
+  margin-top: -16px;
   border-radius: 50%;
   pointer-events: none;
   transform: scale(0);
   background: radial-gradient(
-    circle at 35% 35%,
-    #FFFFFF 0%,
-    var(--water-drop-core) 28%,
-    var(--water-drop-color) 70%,
-    var(--water-drop-color) 100%
+    circle,
+    var(--water-drop-bg) 0%,
+    var(--water-drop-bg) 93%,
+    var(--water-drop-rim) 98%,
+    transparent 100%
   );
-  box-shadow: 
-    0 0 35px var(--water-drop-glow),
-    0 0 90px var(--water-surface-glow),
-    inset -2px -2px 6px rgba(0, 0, 0, 0.25),
-    inset 2px 2px 6px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 35px var(--water-drop-glow);
   will-change: transform, opacity;
 }
 
-/* Concentric water ripple waves */
-.water-drop::before,
-.water-drop::after {
+/* Single delicate outer ripple wave */
+.water-drop::before {
   content: "";
   position: absolute;
-  inset: -14px;
+  inset: -6px;
   border-radius: 50%;
-  border: 3px solid var(--water-drop-ring);
+  border: 1.5px solid var(--water-drop-ripple);
   opacity: 0;
-  transform: scale(0.6);
+  pointer-events: none;
 }
 
-.water-drop::after {
-  inset: -32px;
-  border-width: 2.5px;
-  border-color: var(--water-drop-color);
-}
-
-/* Entering: Impact & rapid liquid surge covering the viewport */
+/* Entering: Smooth, non-flashy enlarging circle expanding from click point */
 .water-transition.is-entering .water-drop {
-  animation: water-drop-surge 300ms cubic-bezier(0.12, 0.9, 0.24, 1) forwards;
+  animation: circle-wipe-surge 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 .water-transition.is-entering .water-drop::before {
-  animation: water-ripple-wave-1 300ms cubic-bezier(0.12, 0.9, 0.24, 1) forwards;
+  animation: subtle-ripple-wave 280ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.water-transition.is-entering .water-drop::after {
-  animation: water-ripple-wave-2 300ms cubic-bezier(0.12, 0.9, 0.24, 1) 40ms forwards;
-}
-
-/* Suppress ripple rings once submerged and on exit to avoid flashes */
+/* Suppress ripple ring in holding and exit states */
 .water-transition.is-holding .water-drop::before,
-.water-transition.is-holding .water-drop::after,
-.water-transition.is-exiting .water-drop::before,
-.water-transition.is-exiting .water-drop::after {
+.water-transition.is-exiting .water-drop::before {
   display: none !important;
   opacity: 0 !important;
 }
 
-/* Holding state: Screen fully immersed in contrasting liquid */
+/* Holding state: Viewport softly covered in site background */
 .water-transition.is-holding .water-drop {
-  transform: scale(260);
+  transform: scale(180);
   opacity: 1;
 }
 
-/* Exiting: Fluid unmasks and dissolves smoothly revealing the new page */
+/* Exiting: Gentle dissolve revealing destination page seamlessly */
 .water-transition.is-exiting .water-drop {
-  transform: scale(270);
+  transform: scale(185);
   opacity: 1;
-  animation: water-drop-dissolve 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: circle-wipe-dissolve 260ms cubic-bezier(0.33, 1, 0.68, 1) forwards;
 }
 
-@keyframes water-drop-surge {
+@keyframes circle-wipe-surge {
   0% {
     transform: scale(0);
-    opacity: 0.85;
-  }
-  35% {
-    opacity: 1;
-    transform: scale(16);
-  }
-  75% {
-    opacity: 1;
-    transform: scale(120);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(260);
-  }
-}
-
-@keyframes water-ripple-wave-1 {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-
-@keyframes water-ripple-wave-2 {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-  35% {
     opacity: 0.9;
   }
+  20% {
+    opacity: 1;
+  }
   100% {
-    transform: scale(3.4);
+    transform: scale(180);
+    opacity: 1;
+  }
+}
+
+@keyframes subtle-ripple-wave {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.2);
     opacity: 0;
   }
 }
 
-@keyframes water-drop-dissolve {
+@keyframes circle-wipe-dissolve {
   0% {
     opacity: 1;
-    transform: scale(260);
+    transform: scale(180);
   }
   100% {
     opacity: 0;
-    transform: scale(290);
+    transform: scale(190);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .water-transition.is-entering .water-drop,
   .water-transition.is-exiting .water-drop {
-    animation: water-reduced 150ms ease-in-out forwards;
+    animation: wipe-reduced 150ms ease-in-out forwards;
   }
 
-  @keyframes water-reduced {
+  @keyframes wipe-reduced {
     0% { opacity: 0; }
     50% { opacity: 1; }
     100% { opacity: 0; }
