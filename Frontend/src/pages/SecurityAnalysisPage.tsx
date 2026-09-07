@@ -40,7 +40,7 @@ export const SecurityAnalysisPage: React.FC = () => {
           className="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-error-container text-on-error-container font-headline-sm text-body-sm font-semibold transition-all shadow-glow-red self-start sm:self-auto"
         >
           <span className="material-symbols-outlined text-[18px]">gpp_bad</span>
-          <span>Inspect OSV 5.0.0-2026</span>
+          <span>Inspect OSV 5.0.0.-2026 and SBOM</span>
         </button>
       </div>
 
