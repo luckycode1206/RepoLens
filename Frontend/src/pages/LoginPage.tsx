@@ -307,32 +307,6 @@ export const LoginPage: React.FC = () => {
             </button>
           </form>
 
-          {/* Secondary Highlighted Box: Demo Console Callout */}
-          <div
-            className={`p-3.5 rounded-xl border transition-all text-center space-y-1 ${
-              isDark
-                ? 'bg-[#B6FF3C]/08 border-[#B6FF3C]/25 hover:border-[#B6FF3C]/40'
-                : 'bg-[#046A38]/06 border-[#046A38]/20 hover:border-[#046A38]/35'
-            }`}
-          >
-            <span
-              className={`text-[11px] font-mono block ${
-                isDark ? 'text-[#9A9A9A]' : 'text-[#6E685E]'
-              }`}
-            >
-              Need immediate access?
-            </span>
-            <button
-              type="button"
-              onClick={() => navigate('/app')}
-              className={`text-xs font-mono font-semibold hover:underline inline-flex items-center justify-center gap-1.5 transition-colors ${
-                isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
-              }`}
-            >
-              <span>Explore Demo Console with Sample Repositories</span>
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
 
           {/* Footer Link: Sign Up */}
           <div
