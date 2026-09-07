@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { useApp, useZoomNavigate } from '../context';
+import { useNavigate } from 'react-router-dom';
+import { useApp } from '../context';
 import { ScoreGauge } from '../components/common/ScoreGauge';
 import { StatusPill } from '../components/common/StatusPill';
 
 export const RepositoriesPage: React.FC = () => {
   const { repositories, setActiveRepoId } = useApp();
-  const { zoomNavigate } = useZoomNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [langFilter, setLangFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
+  const navigate = useNavigate();
 
   const filteredRepos = repositories.filter((repo) => {
     const matchesSearch =
@@ -22,9 +23,9 @@ export const RepositoriesPage: React.FC = () => {
     return matchesSearch && matchesLang && matchesStatus;
   });
 
-  const handleSelectRepo = (repoId: string, e?: React.MouseEvent) => {
+  const handleSelectRepo = (repoId: string) => {
     setActiveRepoId(repoId);
-    zoomNavigate('/architecture', e);
+    navigate('/architecture');
   };
 
   return (
@@ -46,7 +47,7 @@ export const RepositoriesPage: React.FC = () => {
         </div>
 
         <button
-          onClick={(e) => zoomNavigate('/ingest', e)}
+          onClick={() => navigate('/ingest')}
           className="inline-flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-body-sm font-semibold transition-all shadow-glow-lime self-start sm:self-auto"
         >
           <span className="material-symbols-outlined text-[18px]">add</span>
@@ -118,10 +119,8 @@ export const RepositoriesPage: React.FC = () => {
           {filteredRepos.map((repo) => (
             <div
               key={repo.id}
-              data-zoom-origin="true"
-              data-zoom-label={repo.name}
               className="group grid grid-cols-12 gap-space-sm px-space-lg py-space-md bg-surface-container-low hover:bg-surface-container items-center transition-colors relative cursor-pointer"
-              onClick={(e) => handleSelectRepo(repo.id, e)}
+              onClick={() => handleSelectRepo(repo.id)}
             >
               {/* Visual Active Indicator Strip on Hover */}
               <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary-container opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -192,7 +191,7 @@ export const RepositoriesPage: React.FC = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleSelectRepo(repo.id, e);
+                    handleSelectRepo(repo.id);
                   }}
                   className="px-space-sm py-space-xs bg-surface-container hover:bg-primary-container hover:text-on-primary-container text-on-surface font-headline-sm text-body-sm rounded-lg transition-all flex items-center gap-space-2xs shadow-sm"
                 >

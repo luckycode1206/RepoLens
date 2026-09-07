@@ -18,7 +18,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { RepoLensLogo } from '../common/RepoLensLogo';
-import { useApp, useZoomNavigate } from '../../context';
+import { useApp } from '../../context';
 
 export interface AppSidebarProps {
   /** Optional theme override: 'dark' or 'light'. If omitted, detects active app theme. */
@@ -56,7 +56,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
   className = '',
 }) => {
   const { repositories, sidebarCollapsed: contextCollapsed, setSidebarCollapsed, theme: contextTheme } = useApp();
-  const { zoomNavigate } = useZoomNavigate();
   const location = useLocation();
 
   // Determine current theme and collapse state
@@ -278,13 +277,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     key={item.to}
                     to={item.to}
                     title={isCollapsed ? item.label : undefined}
-                    data-zoom-origin="true"
-                    data-zoom-label={item.label}
-                    onClick={(e) => {
-                      if (isActive) return;
-                      e.preventDefault();
-                      zoomNavigate(item.to, e);
-                    }}
                     className={`group relative flex items-center justify-between px-3 py-2 rounded-[9px] text-[13px] font-sans transition-all duration-150 ${
                       isActive
                         ? isDark

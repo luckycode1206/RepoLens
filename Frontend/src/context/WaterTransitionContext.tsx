@@ -1,127 +1,14 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  ZoomTransitionContext,
-  ZoomOrigin,
-  OriginRect,
-} from './waterTransitionDefinition';
+import { WaterTransitionContext } from './waterTransitionDefinition';
 
-type TransitionPhase = 'idle' | 'expanding' | 'settling';
+type TransitionPhase = 'idle' | 'entering' | 'holding' | 'exiting';
 
-function extractOrigin(origin?: ZoomOrigin | null): OriginRect {
-  const fallbackWidth = Math.min(
-    typeof window !== 'undefined' ? window.innerWidth * 0.45 : 360,
-    380
-  );
-  const fallbackHeight = 56;
-  const defaultRect: OriginRect = {
-    top: typeof window !== 'undefined' ? (window.innerHeight - fallbackHeight) / 2 : 200,
-    left: typeof window !== 'undefined' ? (window.innerWidth - fallbackWidth) / 2 : 200,
-    width: fallbackWidth,
-    height: fallbackHeight,
-    borderRadius: '12px',
-    title: 'RepoLens',
-  };
-
-  if (!origin) return defaultRect;
-
-  // If already an OriginRect with coordinates
-  if (
-    'top' in origin &&
-    'left' in origin &&
-    'width' in origin &&
-    'height' in origin &&
-    typeof origin.top === 'number'
-  ) {
-    return {
-      top: origin.top,
-      left: origin.left,
-      width: origin.width,
-      height: origin.height,
-      borderRadius: origin.borderRadius || '12px',
-      title: origin.title,
-      subtitle: origin.subtitle,
-      badge: origin.badge,
-    };
-  }
-
-  // If it's a mouse event or DOM element
-  let el: HTMLElement | null = null;
-  if ('currentTarget' in origin && origin.currentTarget instanceof HTMLElement) {
-    el = origin.currentTarget;
-  } else if ('target' in origin && origin.target instanceof HTMLElement) {
-    el = origin.target;
-  } else if (origin instanceof HTMLElement) {
-    el = origin;
-  }
-
-  if (el) {
-    // Locate the closest interactive card, table row, nav button, or link
-    const container =
-      (el.closest(
-        '[data-zoom-origin], .group, a, button, tr, [role="button"], .cursor-pointer'
-      ) as HTMLElement) || el;
-
-    const r = container.getBoundingClientRect();
-    const style = window.getComputedStyle(container);
-
-    // Extract title / label
-    const titleEl = container.querySelector(
-      'h1, h2, h3, .font-heading, .font-mono.font-semibold, .font-code-md, .truncate, strong'
-    );
-    const rawTitle =
-      container.getAttribute('data-zoom-label') ||
-      container.getAttribute('title') ||
-      titleEl?.textContent?.trim() ||
-      container.textContent?.slice(0, 36)?.trim();
-
-    // Extract subtitle
-    const subEl = container.querySelector(
-      '.text-xs, .font-body-sm, .font-code-sm, p'
-    );
-    const rawSub = subEl?.textContent?.trim();
-
-    // Extract badge
-    const badgeEl = container.querySelector(
-      '.font-label-caps, [class*="uppercase"], [class*="badge"], [class*="rounded"]'
-    );
-    const rawBadge = badgeEl?.textContent?.trim();
-
-    return {
-      top: Math.max(0, r.top),
-      left: Math.max(0, r.left),
-      width: Math.max(24, r.width),
-      height: Math.max(24, r.height),
-      borderRadius: style.borderRadius || '12px',
-      title: rawTitle && rawTitle.length < 50 ? rawTitle : undefined,
-      subtitle: rawSub && rawSub.length < 60 ? rawSub : undefined,
-      badge: rawBadge && rawBadge.length < 24 ? rawBadge : undefined,
-    };
-  }
-
-  // If only clientX, clientY are provided
-  if ('clientX' in origin && typeof origin.clientX === 'number') {
-    const w = 180;
-    const h = 48;
-    return {
-      top: Math.max(0, origin.clientY - h / 2),
-      left: Math.max(0, origin.clientX - w / 2),
-      width: w,
-      height: h,
-      borderRadius: '24px',
-    };
-  }
-
-  return defaultRect;
-}
-
-export const ZoomTransitionProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [phase, setPhase] = useState<TransitionPhase>('idle');
-  const [origin, setOrigin] = useState<OriginRect>(() => extractOrigin(null));
+  const [origin, setOrigin] = useState<{ x: string; y: string }>({ x: '50%', y: '50%' });
   const targetPathRef = useRef<string | null>(null);
   const timersRef = useRef<number[]>([]);
 
@@ -136,28 +23,51 @@ export const ZoomTransitionProvider: React.FC<{ children: React.ReactNode }> = (
     };
   }, [clearTimers]);
 
-  // Synchronize route commit with zoom completion
+  // Synchronize route commit and paint with water ripple dissolve
   useEffect(() => {
     if (
-      phase === 'expanding' &&
+      (phase === 'entering' || phase === 'holding') &&
       targetPathRef.current &&
-      (location.pathname === targetPathRef.current ||
-        location.pathname.startsWith(targetPathRef.current))
+      (location.pathname === targetPathRef.current || location.pathname.startsWith(targetPathRef.current))
     ) {
       targetPathRef.current = null;
-    }
-  }, [location.pathname, phase]);
+      // CRITICAL: Clear all pending fallback timers immediately to eliminate any secondary flash!
+      clearTimers();
 
-  const zoomNavigate = useCallback(
-    (to: string, originInput?: ZoomOrigin) => {
-      // If already transitioning, don't overlap
+      // Double rAF ensures the browser has committed and painted the new view under the opaque water droplet layer
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setPhase('exiting');
+          const exitTimer = window.setTimeout(() => {
+            setPhase('idle');
+          }, 300);
+          timersRef.current.push(exitTimer);
+        });
+      });
+    }
+  }, [location.pathname, phase, clearTimers]);
+
+  const waterNavigate = useCallback(
+    (to: string, event?: React.MouseEvent | { clientX: number; clientY: number }) => {
+      // Prevent multiple transitions simultaneously
       if (phase !== 'idle') return;
 
-      const extracted = extractOrigin(originInput);
-      setOrigin(extracted);
+      // Calculate origin coordinates for water drop impact point
+      if (event && 'clientX' in event && typeof event.clientX === 'number') {
+        setOrigin({
+          x: `${event.clientX}px`,
+          y: `${event.clientY}px`,
+        });
+      } else {
+        setOrigin({
+          x: '50%',
+          y: '50%',
+        });
+      }
+
       clearTimers();
       targetPathRef.current = to;
-      setPhase('expanding');
+      setPhase('entering');
 
       const prefersReduced =
         typeof window !== 'undefined' &&
@@ -165,35 +75,26 @@ export const ZoomTransitionProvider: React.FC<{ children: React.ReactNode }> = (
 
       if (prefersReduced) {
         navigate(to);
-        setPhase('settling');
-        const t = window.setTimeout(() => setPhase('idle'), 120);
+        setPhase('exiting');
+        const t = window.setTimeout(() => setPhase('idle'), 150);
         timersRef.current.push(t);
         return;
       }
 
-      // 1. Halfway through zoom expansion (130ms), navigate to destination route
-      // This allows the destination page to mount while the expanding surface is scaling
+      // Trigger navigation as the droplet expands across the viewport
       const navTimer = window.setTimeout(() => {
+        setPhase('holding');
         navigate(to);
-      }, 130);
+      }, 280);
 
-      // 2. At 270ms, the card reaches full viewport dimensions (Apple ease-out completed)
-      // Enter settling phase for a smooth 60ms dissolve reveal
-      const settleTimer = window.setTimeout(() => {
-        setPhase('settling');
-      }, 270);
-
-      // 3. At 330ms, completely finish transition and return to idle
-      const endTimer = window.setTimeout(() => {
-        setPhase('idle');
-      }, 330);
-
-      // Fallback timer in case of unexpected delays
+      // Safety fallback timer ONLY in case route listener was interrupted
       const fallbackTimer = window.setTimeout(() => {
-        setPhase('idle');
-      }, 700);
+        setPhase('exiting');
+        const cleanup = window.setTimeout(() => setPhase('idle'), 300);
+        timersRef.current.push(cleanup);
+      }, 850);
 
-      timersRef.current.push(navTimer, settleTimer, endTimer, fallbackTimer);
+      timersRef.current.push(navTimer, fallbackTimer);
     },
     [phase, navigate, clearTimers]
   );
@@ -201,62 +102,22 @@ export const ZoomTransitionProvider: React.FC<{ children: React.ReactNode }> = (
   const isTransitioning = phase !== 'idle';
 
   return (
-    <ZoomTransitionContext.Provider
-      value={{
-        zoomNavigate,
-        waterNavigate: zoomNavigate,
-        isTransitioning,
-      }}
-    >
+    <WaterTransitionContext.Provider value={{ waterNavigate, isTransitioning }}>
       {children}
       {isTransitioning && (
         <div
-          className={`apple-zoom-portal is-${phase}`}
+          className={`water-transition is-active is-${phase}`}
           style={
             {
-              '--origin-top': `${origin.top}px`,
-              '--origin-left': `${origin.left}px`,
-              '--origin-width': `${origin.width}px`,
-              '--origin-height': `${origin.height}px`,
-              '--origin-radius': origin.borderRadius || '12px',
+              '--drop-x': origin.x,
+              '--drop-y': origin.y,
             } as React.CSSProperties
           }
           aria-hidden="true"
         >
-          <div className="apple-zoom-card">
-            {/* Apple Dynamic Blur & High-Contrast Backdrop Surface */}
-            <div className="apple-zoom-surface" />
-
-            {/* Shared Element Origin Snapshot Capsule */}
-            <div className="apple-zoom-header">
-              <div className="apple-zoom-header-inner">
-                <div className="apple-zoom-icon-capsule">
-                  <span className="apple-zoom-dot" />
-                </div>
-                <div className="apple-zoom-titles">
-                  {origin.title && (
-                    <span className="apple-zoom-title">{origin.title}</span>
-                  )}
-                  {origin.subtitle && (
-                    <span className="apple-zoom-subtitle">
-                      {origin.subtitle}
-                    </span>
-                  )}
-                </div>
-                {origin.badge && (
-                  <span className="apple-zoom-badge">{origin.badge}</span>
-                )}
-              </div>
-            </div>
-
-            {/* Apple Elevation Ambient Rim Glow */}
-            <div className="apple-zoom-ambient-glow" />
-          </div>
+          <div className="water-drop" />
         </div>
       )}
-    </ZoomTransitionContext.Provider>
+    </WaterTransitionContext.Provider>
   );
 };
-
-// Backwards-compatibility alias
-export const WaterTransitionProvider = ZoomTransitionProvider;

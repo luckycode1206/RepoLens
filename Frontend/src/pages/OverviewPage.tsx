@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Radar,
   FolderGit2,
@@ -11,11 +12,11 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
-import { useApp, useZoomNavigate } from '../context';
+import { useApp } from '../context';
 
 export const OverviewPage: React.FC = () => {
   const { activeRepo, repositories, setActiveRepoId, theme } = useApp();
-  const { zoomNavigate } = useZoomNavigate();
+  const navigate = useNavigate();
 
   const isDark = theme !== 'light';
 
@@ -155,7 +156,7 @@ export const OverviewPage: React.FC = () => {
           <div className="flex items-center gap-3 self-start md:self-auto flex-wrap">
             <button
               type="button"
-              onClick={(e) => zoomNavigate('/blast-radius', e)}
+              onClick={() => navigate('/blast-radius')}
               className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-sans text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                 isDark
                   ? 'bg-[#a3e635] hover:bg-[#bbf451] text-[#0D0F0C] shadow-[0_0_18px_rgba(163,230,53,0.25)] focus-visible:ring-[#a3e635]'
@@ -171,7 +172,7 @@ export const OverviewPage: React.FC = () => {
 
       {/* 2. CRITICAL BLAST ALERT CALLOUT BANNER (Single attention mount pulse, then settles) */}
       <div
-        onClick={(e) => zoomNavigate('/blast-radius', e)}
+        onClick={() => navigate('/blast-radius')}
         className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer group animate-mount-alert ${
           isDark
             ? 'bg-[#e05252]/10 border-[#e05252]/30 hover:border-[#e05252]/50 hover:bg-[#e05252]/15'
@@ -248,7 +249,7 @@ export const OverviewPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5">
         {/* CARD 1: FLEET HEALTH INDEX (HERO METRIC — 4 Cols on Large Screen, elevated prominence) */}
         <div
-          onClick={(e) => zoomNavigate('/repositories', e)}
+          onClick={() => navigate('/repositories')}
           className={`lg:col-span-4 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
               ? 'bg-[#121511] border-[#282F26] hover:border-[#a3e635]/50 shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
@@ -363,7 +364,7 @@ export const OverviewPage: React.FC = () => {
 
         {/* CARD 2: SECURITY VULNERABILITIES (Desaturated Instrument Red — 8) */}
         <div
-          onClick={(e) => zoomNavigate('/security', e)}
+          onClick={() => navigate('/security')}
           className={`lg:col-span-3 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
               ? 'bg-[#121511] border-[#282F26] hover:border-[#e05252]/50 shadow-sm'
@@ -429,7 +430,7 @@ export const OverviewPage: React.FC = () => {
 
         {/* CARD 3: GRAPH ENTITIES (Topological Blue Telemetry — 4,210) */}
         <div
-          onClick={(e) => zoomNavigate('/architecture', e)}
+          onClick={() => navigate('/architecture')}
           className={`lg:col-span-2 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
               ? 'bg-[#121511] border-[#282F26] hover:border-[#38bdf8]/50 shadow-sm'
@@ -488,7 +489,7 @@ export const OverviewPage: React.FC = () => {
 
         {/* CARD 4: TEST COVERAGE (Targeted Suites — 84.5%) */}
         <div
-          onClick={(e) => zoomNavigate('/testing', e)}
+          onClick={() => navigate('/testing')}
           className={`lg:col-span-3 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
               ? 'bg-[#121511] border-[#282F26] hover:border-[#a3e635]/50 shadow-sm'
@@ -573,7 +574,7 @@ export const OverviewPage: React.FC = () => {
 
             <button
               type="button"
-              onClick={(e) => zoomNavigate('/repositories', e)}
+              onClick={() => navigate('/repositories')}
               className={`text-xs font-mono font-semibold transition-colors hover:underline ${
                 isDark ? 'text-[#a3e635]' : 'text-[#046C4E]'
               }`}
@@ -591,11 +592,9 @@ export const OverviewPage: React.FC = () => {
               return (
                 <div
                   key={repo.id}
-                  data-zoom-origin="true"
-                  data-zoom-label={repo.name}
-                  onClick={(e) => {
+                  onClick={() => {
                     setActiveRepoId(repo.id);
-                    zoomNavigate('/architecture', e);
+                    navigate('/architecture');
                   }}
                   className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer flex items-center justify-between gap-4 ${
                     isSelected
@@ -741,7 +740,7 @@ export const OverviewPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* 1. Architecture Topology */}
             <div
-              onClick={(e) => zoomNavigate('/architecture', e)}
+              onClick={() => navigate('/architecture')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
                   ? 'bg-[#121511] border-[#222920] hover:border-[#38bdf8]/50 hover:bg-[#171B16]'
@@ -775,7 +774,7 @@ export const OverviewPage: React.FC = () => {
 
             {/* 2. Blast Radius Analyzer */}
             <div
-              onClick={(e) => zoomNavigate('/blast-radius', e)}
+              onClick={() => navigate('/blast-radius')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
                   ? 'bg-[#121511] border-[#222920] hover:border-[#a3e635]/50 hover:bg-[#171B16]'
@@ -809,7 +808,7 @@ export const OverviewPage: React.FC = () => {
 
             {/* 3. Vulnerability Taint */}
             <div
-              onClick={(e) => zoomNavigate('/security', e)}
+              onClick={() => navigate('/security')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
                   ? 'bg-[#121511] border-[#222920] hover:border-[#e05252]/50 hover:bg-[#171B16]'
@@ -843,7 +842,7 @@ export const OverviewPage: React.FC = () => {
 
             {/* 4. RepoLens Code AI */}
             <div
-              onClick={(e) => zoomNavigate('/ai-assistant', e)}
+              onClick={() => navigate('/ai-assistant')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
                   ? 'bg-[#121511] border-[#222920] hover:border-[#a3e635]/50 hover:bg-[#171B16]'
@@ -927,7 +926,7 @@ export const OverviewPage: React.FC = () => {
 
             <button
               type="button"
-              onClick={(e) => zoomNavigate('/progress', e)}
+              onClick={() => navigate('/progress')}
               className={`text-xs font-mono font-semibold hover:underline block pt-1 ${
                 isDark ? 'text-[#a3e635]' : 'text-[#046C4E]'
               }`}
