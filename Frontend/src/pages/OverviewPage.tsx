@@ -11,14 +11,13 @@ import {
   Activity,
   Plus,
   ArrowRight,
-  Sun,
-  Moon,
   Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 
 export const OverviewPage: React.FC = () => {
-  const { activeRepo, repositories, setActiveRepoId, theme, toggleTheme } = useApp();
+  const { activeRepo, repositories, setActiveRepoId, theme } = useApp();
   const navigate = useNavigate();
 
   const isDark = theme !== 'light';
@@ -184,23 +183,7 @@ export const OverviewPage: React.FC = () => {
             </button>
 
             {/* Quick Inline Theme Mode Switcher */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              className={`p-2.5 rounded-xl border transition-all duration-200 flex items-center justify-center ${
-                isDark
-                  ? 'bg-[#171B16] hover:bg-[#1E231D] text-[#a3e635] border-[#282F26]'
-                  : 'bg-[#F2ECE0] hover:bg-[#E8E0D0] text-[#046C4E] border-[#DDD3BF]'
-              }`}
-              title={`Switch to ${isDark ? 'Champagne Light' : 'Dark'} Mode`}
-              aria-label="Toggle Theme"
-            >
-              {isDark ? (
-                <Sun size={15} strokeWidth={1.8} />
-              ) : (
-                <Moon size={15} strokeWidth={1.8} />
-              )}
-            </button>
+            <ThemeToggle size="sm" />
           </div>
         </div>
       </div>

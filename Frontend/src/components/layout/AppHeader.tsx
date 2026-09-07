@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useApp } from '../../context';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 export const AppHeader: React.FC = () => {
   const {
     activeRepo,
     repositories,
     setActiveRepoId,
-    theme,
-    toggleTheme,
     setIsCommandPaletteOpen,
     sidebarCollapsed,
     setSidebarCollapsed,
@@ -130,15 +129,7 @@ export const AppHeader: React.FC = () => {
         </div>
 
         {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          title={`Switch to ${theme === 'dark' ? 'Light Mode (Champagne)' : 'Dark Mode (Graphite)'}`}
-          className="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container transition-colors relative"
-        >
-          <span className="material-symbols-outlined text-[20px]">
-            {theme === 'dark' ? 'light_mode' : 'dark_mode'}
-          </span>
-        </button>
+        <ThemeToggle size="sm" />
 
         {/* Notifications */}
         <button

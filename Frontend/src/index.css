@@ -199,6 +199,10 @@ html.light,
   box-shadow: 0 0 25px rgba(182, 255, 46, 0.15);
 }
 
+.diff-glow-red {
+  box-shadow: 0 0 25px 2px rgba(239, 68, 68, 0.45);
+}
+
 /* Accessibility: Respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -217,6 +221,96 @@ html.light,
   }
 }
 
-.diff-glow-red {
-  box-shadow: 0 0 25px 2px rgba(239, 68, 68, 0.45);
+/* ==========================================================================
+   RepoLens Theme Toggle Switch (Adapted from Uiverse.io by satyamchaudharydev)
+   Configured for:
+     Dark Mode: Warm Near-Black (#0D0F0C) with Lime Moon (#A3E635 / #B6FF3C)
+     Light Mode: Champagne White (#FAF6EE) with Emerald Sun (#046C4E / #10B981)
+   ========================================================================== */
+
+.repolens-theme-switch {
+  display: inline-block;
+  --width-of-switch: 3.5em;
+  --height-of-switch: 2em;
+  /* size of sliding icon -- sun and moon */
+  --size-of-icon: 1.4em;
+  /* it is like a inline-padding of switch */
+  --slider-offset: 0.3em;
+  position: relative;
+  width: var(--width-of-switch);
+  height: var(--height-of-switch);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Hide default HTML checkbox */
+.repolens-theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  margin: 0;
+}
+
+/* The slider track */
+.repolens-theme-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #FAF6EE;
+  border: 1.5px solid #E2DAC7;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 30px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Sun knob (Light Mode, unchecked) */
+.repolens-theme-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: var(--size-of-icon, 1.4em);
+  width: var(--size-of-icon, 1.4em);
+  border-radius: 50%;
+  left: var(--slider-offset, 0.3em);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #10B981, #046C4E 75%);
+  box-shadow: 0 0 8px rgba(4, 108, 78, 0.35);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Track (Checked) */
+.repolens-theme-switch input:checked + .slider {
+  background-color: #121511;
+  border-color: #282F26;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Moon knob (Dark Mode, checked) */
+.repolens-theme-switch input:checked + .slider:before {
+  left: calc(100% - (var(--size-of-icon, 1.4em) + var(--slider-offset, 0.3em)));
+  background: #121511;
+  /* Moon crescent with RepoLens acid/lime green glow */
+  box-shadow: inset -3px -2px 4px -1px #84cc16, inset -8px -3px 0 0 #A3E635, 0 0 10px rgba(163, 230, 53, 0.25);
+}
+
+/* Interactive Hover & Focus States */
+.repolens-theme-switch:hover .slider {
+  border-color: #A3E635;
+}
+html.light .repolens-theme-switch:hover .slider,
+[data-theme="light"] .repolens-theme-switch:hover .slider {
+  border-color: #046C4E;
+}
+
+.repolens-theme-switch input:focus-visible + .slider {
+  outline: 2px solid #A3E635;
+  outline-offset: 2px;
+}
+html.light .repolens-theme-switch input:focus-visible + .slider,
+[data-theme="light"] .repolens-theme-switch input:focus-visible + .slider {
+  outline: 2px solid #046C4E;
 }

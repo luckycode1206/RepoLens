@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Sun,
-  Moon,
   ArrowRight,
   Loader2,
   Check,
@@ -12,10 +10,11 @@ import {
 } from 'lucide-react';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp } from '../context';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 
 export const SignupPage: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useApp();
+  const { theme } = useApp();
 
   const [fullName, setFullName] = useState('Alex Vance');
   const [email, setEmail] = useState('alex.vance@blackmesa.tech');
@@ -87,23 +86,8 @@ export const SignupPage: React.FC = () => {
           <RepoLensLogo size="md" />
         </Link>
 
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className={`p-2.5 rounded-xl border transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 ${
-            isDark
-              ? 'bg-[#141814] hover:bg-[#1C221C] text-[#B6FF3C] border-[#2A2A2A] focus-visible:ring-[#B6FF3C]'
-              : 'bg-[#FFFFFF] hover:bg-[#F2ECE0] text-[#046A38] border-[#E0D7C6] focus-visible:ring-[#046A38] shadow-sm'
-          }`}
-          title={`Switch to ${isDark ? 'Champagne Light' : 'Dark'} Mode`}
-          aria-label="Toggle Theme Mode"
-        >
-          {isDark ? (
-            <Sun size={17} strokeWidth={1.8} />
-          ) : (
-            <Moon size={17} strokeWidth={1.8} />
-          )}
-        </button>
+        {/* Theme Switch Toggle */}
+        <ThemeToggle size="md" />
       </header>
 
       {/* Main Single-Column Centered Card */}

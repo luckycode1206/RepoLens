@@ -1,12 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 import { useApp } from '../context';
 import darkHeroVideo from '../../lime_spark_B6FF2E_10s.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useApp();
+  const { theme } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const isLight = theme === 'light';
@@ -55,15 +56,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg text-outline hover:text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors"
-              title="Toggle theme"
-            >
-              <span className="material-symbols-outlined text-[20px]">
-                {theme === 'dark' ? 'light_mode' : 'dark_mode'}
-              </span>
-            </button>
+            <ThemeToggle size="sm" />
             <button
               onClick={() => navigate('/login')}
               className="px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold"
