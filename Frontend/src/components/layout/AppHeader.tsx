@@ -21,7 +21,7 @@ export const AppHeader: React.FC = () => {
     if (path.startsWith('/dependencies')) return '';
     if (path.startsWith('/blast-radius')) return '';
     if (path.startsWith('/issues/')) return 'Issue Code Evidence & Remediation';
-    if (path.startsWith('/issues')) return 'Repository Findings & Issues';
+    if (path.startsWith('/issues')) return '';
     if (path.startsWith('/testing')) return 'Testing Impact Recommendations';
     if (path.startsWith('/file-explorer/detail')) return 'File Detail / AST Inspector';
     if (path.startsWith('/file-explorer')) return 'Repository File Explorer';
