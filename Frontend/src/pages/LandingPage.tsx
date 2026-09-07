@@ -63,13 +63,6 @@ export const LandingPage: React.FC = () => {
             >
               Sign In
             </button>
-            <button
-              onClick={() => navigate('/app')}
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-xs font-semibold transition-all shadow-glow-lime"
-            >
-              <span>Launch Console</span>
-              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-            </button>
           </div>
         </header>
 
