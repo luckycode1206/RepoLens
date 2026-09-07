@@ -103,10 +103,9 @@ export const SignupPage: React.FC = () => {
             </p>
           </div>
 
-          {/* Continue with Google SSO */}
+          {/* Continue with Google SSO (Dummy Button) */}
           <button
             type="button"
-            onClick={() => navigate('/auth/google?mode=signup')}
             className={`w-full flex items-center justify-center gap-3 h-11 px-4 rounded-xl border font-sans text-xs sm:text-[13px] font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 cursor-pointer ${
               isDark
                 ? 'bg-[#171B17] hover:bg-[#1F251F] text-[#F2F2F2] border-[#2A2A2A] hover:border-[#384238] hover:-translate-y-0.5 hover:shadow-md focus-visible:ring-[#B6FF3C]'

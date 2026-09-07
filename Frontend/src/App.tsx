@@ -5,7 +5,6 @@ import { AppLayout } from './components/layout/AppLayout';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
-import { GoogleAuthPage } from './pages/GoogleAuthPage';
 import { IngestRepoPage } from './pages/IngestRepoPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { RepositoriesPage } from './pages/RepositoriesPage';
@@ -33,7 +32,6 @@ export const App: React.FC = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/auth/google" element={<GoogleAuthPage />} />
 
           {/* Authenticated Workspace / Console Layout */}
           <Route element={<AppLayout />}>
