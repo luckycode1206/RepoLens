@@ -77,7 +77,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           <h1 className="font-headline-xl text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-on-surface max-w-4xl leading-tight drop-shadow-md">
-            Understand the <span className="text-primary-container underline decoration-primary-container/40 underline-offset-8">Blast Radius</span> of Every Code Change
+            Understand the <span className="text-primary-container">Blast Radius</span> of Every Code Change
           </h1>
 
           <p className="font-body-md text-base sm:text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
