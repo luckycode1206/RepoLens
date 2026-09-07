@@ -1,10 +1,3 @@
-import { useContext } from 'react';
-import { WaterTransitionContext } from './waterTransitionDefinition';
+import { useZoomNavigate } from './useZoomNavigate';
 
-export const useWaterNavigate = () => {
-  const context = useContext(WaterTransitionContext);
-  if (!context) {
-    throw new Error('useWaterNavigate must be used within a WaterTransitionProvider');
-  }
-  return context;
-};
+export const useWaterNavigate = useZoomNavigate;
