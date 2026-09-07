@@ -314,3 +314,98 @@ html.light .repolens-theme-switch input:focus-visible + .slider,
 [data-theme="light"] .repolens-theme-switch input:focus-visible + .slider {
   outline: 2px solid #046C4E;
 }
+
+/* ==========================================================================
+   Ink Bleed Mask Page Transition — RepoLens Color Scheme
+   Adapted from CodeFronts Ink Bleed with dynamic origin and dual-theme palettes
+   ========================================================================== */
+:root {
+  --repolens-ink-dur: 900ms;
+  --repolens-ink-bg: radial-gradient(
+    circle at var(--ink-origin-x, 50%) var(--ink-origin-y, 50%),
+    rgba(182, 255, 60, 0.16) 0%,
+    rgba(23, 27, 22, 0.98) 32%,
+    #0D0F0C 70%
+  );
+}
+
+html.light,
+[data-theme="light"] {
+  --repolens-ink-bg: radial-gradient(
+    circle at var(--ink-origin-x, 50%) var(--ink-origin-y, 50%),
+    rgba(4, 108, 78, 0.14) 0%,
+    rgba(247, 243, 233, 0.98) 32%,
+    #FAF6EE 70%
+  );
+}
+
+.repolens-ink-overlay {
+  position: fixed;
+  inset: -10%;
+  z-index: 99999;
+  background: var(--repolens-ink-bg);
+  pointer-events: auto;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(circle, #000 38%, rgba(0, 0, 0, 0.55) 58%, transparent 72%);
+  mask-image: radial-gradient(circle, #000 38%, rgba(0, 0, 0, 0.55) 58%, transparent 72%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  -webkit-mask-size: 0% 0%;
+  mask-size: 0% 0%;
+}
+
+.repolens-ink-overlay.is-active {
+  animation: repolens-ink-bleed var(--repolens-ink-dur) cubic-bezier(0.45, 0.05, 0.3, 1) both;
+}
+
+@keyframes repolens-ink-bleed {
+  0% {
+    opacity: 1;
+    -webkit-mask-size: 0% 0%;
+    mask-size: 0% 0%;
+    -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+    mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  }
+
+  46%,
+  62% {
+    opacity: 1;
+    -webkit-mask-size: 380% 380%;
+    mask-size: 380% 380%;
+    -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+    mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  }
+
+  100% {
+    opacity: 0;
+    -webkit-mask-size: 380% 380%;
+    mask-size: 380% 380%;
+    -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+    mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --repolens-ink-dur: 170ms;
+  }
+
+  .repolens-ink-overlay.is-active {
+    animation: repolens-ink-reduced var(--repolens-ink-dur) ease-in-out both;
+  }
+
+  @keyframes repolens-ink-reduced {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
