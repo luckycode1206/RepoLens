@@ -277,7 +277,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     key={item.to}
                     to={item.to}
                     title={isCollapsed ? item.label : undefined}
-                    className={`group relative flex items-center justify-between px-3 py-2 rounded-[9px] text-[13px] font-sans transition-all duration-150 ${
+                    className={`group relative flex items-center justify-between px-3 py-2 rounded-[9px] text-[13px] font-sans transition-all duration-150 active:scale-[0.99] active:opacity-90 cursor-pointer ${
                       isActive
                         ? isDark
                           ? 'bg-[#151922] text-[#f8fafc] font-medium border border-[#a3e635]/25 shadow-[0_0_20px_rgba(163,230,53,0.08)]'

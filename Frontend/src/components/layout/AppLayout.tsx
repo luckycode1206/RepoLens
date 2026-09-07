@@ -4,6 +4,7 @@ import { AppSidebar } from './AppSidebar';
 import { AppHeader } from './AppHeader';
 import { AppBackgroundVideo } from './AppBackgroundVideo';
 import { CommandPaletteModal } from '../common/CommandPaletteModal';
+import { FountainReveal } from '../common/FountainReveal';
 import { useApp } from '../../context';
 
 export const AppLayout: React.FC = () => {
@@ -25,7 +26,9 @@ export const AppLayout: React.FC = () => {
         }`}
       >
         <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
-          <Outlet />
+          <FountainReveal>
+            <Outlet />
+          </FountainReveal>
         </div>
       </main>
     </div>

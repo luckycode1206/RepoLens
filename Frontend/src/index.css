@@ -906,3 +906,178 @@ select:hover:not(:focus):not(:disabled) {
   }
 }
 
+/* ==========================================================================
+   FOUNTAIN REVEAL PAGE TRANSITION SYSTEM
+   Left-to-Right flowing burst propagation with subtle fan-shaped vertical offsets
+   ========================================================================== */
+
+@keyframes fountainRevealMotion {
+  0% {
+    opacity: 0.65;
+    transform: translate3d(var(--fountain-x, -32px), var(--fountain-y, 0px), 0) scale(var(--fountain-scale, 0.985));
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Immediate subtle click feedback on sidebar navigation rows */
+aside a.group:active {
+  transform: translateX(1.5px) scale(0.99) !important;
+  opacity: 0.92 !important;
+}
+
+/* Fountain container wrapper */
+.fountain-reveal-viewport {
+  width: 100%;
+  position: relative;
+}
+
+/* Staggered Fountain Sections: Top-level destination page blocks */
+.fountain-reveal-viewport > div > :nth-child(1),
+.fountain-reveal-viewport > :nth-child(1) {
+  --fountain-x: -34px;
+  --fountain-y: 0px;
+  --fountain-scale: 0.98;
+  animation: fountainRevealMotion 320ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport > div > :nth-child(2),
+.fountain-reveal-viewport > :nth-child(2) {
+  --fountain-x: -30px;
+  --fountain-y: 8px;
+  --fountain-scale: 0.985;
+  animation: fountainRevealMotion 330ms cubic-bezier(0.22, 1, 0.36, 1) 45ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport > div > :nth-child(3),
+.fountain-reveal-viewport > :nth-child(3) {
+  --fountain-x: -26px;
+  --fountain-y: -3px;
+  --fountain-scale: 0.988;
+  animation: fountainRevealMotion 340ms cubic-bezier(0.22, 1, 0.36, 1) 90ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport > div > :nth-child(4),
+.fountain-reveal-viewport > :nth-child(4) {
+  --fountain-x: -22px;
+  --fountain-y: -8px;
+  --fountain-scale: 0.99;
+  animation: fountainRevealMotion 350ms cubic-bezier(0.22, 1, 0.36, 1) 135ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport > div > :nth-child(5),
+.fountain-reveal-viewport > :nth-child(5) {
+  --fountain-x: -18px;
+  --fountain-y: 4px;
+  --fountain-scale: 0.992;
+  animation: fountainRevealMotion 360ms cubic-bezier(0.22, 1, 0.36, 1) 180ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport > div > :nth-child(n+6),
+.fountain-reveal-viewport > :nth-child(n+6) {
+  --fountain-x: -14px;
+  --fountain-y: -4px;
+  --fountain-scale: 0.995;
+  animation: fountainRevealMotion 370ms cubic-bezier(0.22, 1, 0.36, 1) 225ms both;
+  will-change: transform, opacity;
+}
+
+/* Horizontal Left -> Right fountain stagger for cards/metric grids */
+.fountain-reveal-viewport .grid > :nth-child(1) {
+  --fountain-x: -28px;
+  --fountain-y: 6px;
+  animation: fountainRevealMotion 330ms cubic-bezier(0.22, 1, 0.36, 1) 95ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport .grid > :nth-child(2) {
+  --fountain-x: -24px;
+  --fountain-y: -4px;
+  animation: fountainRevealMotion 340ms cubic-bezier(0.22, 1, 0.36, 1) 135ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport .grid > :nth-child(3) {
+  --fountain-x: -20px;
+  --fountain-y: 6px;
+  animation: fountainRevealMotion 350ms cubic-bezier(0.22, 1, 0.36, 1) 175ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport .grid > :nth-child(4) {
+  --fountain-x: -16px;
+  --fountain-y: -6px;
+  animation: fountainRevealMotion 360ms cubic-bezier(0.22, 1, 0.36, 1) 215ms both;
+  will-change: transform, opacity;
+}
+
+.fountain-reveal-viewport .grid > :nth-child(n+5) {
+  --fountain-x: -12px;
+  --fountain-y: 2px;
+  animation: fountainRevealMotion 370ms cubic-bezier(0.22, 1, 0.36, 1) 255ms both;
+  will-change: transform, opacity;
+}
+
+/* Responsive adjustment for mobile devices */
+@media (max-width: 768px) {
+  .fountain-reveal-viewport > div > :nth-child(1),
+  .fountain-reveal-viewport > :nth-child(1) {
+    --fountain-x: -18px;
+    --fountain-y: 0px;
+  }
+  .fountain-reveal-viewport > div > :nth-child(2),
+  .fountain-reveal-viewport > :nth-child(2) {
+    --fountain-x: -15px;
+    --fountain-y: 4px;
+    animation-delay: 35ms;
+  }
+  .fountain-reveal-viewport > div > :nth-child(3),
+  .fountain-reveal-viewport > :nth-child(3) {
+    --fountain-x: -13px;
+    --fountain-y: -2px;
+    animation-delay: 70ms;
+  }
+  .fountain-reveal-viewport > div > :nth-child(4),
+  .fountain-reveal-viewport > :nth-child(4) {
+    --fountain-x: -11px;
+    --fountain-y: -3px;
+    animation-delay: 105ms;
+  }
+  .fountain-reveal-viewport > div > :nth-child(5),
+  .fountain-reveal-viewport > :nth-child(5) {
+    --fountain-x: -9px;
+    --fountain-y: 2px;
+    animation-delay: 140ms;
+  }
+  .fountain-reveal-viewport > div > :nth-child(n+6),
+  .fountain-reveal-viewport > :nth-child(n+6) {
+    --fountain-x: -7px;
+    --fountain-y: -2px;
+    animation-delay: 175ms;
+  }
+  .fountain-reveal-viewport .grid > :nth-child(1) { --fountain-x: -14px; --fountain-y: 3px; animation-delay: 70ms; }
+  .fountain-reveal-viewport .grid > :nth-child(2) { --fountain-x: -12px; --fountain-y: -2px; animation-delay: 100ms; }
+  .fountain-reveal-viewport .grid > :nth-child(3) { --fountain-x: -10px; --fountain-y: 3px; animation-delay: 130ms; }
+  .fountain-reveal-viewport .grid > :nth-child(4) { --fountain-x: -8px; --fountain-y: -2px; animation-delay: 160ms; }
+}
+
+/* Accessibility: Respect prefers-reduced-motion for Fountain Reveal */
+@media (prefers-reduced-motion: reduce) {
+  .fountain-reveal-viewport,
+  .fountain-reveal-viewport > div > *,
+  .fountain-reveal-viewport .grid > * {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    will-change: auto !important;
+  }
+}
+
