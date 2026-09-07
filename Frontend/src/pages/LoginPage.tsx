@@ -24,6 +24,7 @@ export const LoginPage: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [authSuccess, setAuthSuccess] = useState(false);
+  const [focusedField, setFocusedField] = useState<'email' | 'password' | null>(null);
 
   const isDark = theme !== 'light';
 
@@ -145,27 +146,57 @@ export const LoginPage: React.FC = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Work Email Address */}
             <div className="space-y-1.5">
-              <label
-                htmlFor="login-email"
-                className={`block font-sans text-xs font-medium ${
-                  isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
-                }`}
-              >
-                Work Email Address
-              </label>
-              <input
-                id="login-email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="developer@company.com"
-                className={`w-full px-3.5 py-2.5 rounded-xl border font-mono text-xs transition-all duration-200 focus:outline-none ${
-                  isDark
-                    ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40 focus:shadow-[0_0_12px_rgba(182,255,60,0.15)]'
-                    : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40 focus:shadow-[0_0_12px_rgba(4,106,56,0.15)]'
-                }`}
-              />
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="login-email"
+                  className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                    focusedField === 'email'
+                      ? isDark
+                        ? 'text-[#B6FF3C]'
+                        : 'text-[#046A38]'
+                      : isDark
+                      ? 'text-[#E4E8E1]'
+                      : 'text-[#181D17]'
+                  }`}
+                >
+                  <span>Work Email Address</span>
+                  {focusedField === 'email' && (
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                      }`}
+                    />
+                  )}
+                </label>
+                {focusedField === 'email' && (
+                  <span
+                    className={`text-[10px] font-mono tracking-wider uppercase font-semibold animate-pulse ${
+                      isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
+                    }`}
+                  >
+                    Typing...
+                  </span>
+                )}
+              </div>
+
+              <div className="repolens-3d-input-group">
+                <div
+                  className={`repolens-3d-halo ${
+                    focusedField === 'email' ? 'is-active' : ''
+                  }`}
+                />
+                <input
+                  id="login-email"
+                  type="email"
+                  required
+                  value={email}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField(null)}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="developer@company.com"
+                  className="repolens-3d-input"
+                />
+              </div>
             </div>
 
             {/* Password Field */}
@@ -173,11 +204,24 @@ export const LoginPage: React.FC = () => {
               <div className="flex items-center justify-between">
                 <label
                   htmlFor="login-password"
-                  className={`block font-sans text-xs font-medium ${
-                    isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
+                  className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                    focusedField === 'password'
+                      ? isDark
+                        ? 'text-[#B6FF3C]'
+                        : 'text-[#046A38]'
+                      : isDark
+                      ? 'text-[#E4E8E1]'
+                      : 'text-[#181D17]'
                   }`}
                 >
-                  Workstation Password
+                  <span>Workstation Password</span>
+                  {focusedField === 'password' && (
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                      }`}
+                    />
+                  )}
                 </label>
                 <button
                   type="button"
@@ -192,27 +236,30 @@ export const LoginPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className="relative flex items-center">
+              <div className="repolens-3d-input-group flex items-center">
+                <div
+                  className={`repolens-3d-halo ${
+                    focusedField === 'password' ? 'is-active' : ''
+                  }`}
+                />
                 <input
                   id="login-password"
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
+                  onFocus={() => setFocusedField('password')}
+                  onBlur={() => setFocusedField(null)}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className={`w-full pl-3.5 pr-10 py-2.5 rounded-xl border font-mono text-xs tracking-wider transition-all duration-200 focus:outline-none ${
-                    isDark
-                      ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40 focus:shadow-[0_0_12px_rgba(182,255,60,0.15)]'
-                      : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40 focus:shadow-[0_0_12px_rgba(4,106,56,0.15)]'
-                  }`}
+                  className="repolens-3d-input pr-10 tracking-wider"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className={`absolute right-3 p-1 rounded-md transition-colors ${
+                  className={`absolute right-3 z-10 p-1.5 rounded-md transition-colors cursor-pointer ${
                     isDark
-                      ? 'text-[#7D8878] hover:text-[#F2F2F2] hover:bg-[#1E241E]'
-                      : 'text-[#8A8275] hover:text-[#181D17] hover:bg-[#E8E0D0]'
+                      ? 'text-[#7D8878] hover:text-[#B6FF3C] hover:bg-[#1E241E]'
+                      : 'text-[#8A8275] hover:text-[#046A38] hover:bg-[#E8E0D0]'
                   }`}
                   title={showPassword ? 'Hide password' : 'Show password'}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
@@ -225,6 +272,7 @@ export const LoginPage: React.FC = () => {
                 </button>
               </div>
             </div>
+
 
             {/* "Remember this workstation" Checkbox */}
             <div className="pt-1 flex items-center justify-between text-xs">

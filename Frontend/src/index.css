@@ -593,3 +593,137 @@ html.light,
   }
 }
 
+/* ==========================================================================
+   RepoLens Dynamic 3D Interactive Input System
+   ========================================================================== */
+.repolens-3d-input-group {
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.repolens-3d-input {
+  width: 100%;
+  border-radius: 0.75rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  padding: 0.625rem 0.875rem;
+  outline: none;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease,
+              background 0.2s ease;
+  will-change: transform, box-shadow, border-color;
+}
+
+/* Dark Mode: Tactile 3D Cockpit Well */
+.dark .repolens-3d-input,
+:root:not(.light) .repolens-3d-input {
+  background: linear-gradient(180deg, #101310 0%, #151915 100%);
+  border: 1px solid #262E25;
+  color: #F2F2F2;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.dark .repolens-3d-input::placeholder,
+:root:not(.light) .repolens-3d-input::placeholder {
+  color: #556052;
+}
+
+.dark .repolens-3d-input:hover,
+:root:not(.light) .repolens-3d-input:hover {
+  border-color: #384536;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+/* Dark Mode: Elevated Dynamic 3D Typing Highlight */
+.dark .repolens-3d-input:focus,
+.dark .repolens-3d-input.is-active,
+:root:not(.light) .repolens-3d-input:focus,
+:root:not(.light) .repolens-3d-input.is-active {
+  background: linear-gradient(180deg, #131813 0%, #1A201A 100%);
+  border-color: #B6FF2E !important;
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 0 12px rgba(182, 255, 46, 0.08),
+    0 0 0 1px #B6FF2E,
+    0 6px 20px rgba(182, 255, 46, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Light Mode: Tactile 3D Paper Well */
+.light .repolens-3d-input,
+[data-theme="light"] .repolens-3d-input {
+  background: linear-gradient(180deg, #FAF6EE 0%, #F3EBDC 100%);
+  border: 1px solid #D8CDB6;
+  color: #181D17;
+  box-shadow: 
+    inset 0 2px 3px rgba(40, 30, 20, 0.08),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.8),
+    0 1px 2px rgba(40, 30, 20, 0.05);
+}
+
+.light .repolens-3d-input::placeholder,
+[data-theme="light"] .repolens-3d-input::placeholder {
+  color: #9C9384;
+}
+
+.light .repolens-3d-input:hover,
+[data-theme="light"] .repolens-3d-input:hover {
+  border-color: #C6B99F;
+  box-shadow: 
+    inset 0 2px 3px rgba(40, 30, 20, 0.1),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.9),
+    0 2px 6px rgba(40, 30, 20, 0.08);
+}
+
+/* Light Mode: Elevated Dynamic 3D Typing Highlight */
+.light .repolens-3d-input:focus,
+.light .repolens-3d-input.is-active,
+[data-theme="light"] .repolens-3d-input:focus,
+[data-theme="light"] .repolens-3d-input.is-active {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EE 100%);
+  border-color: #046A38 !important;
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 1px 2px rgba(4, 106, 56, 0.06),
+    inset 0 0 10px rgba(4, 106, 56, 0.07),
+    0 0 0 1px #046A38,
+    0 6px 18px rgba(4, 106, 56, 0.2),
+    0 2px 5px rgba(40, 30, 20, 0.08) !important;
+}
+
+/* Dynamic Ambient Glow Behind 3D Input When Typing */
+.repolens-3d-halo {
+  position: absolute;
+  inset: -3px;
+  border-radius: 0.9rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 0;
+}
+
+.repolens-3d-halo.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dark .repolens-3d-halo {
+  background: radial-gradient(circle at 50% 50%, rgba(182, 255, 46, 0.2), transparent 75%);
+}
+
+.light .repolens-3d-halo {
+  background: radial-gradient(circle at 50% 50%, rgba(4, 106, 56, 0.18), transparent 75%);
+}
+

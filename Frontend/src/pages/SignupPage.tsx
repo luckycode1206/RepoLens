@@ -25,6 +25,7 @@ export const SignupPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [focusedField, setFocusedField] = useState<'name' | 'team' | 'email' | 'password' | null>(null);
 
   const isDark = theme !== 'light';
 
@@ -158,97 +159,207 @@ export const SignupPage: React.FC = () => {
           {/* Registration Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Full Name */}
               <div className="space-y-1.5">
-                <label
-                  className={`block font-sans text-xs font-medium ${
-                    isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
-                  }`}
-                >
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className={`w-full px-3.5 py-2.5 rounded-xl border font-mono text-xs transition-all duration-200 focus:outline-none ${
-                    isDark
-                      ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40'
-                      : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40'
-                  }`}
-                />
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="signup-name"
+                    className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                      focusedField === 'name'
+                        ? isDark
+                          ? 'text-[#B6FF3C]'
+                          : 'text-[#046A38]'
+                        : isDark
+                        ? 'text-[#E4E8E1]'
+                        : 'text-[#181D17]'
+                    }`}
+                  >
+                    <span>Full Name</span>
+                    {focusedField === 'name' && (
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                          isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                        }`}
+                      />
+                    )}
+                  </label>
+                </div>
+                <div className="repolens-3d-input-group">
+                  <div
+                    className={`repolens-3d-halo ${
+                      focusedField === 'name' ? 'is-active' : ''
+                    }`}
+                  />
+                  <input
+                    id="signup-name"
+                    type="text"
+                    required
+                    value={fullName}
+                    onFocus={() => setFocusedField('name')}
+                    onBlur={() => setFocusedField(null)}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Alex Vance"
+                    className="repolens-3d-input"
+                  />
+                </div>
               </div>
 
+              {/* Team Alias */}
               <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="signup-team"
+                    className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                      focusedField === 'team'
+                        ? isDark
+                          ? 'text-[#B6FF3C]'
+                          : 'text-[#046A38]'
+                        : isDark
+                        ? 'text-[#E4E8E1]'
+                        : 'text-[#181D17]'
+                    }`}
+                  >
+                    <span>Team Alias</span>
+                    {focusedField === 'team' && (
+                      <span
+                        className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                          isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                        }`}
+                      />
+                    )}
+                  </label>
+                </div>
+                <div className="repolens-3d-input-group">
+                  <div
+                    className={`repolens-3d-halo ${
+                      focusedField === 'team' ? 'is-active' : ''
+                    }`}
+                  />
+                  <input
+                    id="signup-team"
+                    type="text"
+                    required
+                    value={teamName}
+                    onFocus={() => setFocusedField('team')}
+                    onBlur={() => setFocusedField(null)}
+                    onChange={(e) => setTeamName(e.target.value)}
+                    placeholder="Core Architecture"
+                    className="repolens-3d-input"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Work Email Address */}
+            <div className="space-y-1.5">
+              <div className="flex items-center justify-between">
                 <label
-                  className={`block font-sans text-xs font-medium ${
-                    isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
+                  htmlFor="signup-email"
+                  className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                    focusedField === 'email'
+                      ? isDark
+                        ? 'text-[#B6FF3C]'
+                        : 'text-[#046A38]'
+                      : isDark
+                      ? 'text-[#E4E8E1]'
+                      : 'text-[#181D17]'
                   }`}
                 >
-                  Team Alias
+                  <span>Work Email Address</span>
+                  {focusedField === 'email' && (
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                      }`}
+                    />
+                  )}
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                  className={`w-full px-3.5 py-2.5 rounded-xl border font-mono text-xs transition-all duration-200 focus:outline-none ${
-                    isDark
-                      ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40'
-                      : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40'
+                {focusedField === 'email' && (
+                  <span
+                    className={`text-[10px] font-mono tracking-wider uppercase font-semibold animate-pulse ${
+                      isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
+                    }`}
+                  >
+                    Typing...
+                  </span>
+                )}
+              </div>
+              <div className="repolens-3d-input-group">
+                <div
+                  className={`repolens-3d-halo ${
+                    focusedField === 'email' ? 'is-active' : ''
                   }`}
+                />
+                <input
+                  id="signup-email"
+                  type="email"
+                  required
+                  value={email}
+                  onFocus={() => setFocusedField('email')}
+                  onBlur={() => setFocusedField(null)}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="alex.vance@blackmesa.tech"
+                  className="repolens-3d-input"
                 />
               </div>
             </div>
 
+            {/* Workstation Password */}
             <div className="space-y-1.5">
-              <label
-                className={`block font-sans text-xs font-medium ${
-                  isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
-                }`}
-              >
-                Work Email Address
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`w-full px-3.5 py-2.5 rounded-xl border font-mono text-xs transition-all duration-200 focus:outline-none ${
-                  isDark
-                    ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40'
-                    : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40'
-                }`}
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label
-                className={`block font-sans text-xs font-medium ${
-                  isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
-                }`}
-              >
-                Workstation Password
-              </label>
-              <div className="relative flex items-center">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="signup-password"
+                  className={`flex items-center gap-1.5 font-sans text-xs font-medium transition-colors duration-200 ${
+                    focusedField === 'password'
+                      ? isDark
+                        ? 'text-[#B6FF3C]'
+                        : 'text-[#046A38]'
+                      : isDark
+                      ? 'text-[#E4E8E1]'
+                      : 'text-[#181D17]'
+                  }`}
+                >
+                  <span>Workstation Password</span>
+                  {focusedField === 'password' && (
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+                        isDark ? 'bg-[#B6FF3C]' : 'bg-[#046A38]'
+                      }`}
+                    />
+                  )}
+                </label>
+                <span
+                  className={`text-[11px] font-mono font-semibold ${
+                    isDark ? 'text-[#9A9A9A]' : 'text-[#6E685E]'
+                  }`}
+                >
+                  Min 8 chars
+                </span>
+              </div>
+              <div className="repolens-3d-input-group flex items-center">
+                <div
+                  className={`repolens-3d-halo ${
+                    focusedField === 'password' ? 'is-active' : ''
+                  }`}
+                />
                 <input
+                  id="signup-password"
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
+                  onFocus={() => setFocusedField('password')}
+                  onBlur={() => setFocusedField(null)}
                   onChange={(e) => setPassword(e.target.value)}
-                  className={`w-full pl-3.5 pr-10 py-2.5 rounded-xl border font-mono text-xs tracking-wider transition-all duration-200 focus:outline-none ${
-                    isDark
-                      ? 'bg-[#171B17] border-[#2A2A2A] text-[#F2F2F2] placeholder-[#646E60] focus:border-[#B6FF3C] focus:ring-1 focus:ring-[#B6FF3C]/40'
-                      : 'bg-[#FAF6EE] border-[#E0D7C6] text-[#181D17] placeholder-[#9E9588] focus:border-[#046A38] focus:ring-1 focus:ring-[#046A38]/40'
-                  }`}
+                  placeholder="••••••••••••"
+                  className="repolens-3d-input pr-10 tracking-wider"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className={`absolute right-3 p-1 rounded-md transition-colors ${
+                  className={`absolute right-3 z-10 p-1.5 rounded-md transition-colors cursor-pointer ${
                     isDark
-                      ? 'text-[#7D8878] hover:text-[#F2F2F2] hover:bg-[#1E241E]'
-                      : 'text-[#8A8275] hover:text-[#181D17] hover:bg-[#E8E0D0]'
+                      ? 'text-[#7D8878] hover:text-[#B6FF3C] hover:bg-[#1E241E]'
+                      : 'text-[#8A8275] hover:text-[#046A38] hover:bg-[#E8E0D0]'
                   }`}
                   title={showPassword ? 'Hide password' : 'Show password'}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
