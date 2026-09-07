@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { RepoLensLogo } from '../common/RepoLensLogo';
 import { useApp } from '../../context';
+import { setFountainOrigin } from '../../utils/fountainTransition';
 
 export interface AppSidebarProps {
   /** Optional theme override: 'dark' or 'light'. If omitted, detects active app theme. */
@@ -277,6 +278,7 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
                     key={item.to}
                     to={item.to}
                     title={isCollapsed ? item.label : undefined}
+                    onClick={(e) => setFountainOrigin(e.clientX, e.clientY)}
                     className={`group relative flex items-center justify-between px-3 py-2 rounded-[9px] text-[13px] font-sans transition-all duration-150 active:scale-[0.99] active:opacity-90 cursor-pointer ${
                       isActive
                         ? isDark
