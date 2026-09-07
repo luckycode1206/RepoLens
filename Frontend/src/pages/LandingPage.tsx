@@ -65,7 +65,7 @@ export const LandingPage: React.FC = () => {
               muted
               playsInline
               preload="auto"
-              className="w-full h-full object-cover mix-blend-multiply opacity-90"
+              className="w-full h-full object-cover mix-blend-multiply opacity-45"
             >
               <source src={lightHeroVideo} type="video/mp4" />
               <source src="/vid_light_emerald.mp4" type="video/mp4" />
