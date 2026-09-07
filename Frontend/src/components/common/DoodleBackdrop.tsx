@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useApp } from '../../context';
 
 interface DoodleItem {
@@ -364,6 +364,8 @@ export interface DoodleBackdropProps {
  * RepoLens Interactive Doodle Backdrop
  * 
  * Renders technical doodles behind the main dialog card:
+ * - Ultra-responsive reaction even on fast cursor sweep (swept-volume segment interpolation)
+ * - Zero-rerender direct DOM manipulation for maximum 120 FPS performance
  * - Reactive hover response (scales 1.35x, rotates, glows with signature brand accent)
  * - Cursor-following atmospheric ambient illumination
  * - Automatic dual-theme palette: Electric Lime in Dark Mode, Deep Emerald in Light Mode
@@ -372,38 +374,118 @@ export const DoodleBackdrop: React.FC<DoodleBackdropProps> = ({ className = '' }
   const { theme } = useApp();
   const isDark = theme !== 'light';
 
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 }); // percentages
+  const ambientRef = useRef<HTMLDivElement>(null);
+  const doodleElsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const timeoutsRef = useRef<Map<number, number>>(new Map());
+  const prevMouseRef = useRef<{ x: number; y: number } | null>(null);
   const doodles = STATIC_DOODLES;
 
-  // Track cursor coordinates for atmospheric radial aura
+  // Track cursor coordinates for atmospheric radial aura & fast-sweep reactive doodle wake
   useEffect(() => {
+    const ambientEl = ambientRef.current;
+    const timeouts = timeoutsRef.current;
+    const doodleEls = doodleElsRef.current;
+
+    const ambientColor = isDark
+      ? 'rgba(182, 255, 46, 0.09)'
+      : 'rgba(4, 106, 56, 0.08)';
+
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100,
-      });
+      const curX = e.clientX;
+      const curY = e.clientY;
+      const prev = prevMouseRef.current;
+      prevMouseRef.current = { x: curX, y: curY };
+
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+
+      // Update ambient aura directly without triggering React re-renders
+      if (ambientEl) {
+        const pctX = (curX / winW) * 100;
+        const pctY = (curY / winH) * 100;
+        ambientEl.style.background = `radial-gradient(520px circle at ${pctX}% ${pctY}%, ${ambientColor}, transparent 70%)`;
+      }
+
+      // Segment distance interpolation for fast cursor movements
+      const x1 = prev ? prev.x : curX;
+      const y1 = prev ? prev.y : curY;
+      const x2 = curX;
+      const y2 = curY;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const l2 = dx * dx + dy * dy;
+
+      for (let i = 0; i < doodles.length; i++) {
+        const el = doodleEls[i];
+        if (!el) continue;
+
+        const d = doodles[i];
+        const px = (d.cx / 100) * winW;
+        const py = (d.cy / 100) * winH;
+
+        let dist: number;
+        if (l2 === 0) {
+          dist = Math.hypot(px - curX, py - curY);
+        } else {
+          let t = ((px - x1) * dx + (py - y1) * dy) / l2;
+          t = Math.max(0, Math.min(1, t));
+          dist = Math.hypot(px - (x1 + t * dx), py - (y1 + t * dy));
+        }
+
+        // Generous reaction threshold (radius + 28px buffer)
+        const threshold = (d.size / 2) + 28;
+        if (dist <= threshold) {
+          if (!el.classList.contains('is-lit')) {
+            el.classList.add('is-lit');
+          }
+          const existingTimer = timeouts.get(i);
+          if (existingTimer) {
+            window.clearTimeout(existingTimer);
+          }
+          const timer = window.setTimeout(() => {
+            el.classList.remove('is-lit');
+            timeouts.delete(i);
+          }, 450);
+          timeouts.set(i, timer);
+        }
+      }
+    };
+
+    const handleMouseLeave = () => {
+      prevMouseRef.current = null;
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+    window.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseleave', handleMouseLeave);
+      timeouts.forEach((timer) => window.clearTimeout(timer));
+      timeouts.clear();
+    };
+  }, [doodles, isDark]);
 
   return (
     <div className={`repolens-doodle-field ${className}`}>
       {/* Interactive Cursor-Tracking Ambient Glow */}
       <div
+        ref={ambientRef}
         className="repolens-doodle-ambient"
         style={{
           background: isDark
-            ? `radial-gradient(520px circle at ${mousePos.x}% ${mousePos.y}%, rgba(182, 255, 46, 0.08), transparent 70%)`
-            : `radial-gradient(520px circle at ${mousePos.x}% ${mousePos.y}%, rgba(4, 106, 56, 0.07), transparent 70%)`,
+            ? 'radial-gradient(520px circle at 50% 50%, rgba(182, 255, 46, 0.09), transparent 70%)'
+            : 'radial-gradient(520px circle at 50% 50%, rgba(4, 106, 56, 0.08), transparent 70%)',
         }}
       />
 
       {/* Field of Interactive Doodles */}
-      {doodles.map((d) => (
+      {doodles.map((d, idx) => (
         <div
           key={d.id}
+          ref={(el) => {
+            doodleElsRef.current[idx] = el;
+          }}
           className="repolens-doodle"
           data-type={d.type}
           style={
@@ -428,3 +510,4 @@ export const DoodleBackdrop: React.FC<DoodleBackdropProps> = ({ className = '' }
     </div>
   );
 };
+
