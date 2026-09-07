@@ -48,8 +48,8 @@ export const LoginPage: React.FC = () => {
       {/* Interactive Reactive Technical Doodle Backdrop */}
       <DoodleBackdrop />
 
-      {/* Top Header with Logo and Theme Switcher */}
-      <header className="relative z-10 flex items-center justify-between max-w-5xl mx-auto w-full">
+      {/* Top Header with Logo */}
+      <header className="relative z-10 flex items-center justify-between w-full">
         <button
           type="button"
           onClick={(e) => waterNavigate('/', e)}
