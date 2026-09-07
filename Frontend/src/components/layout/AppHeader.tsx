@@ -18,7 +18,7 @@ export const AppHeader: React.FC = () => {
     if (path.startsWith('/progress')) return '';
     if (path.startsWith('/architecture')) return '';
     if (path.startsWith('/security')) return '';
-    if (path.startsWith('/dependencies')) return 'Dependency Graph & Licenses';
+    if (path.startsWith('/dependencies')) return '';
     if (path.startsWith('/blast-radius')) return 'Blast Radius Simulation';
     if (path.startsWith('/issues/')) return 'Issue Code Evidence & Remediation';
     if (path.startsWith('/issues')) return 'Repository Findings & Issues';
