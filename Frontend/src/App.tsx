@@ -20,18 +20,16 @@ import { FileExplorerPage } from './pages/FileExplorerPage';
 import { FileDetailPage } from './pages/FileDetailPage';
 import { AiAssistantPage } from './pages/AiAssistantPage';
 import { SettingsPage } from './pages/SettingsPage';
-import { InkTransitionProvider } from './context/InkTransitionContext';
 
 export const App: React.FC = () => {
   return (
     <AppProvider>
       <BrowserRouter>
-        <InkTransitionProvider>
-          <Routes>
-            {/* Public Landing & Authentication */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
+        <Routes>
+          {/* Public Landing & Authentication */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
 
           {/* Authenticated Workspace / Console Layout */}
           <Route element={<AppLayout />}>
@@ -57,8 +55,7 @@ export const App: React.FC = () => {
           {/* Catch-all Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </InkTransitionProvider>
-    </BrowserRouter>
+      </BrowserRouter>
     </AppProvider>
   );
 };

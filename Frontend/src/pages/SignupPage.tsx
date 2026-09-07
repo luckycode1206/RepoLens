@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   ArrowRight,
   Loader2,
@@ -9,12 +9,11 @@ import {
   EyeOff,
 } from 'lucide-react';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
-import { useApp, useInkNavigate } from '../context';
+import { useApp } from '../context';
 import { ThemeToggle } from '../components/common/ThemeToggle';
 
 export const SignupPage: React.FC = () => {
   const navigate = useNavigate();
-  const { inkNavigate } = useInkNavigate();
   const { theme } = useApp();
 
   const [fullName, setFullName] = useState('Alex Vance');
@@ -80,13 +79,12 @@ export const SignupPage: React.FC = () => {
 
       {/* Top Header with Logo and Theme Switcher */}
       <header className="relative z-10 flex items-center justify-between max-w-5xl mx-auto w-full">
-        <button
-          type="button"
-          onClick={(e) => inkNavigate('/', e)}
-          className="transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container rounded-lg cursor-pointer"
+        <Link
+          to="/"
+          className="transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-container rounded-lg"
         >
           <RepoLensLogo size="md" />
-        </button>
+        </Link>
 
         {/* Theme Switch Toggle */}
         <ThemeToggle size="md" />
@@ -368,15 +366,14 @@ export const SignupPage: React.FC = () => {
             }`}
           >
             <span>Already have an account? </span>
-            <button
-              type="button"
-              onClick={(e) => inkNavigate('/login', e)}
-              className={`font-semibold hover:underline transition-colors cursor-pointer ${
+            <Link
+              to="/login"
+              className={`font-semibold hover:underline transition-colors ${
                 isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
               }`}
             >
               Sign In
-            </button>
+            </Link>
           </div>
         </div>
       </main>

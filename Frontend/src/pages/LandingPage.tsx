@@ -2,12 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { ThemeToggle } from '../components/common/ThemeToggle';
-import { useApp, useInkNavigate } from '../context';
+import { useApp } from '../context';
 import darkHeroVideo from '../../lime_spark_B6FF2E_10s.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
-  const { inkNavigate } = useInkNavigate();
   const { theme } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -59,8 +58,8 @@ export const LandingPage: React.FC = () => {
           <div className="flex items-center gap-3">
             <ThemeToggle size="sm" />
             <button
-              onClick={(e) => inkNavigate('/login', e)}
-              className="px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold cursor-pointer"
+              onClick={() => navigate('/login')}
+              className="px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold"
             >
               Sign In
             </button>
