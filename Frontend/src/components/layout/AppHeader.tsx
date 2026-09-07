@@ -14,7 +14,7 @@ export const AppHeader: React.FC = () => {
     const path = location.pathname;
     if (path === '/' || path === '/overview' || path === '/app') return '';
     if (path.startsWith('/repositories/connect')) return 'Connect Repository';
-    if (path.startsWith('/repositories')) return 'Fleet Inventory';
+    if (path.startsWith('/repositories')) return '';
     if (path.startsWith('/progress')) return 'Pipeline Telemetry';
     if (path.startsWith('/architecture')) return 'Architecture Topology';
     if (path.startsWith('/security')) return 'Security Analysis';
