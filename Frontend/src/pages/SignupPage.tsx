@@ -12,7 +12,7 @@ import { DoodleBackdrop } from '../components/common/DoodleBackdrop';
 
 export const SignupPage: React.FC = () => {
   const { waterNavigate } = useWaterNavigate();
-  const { theme } = useApp();
+  const { theme, login } = useApp();
 
   const [fullName, setFullName] = useState('Alex Vance');
   const [email, setEmail] = useState('alex.vance@blackmesa.tech');
@@ -42,6 +42,7 @@ export const SignupPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    login(email, fullName);
     waterNavigate('/');
   };
 
@@ -408,7 +409,10 @@ export const SignupPage: React.FC = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              onClick={(e) => waterNavigate('/', e)}
+              onClick={(e) => {
+                login(email, fullName);
+                waterNavigate('/', e);
+              }}
               className={`page-link w-full h-11 rounded-xl font-sans text-xs font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 cursor-pointer ${
                 isDark
                   ? 'bg-[#B6FF3C] hover:bg-[#C4FF5E] text-[#0D0F0D] shadow-[0_0_20px_rgba(182,255,60,0.25)] hover:shadow-[0_0_28px_rgba(182,255,60,0.4)] focus-visible:ring-[#B6FF3C]'

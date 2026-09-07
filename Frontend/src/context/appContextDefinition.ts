@@ -1,6 +1,11 @@
 import { createContext } from 'react';
 import { Repository, ThemeMode } from '../types';
 
+export interface UserProfile {
+  email: string;
+  name?: string;
+}
+
 export interface AppContextType {
   activeRepoId: string;
   setActiveRepoId: (id: string) => void;
@@ -16,6 +21,11 @@ export interface AppContextType {
   setIsCommandPaletteOpen: (open: boolean) => void;
   sidebarCollapsed: boolean;
   setSidebarCollapsed: (collapsed: boolean) => void;
+  user: UserProfile | null;
+  setUser: (user: UserProfile | null) => void;
+  isAuthenticated: boolean;
+  login: (email?: string, name?: string) => void;
+  logout: () => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

@@ -2,7 +2,7 @@ import React, { useState, useEffect, startTransition } from 'react';
 import { Repository, ThemeMode } from '../types';
 import { repoService } from '../services/api';
 import { MOCK_REPOSITORIES } from '../services/mockData';
-import { AppContext } from './appContextDefinition';
+import { AppContext, UserProfile } from './appContextDefinition';
 import { triggerParticleThemeTransition } from '../utils/particleThemeTransition';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -18,6 +18,32 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    const saved = localStorage.getItem('repolens_user');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  });
+
+  const login = (email?: string, name?: string) => {
+    const u: UserProfile = {
+      email: email || 'developer@repolens.io',
+      name: name || (email ? email.split('@')[0] : 'Developer'),
+    };
+    setUser(u);
+    localStorage.setItem('repolens_user', JSON.stringify(u));
+  };
+
+  const logout = () => {
+    // Dummy for now as requested
+  };
+
+  const isAuthenticated = !!user;
 
   const refreshRepositories = async () => {
     const list = await repoService.getRepositories();
@@ -122,6 +148,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setIsCommandPaletteOpen,
         sidebarCollapsed,
         setSidebarCollapsed,
+        user,
+        setUser,
+        isAuthenticated,
+        login,
+        logout,
       }}
     >
       {children}
