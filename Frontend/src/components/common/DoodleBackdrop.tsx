@@ -186,10 +186,125 @@ const ICONS: Record<string, React.ReactNode> = {
       <path d="M58 32 L80 50 L58 68" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
     </>
   ),
+
+  zap: (
+    <path
+      d="M54 10 L22 54 H48 L44 90 L80 44 H52 Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+  ),
+
+  database: (
+    <>
+      <ellipse cx="50" cy="24" rx="34" ry="12" fill="none" stroke="currentColor" strokeWidth="4" />
+      <path d="M16 24 V50 C16 57 31 62 50 62 C69 62 84 57 84 50 V24" fill="none" stroke="currentColor" strokeWidth="4" />
+      <path d="M16 50 V76 C16 83 31 88 50 88 C69 88 84 83 84 76 V50" fill="none" stroke="currentColor" strokeWidth="4" />
+    </>
+  ),
+
+  shield: (
+    <path
+      d="M50 14 L80 26 V52 C80 72 50 88 50 88 C50 88 20 72 20 52 V26 Z"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4"
+      strokeLinejoin="round"
+    />
+  ),
+
+  gitpull: (
+    <>
+      <circle cx="28" cy="24" r="7" fill="currentColor" />
+      <circle cx="28" cy="76" r="7" fill="currentColor" />
+      <circle cx="72" cy="38" r="7" fill="currentColor" />
+      <line x1="28" y1="31" x2="28" y2="69" stroke="currentColor" strokeWidth="4" />
+      <path d="M72 45 V60 C72 70 38 72 28 64" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+    </>
+  ),
+
+  spark: (
+    <path
+      d="M50 12 Q50 50 88 50 Q50 50 50 88 Q50 50 12 50 Q50 50 50 12 Z"
+      fill="currentColor"
+      opacity=".75"
+    />
+  ),
+
+  pulse: (
+    <polyline
+      points="12,50 30,50 40,22 52,78 64,40 72,55 88,55"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="4.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  ),
+
+  network: (
+    <>
+      <circle cx="24" cy="30" r="8" fill="none" stroke="currentColor" strokeWidth="3.5" />
+      <circle cx="76" cy="30" r="8" fill="none" stroke="currentColor" strokeWidth="3.5" />
+      <circle cx="50" cy="74" r="8" fill="none" stroke="currentColor" strokeWidth="3.5" />
+      <line x1="31" y1="34" x2="69" y2="34" stroke="currentColor" strokeWidth="3" />
+      <line x1="28" y1="37" x2="45" y2="68" stroke="currentColor" strokeWidth="3" />
+      <line x1="72" y1="37" x2="55" y2="68" stroke="currentColor" strokeWidth="3" />
+    </>
+  ),
+
+  curlybrace: (
+    <>
+      <path
+        d="M32 18 C22 18 20 28 20 38 C20 45 14 48 10 50 C14 52 20 55 20 62 C20 72 22 82 32 82"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M68 18 C78 18 80 28 80 38 C80 45 86 48 90 50 C86 52 80 55 80 62 C80 72 78 82 68 82"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+    </>
+  ),
 };
 
-const FEATURES = ['lens', 'gitbranch', 'terminal', 'blast', 'tree', 'chip', 'bug', 'folder', 'cube', 'radar'];
-const FILLERS = ['plus', 'dots', 'hash', 'slashcode', 'bracket', 'arrowSmall', 'cursorArrow'];
+const FEATURES = [
+  'lens',
+  'gitbranch',
+  'terminal',
+  'blast',
+  'tree',
+  'chip',
+  'bug',
+  'folder',
+  'cube',
+  'radar',
+  'database',
+  'shield',
+  'gitpull',
+  'network',
+  'pulse',
+];
+
+const FILLERS = [
+  'plus',
+  'dots',
+  'hash',
+  'slashcode',
+  'bracket',
+  'arrowSmall',
+  'cursorArrow',
+  'zap',
+  'spark',
+  'curlybrace',
+];
 
 function createPrng(seed: number) {
   let s = seed % 2147483647;
@@ -204,8 +319,8 @@ function buildDoodleField(): DoodleItem[] {
   const prng = createPrng(1337);
   const rand = (min: number, max: number) => prng() * (max - min) + min;
   const pick = <T,>(arr: T[]) => arr[Math.floor(prng() * arr.length)];
-  const cols = 7;
-  const rows = 5;
+  const cols = 11;
+  const rows = 8;
   const cellW = 100 / cols;
   const cellH = 100 / rows;
   const items: DoodleItem[] = [];
@@ -213,16 +328,16 @@ function buildDoodleField(): DoodleItem[] {
 
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
-      if (prng() < 0.1) continue;
+      if (prng() < 0.05) continue;
 
-      const isFeature = idx % 3 === 0;
+      const isFeature = idx % 2 === 0;
       const type = isFeature ? pick(FEATURES) : pick(FILLERS);
-      const size = isFeature ? rand(46, 70) : rand(20, 34);
-      const opacity = isFeature ? rand(0.24, 0.44) : rand(0.12, 0.22);
+      const size = isFeature ? rand(40, 62) : rand(22, 34);
+      const opacity = isFeature ? rand(0.24, 0.44) : rand(0.14, 0.26);
       const rot = rand(-18, 18);
 
-      const cx = cellW * c + cellW / 2 + rand(-cellW * 0.26, cellW * 0.26);
-      const cy = cellH * r + cellH / 2 + rand(-cellH * 0.26, cellH * 0.26);
+      const cx = cellW * c + cellW / 2 + rand(-cellW * 0.28, cellW * 0.28);
+      const cy = cellH * r + cellH / 2 + rand(-cellH * 0.28, cellH * 0.28);
 
       items.push({
         id: `doodle-${r}-${c}-${idx}`,
