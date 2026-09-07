@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, startTransition } from 'react';
 import { Repository, ThemeMode } from '../types';
 import { repoService } from '../services/api';
 import { MOCK_REPOSITORIES } from '../services/mockData';
@@ -33,8 +33,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       : newTheme;
 
     if (target === theme) {
-      setThemeState(newTheme);
-      localStorage.setItem('repolens_theme', newTheme);
+      startTransition(() => {
+        setThemeState(newTheme);
+        localStorage.setItem('repolens_theme', newTheme);
+      });
       return;
     }
 
@@ -42,8 +44,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const originY = event?.clientY ?? (typeof window !== 'undefined' ? window.innerHeight / 2 : 0);
 
     triggerParticleThemeTransition(originX, originY, target, () => {
-      setThemeState(newTheme);
-      localStorage.setItem('repolens_theme', newTheme);
+      startTransition(() => {
+        setThemeState(newTheme);
+        localStorage.setItem('repolens_theme', newTheme);
+      });
     });
   };
 
@@ -53,8 +57,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const originY = event?.clientY ?? 32;
 
     triggerParticleThemeTransition(originX, originY, next, () => {
-      setThemeState(next);
-      localStorage.setItem('repolens_theme', next);
+      startTransition(() => {
+        setThemeState(next);
+        localStorage.setItem('repolens_theme', next);
+      });
     });
   };
 

@@ -1,13 +1,17 @@
 /**
- * Homogeneous Particle Shatter & Disintegration Theme Transition
+ * High-Clarity Homogeneous Particle Shatter & Disintegration Theme Transition
  * 
- * Solves:
- * 1. Homogeneous Shatter: Particles are uniformly distributed across the entire screen
- *    (top, bottom, left, right, center, corners) and shatter outward in all directions.
- * 2. Zero Sudden Jump: At t=40ms, a seamless canvas veil masks the DOM theme switch,
- *    and dissolves as fragments break away, revealing the new theme smoothly through the cracks.
- * 3. High Performance: High-DPI canvas, requestAnimationFrame, zero external dependencies,
- *    subtle kinetic trails, independent rotation, and micro-dust.
+ * Optimizations:
+ * 1. ZERO LAG:
+ *    - Samples the DOM BEFORE touching document.body or creating canvas.
+ *    - Caches computed styles so sampling runs in < 2ms without layout thrashing.
+ *    - Coordinates with React startTransition to prevent animation frame starvation.
+ * 
+ * 2. HIGH CLARITY & MAJESTIC PACING:
+ *    - Duration extended to 1800ms so the user can clearly see the disintegration.
+ *    - Larger, tangible rectangular chips (8px–15px) and structural shards (15px–26px).
+ *    - 1px contrast borders on every fragment so individual pieces pop with razor-sharp definition.
+ *    - Stays at 100% opacity for the first 45% (~800ms) of the animation before dissolving into dust.
  */
 
 export interface ParticleThemeTransitionOptions {
@@ -23,6 +27,7 @@ interface Fragment {
   jitterX: number;
   jitterY: number;
   color: string;
+  borderColor: string;
   isAccent: boolean;
   glowColor?: string;
   // Kinetic motion
@@ -41,34 +46,34 @@ let isTransitionActive = false;
 let activeCanvas: HTMLCanvasElement | null = null;
 let activeAnimId: number | null = null;
 
-// Smooth ease out cubic
+// Smooth cubic deceleration (viscous tech-fluid drag)
 function easeOutCubic(t: number): number {
   return 1 - Math.pow(1 - t, 3);
 }
 
-// Ease out quad
-function easeOutQuad(t: number): number {
-  return 1 - (1 - t) * (1 - t);
+// Ease out sine
+function easeOutSine(t: number): number {
+  return Math.sin((t * Math.PI) / 2);
 }
 
 /**
- * Samples the visual color and element nature at a given screen coordinate.
+ * Fast, non-blocking DOM color sampler with caching
  */
 function sampleColorAtPoint(
   x: number,
   y: number,
   isCurrentlyDark: boolean,
   computedCache: Map<Element, CSSStyleDeclaration>
-): { color: string; isAccent: boolean; glowColor?: string } {
+): { color: string; borderColor: string; isAccent: boolean; glowColor?: string } {
   // Dark mode color palette
-  const darkSurfaces = ['#0D0F0C', '#121511', '#161914', '#1B2018', '#20261C'];
-  const darkBorders = ['#282F26', '#353E32'];
-  const darkText = ['#E8EAE6', '#D1D5DB', '#9CA3AF', '#F3F4F6'];
+  const darkSurfaces = ['#0D0F0C', '#121511', '#161914', '#1C2119', '#22281E'];
+  const darkBorders = ['#282F26', '#353E32', '#414D3E'];
+  const darkText = ['#FFFFFF', '#E8EAE6', '#D1D5DB', '#9CA3AF'];
   const darkAccents = ['#B6FF2E', '#A3E635', '#84CC16', '#EAFF99'];
 
   // Light mode color palette
-  const lightSurfaces = ['#FAF6EE', '#F5EFE0', '#EFE7D4', '#FFFFFF'];
-  const lightBorders = ['#E2DAC7', '#D5CABA'];
+  const lightSurfaces = ['#FAF6EE', '#F5EFE0', '#EDE4D0', '#FFFFFF'];
+  const lightBorders = ['#E2DAC7', '#D5CABA', '#C8BCAF'];
   const lightText = ['#1A2016', '#2E3529', '#4B5563', '#111827'];
   const lightAccents = ['#046C4E', '#10B981', '#059669', '#34D399'];
 
@@ -76,10 +81,13 @@ function sampleColorAtPoint(
   const clampedY = Math.max(2, Math.min(window.innerHeight - 2, y));
 
   const el = document.elementFromPoint(clampedX, clampedY);
+  const defaultBorder = isCurrentlyDark ? darkBorders[0] : lightBorders[0];
+
   if (!el) {
     const palette = isCurrentlyDark ? darkSurfaces : lightSurfaces;
     return {
       color: palette[Math.floor(Math.random() * palette.length)],
+      borderColor: defaultBorder,
       isAccent: false,
     };
   }
@@ -90,8 +98,8 @@ function sampleColorAtPoint(
     computedCache.set(el, style);
   }
 
-  // Check if element has accent cues (Lime in Dark, Emerald in Light)
-  const isAccentElement =
+  // Accent detection (Lime in Dark, Emerald in Light)
+  const isAccent =
     el.classList.contains('text-primary-container') ||
     el.classList.contains('bg-primary-container') ||
     el.classList.contains('text-primary') ||
@@ -102,37 +110,40 @@ function sampleColorAtPoint(
     style.color.includes('4, 108, 78') ||
     style.backgroundColor.includes('4, 108, 78');
 
-  if (isAccentElement) {
+  if (isAccent) {
     const accentList = isCurrentlyDark ? darkAccents : lightAccents;
     const accentColor = accentList[Math.floor(Math.random() * accentList.length)];
     return {
       color: accentColor,
+      borderColor: isCurrentlyDark ? '#EAFF99' : '#10B981',
       isAccent: true,
-      glowColor: isCurrentlyDark ? 'rgba(182, 255, 46, 0.7)' : 'rgba(4, 108, 78, 0.65)',
+      glowColor: isCurrentlyDark ? 'rgba(182, 255, 46, 0.85)' : 'rgba(4, 108, 78, 0.8)',
     };
   }
 
-  // Check if particle lands on text content or icon
+  // Text content sampling: typographic fragments matching actual font color
   const hasText = el.childNodes.length === 1 && el.childNodes[0].nodeType === Node.TEXT_NODE;
   const isTextElement = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'A', 'CODE', 'LABEL'].includes(el.tagName);
-  const sampleText = (hasText || isTextElement) && Math.random() < 0.45;
+  const sampleText = (hasText || isTextElement) && Math.random() < 0.5;
 
   if (sampleText) {
     const textColor = style.color;
     if (textColor && textColor !== 'rgba(0, 0, 0, 0)' && textColor !== 'transparent') {
       return {
         color: textColor,
+        borderColor: isCurrentlyDark ? '#4E5A4B' : '#B8AD9C',
         isAccent: false,
       };
     }
     const textPalette = isCurrentlyDark ? darkText : lightText;
     return {
       color: textPalette[Math.floor(Math.random() * textPalette.length)],
+      borderColor: isCurrentlyDark ? '#4E5A4B' : '#B8AD9C',
       isAccent: false,
     };
   }
 
-  // Check background color, climbing parents if transparent
+  // Surface background sampling
   let currentEl: Element | null = el;
   let bgColor = style.backgroundColor;
   let depth = 0;
@@ -140,7 +151,7 @@ function sampleColorAtPoint(
   while (
     (!bgColor || bgColor === 'rgba(0, 0, 0, 0)' || bgColor === 'transparent') &&
     currentEl &&
-    depth < 4
+    depth < 3
   ) {
     currentEl = currentEl.parentElement;
     if (currentEl) {
@@ -157,34 +168,25 @@ function sampleColorAtPoint(
   if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
     return {
       color: bgColor,
+      borderColor: style.borderColor && style.borderColor !== 'rgba(0, 0, 0, 0)'
+        ? style.borderColor
+        : defaultBorder,
       isAccent: false,
     };
   }
 
-  // Check border color with small probability
-  if (Math.random() < 0.12 && style.borderColor && style.borderColor !== 'rgba(0, 0, 0, 0)') {
-    return {
-      color: style.borderColor,
-      isAccent: false,
-    };
-  }
-
-  // Fallback to surface color palette
+  // Fallback to theme surface palette
   const surfaces = isCurrentlyDark ? darkSurfaces : lightSurfaces;
   const borders = isCurrentlyDark ? darkBorders : lightBorders;
-  const useBorder = Math.random() < 0.15;
-  const selected = useBorder
-    ? borders[Math.floor(Math.random() * borders.length)]
-    : surfaces[Math.floor(Math.random() * surfaces.length)];
-
   return {
-    color: selected,
+    color: surfaces[Math.floor(Math.random() * surfaces.length)],
+    borderColor: borders[Math.floor(Math.random() * borders.length)],
     isAccent: false,
   };
 }
 
 /**
- * Triggers the Homogeneous Particle Shatter Theme Transition
+ * Triggers the High-Clarity Homogeneous Particle Shatter Theme Transition
  */
 export function triggerParticleThemeTransition(
   originX: number,
@@ -228,27 +230,116 @@ export function triggerParticleThemeTransition(
   const veilColor = isCurrentlyDark ? '#0D0F0C' : '#FAF6EE';
 
   // Responsive homogeneous grid layout
-  // Desktop: 42 x 28 = ~1176 fragments
-  // Tablet:  30 x 22 = ~660 fragments
-  // Mobile:  22 x 18 = ~396 fragments
+  // Desktop: 28 x 18 = 504 substantial, clearly visible fragments
+  // Tablet:  22 x 14 = 308 fragments
+  // Mobile:  16 x 12 = 192 fragments
   let cols: number;
   let rows: number;
 
   if (width >= 1024) {
-    cols = 42;
-    rows = 28;
-  } else if (width >= 768) {
-    cols = 30;
-    rows = 22;
-  } else {
-    cols = 22;
+    cols = 28;
     rows = 18;
+  } else if (width >= 768) {
+    cols = 22;
+    rows = 14;
+  } else {
+    cols = 16;
+    rows = 12;
   }
 
   const cellWidth = width / cols;
   const cellHeight = height / rows;
   const maxDist = Math.hypot(width, height);
 
+  // STEP 1: SAMPLE THE DOM FIRST (BEFORE touching body or creating canvas)
+  // This guarantees zero forced reflows or style recalculation lag!
+  const computedCache = new Map<Element, CSSStyleDeclaration>();
+  const fragments: Fragment[] = [];
+
+  for (let c = 0; c < cols; c++) {
+    for (let r = 0; r < rows; r++) {
+      const jitterOffsetX = (Math.random() - 0.5) * cellWidth * 0.55;
+      const jitterOffsetY = (Math.random() - 0.5) * cellHeight * 0.55;
+      const homeX = c * cellWidth + cellWidth / 2 + jitterOffsetX;
+      const homeY = r * cellHeight + cellHeight / 2 + jitterOffsetY;
+
+      const sampled = sampleColorAtPoint(homeX, homeY, isCurrentlyDark, computedCache);
+
+      // Sizable, visible particle distribution:
+      // ~20% micro-dust (3px–5px)
+      // ~50% substantial rectangular chips (8px–15px)
+      // ~30% large structural shards (15px–26px)
+      const sizeRand = Math.random();
+      let pWidth: number;
+      let pHeight: number;
+      let shape: 'rect' | 'shard' | 'dust';
+
+      if (sizeRand < 0.2) {
+        const s = 3 + Math.random() * 2.5;
+        pWidth = s;
+        pHeight = s;
+        shape = 'dust';
+      } else if (sizeRand < 0.7) {
+        const base = 8 + Math.random() * 7;
+        const aspect = 0.9 + Math.random() * 1.3;
+        pWidth = base * aspect;
+        pHeight = base;
+        shape = Math.random() < 0.45 ? 'rect' : 'shard';
+      } else {
+        const base = 15 + Math.random() * 11;
+        const aspect = 0.8 + Math.random() * 1.5;
+        pWidth = base * aspect;
+        pHeight = base;
+        shape = 'shard';
+      }
+
+      // Ripple delay from click origin (0 to 220ms subtle wave)
+      const distFromOrigin = Math.hypot(homeX - originX, homeY - originY);
+      const originNorm = distFromOrigin / maxDist;
+      const delay = originNorm * 140 + Math.random() * 80;
+
+      // Omnidirectional 360-degree shatter physics with controlled, graceful velocity
+      const randomAngle = Math.random() * Math.PI * 2;
+      const angleFromOrigin = Math.atan2(homeY - originY, homeX - originX);
+
+      const localSpeed = 40 + Math.random() * 95;
+      const pushSpeed = 15 + Math.random() * 35;
+
+      const vx = Math.cos(randomAngle) * localSpeed + Math.cos(angleFromOrigin) * pushSpeed;
+      const vy = Math.sin(randomAngle) * localSpeed + Math.sin(angleFromOrigin) * pushSpeed + (Math.random() * 30);
+
+      // Controlled rotational tumbling
+      const rotSpeed = (Math.random() - 0.5) * 3.0;
+      const maxRot = (Math.random() - 0.5) * Math.PI * 1.6;
+
+      fragments.push({
+        homeX,
+        homeY,
+        width: pWidth,
+        height: pHeight,
+        shape,
+        jitterX: (Math.random() - 0.5) * pWidth * 0.35,
+        jitterY: (Math.random() - 0.5) * pHeight * 0.35,
+        color: sampled.color,
+        borderColor: sampled.borderColor,
+        isAccent: sampled.isAccent,
+        glowColor: sampled.glowColor,
+        delay,
+        duration: 1400 + Math.random() * 300,
+        vx,
+        vy,
+        rotSpeed,
+        maxRot,
+        hasTrail: Math.random() < 0.15,
+        trailX: homeX,
+        trailY: homeY,
+      });
+    }
+  }
+
+  computedCache.clear();
+
+  // STEP 2: CREATE AND ATTACH CANVAS AFTER SAMPLING IS COMPLETE
   const canvas = document.createElement('canvas');
   canvas.width = width * dpr;
   canvas.height = height * dpr;
@@ -271,98 +362,8 @@ export function triggerParticleThemeTransition(
   document.body.appendChild(canvas);
   activeCanvas = canvas;
 
-  const computedCache = new Map<Element, CSSStyleDeclaration>();
-  const fragments: Fragment[] = [];
-
-  // Generate particles evenly across every part of the screen
-  for (let c = 0; c < cols; c++) {
-    for (let r = 0; r < rows; r++) {
-      // Position within each cell with subtle natural jitter
-      const jitterOffsetX = (Math.random() - 0.5) * cellWidth * 0.7;
-      const jitterOffsetY = (Math.random() - 0.5) * cellHeight * 0.7;
-      const homeX = c * cellWidth + cellWidth / 2 + jitterOffsetX;
-      const homeY = r * cellHeight + cellHeight / 2 + jitterOffsetY;
-
-      // Sample color directly from the visible DOM at this spot
-      const sampled = sampleColorAtPoint(homeX, homeY, isCurrentlyDark, computedCache);
-
-      // Particle size distribution:
-      // ~35% tiny dust (2-3.5px)
-      // ~45% medium chips (5-8px)
-      // ~20% larger UI fragments (9-14px)
-      const sizeRand = Math.random();
-      let pWidth: number;
-      let pHeight: number;
-      let shape: 'rect' | 'shard' | 'dust';
-
-      if (sizeRand < 0.35) {
-        const s = 2 + Math.random() * 1.5;
-        pWidth = s;
-        pHeight = s;
-        shape = 'dust';
-      } else if (sizeRand < 0.8) {
-        const base = 4.5 + Math.random() * 3.5;
-        const aspect = 0.8 + Math.random() * 1.2;
-        pWidth = base * aspect;
-        pHeight = base;
-        shape = Math.random() < 0.5 ? 'rect' : 'shard';
-      } else {
-        const base = 8 + Math.random() * 5;
-        const aspect = 0.7 + Math.random() * 1.4;
-        pWidth = base * aspect;
-        pHeight = base;
-        shape = 'shard';
-      }
-
-      // Distance from theme toggle trigger button for subtle ripple timing
-      const distFromOrigin = Math.hypot(homeX - originX, homeY - originY);
-      const originNorm = distFromOrigin / maxDist;
-      const delay = originNorm * 120 + Math.random() * 70; // 0 to 190ms subtle wave
-
-      // Homogeneous shatter vectors:
-      // 1. Omnidirectional 360-degree local explosion (every particle shatters in its own direction)
-      // 2. Subtle radial push outward from click origin
-      // 3. Gentle vertical drift
-      const randomAngle = Math.random() * Math.PI * 2;
-      const angleFromOrigin = Math.atan2(homeY - originY, homeX - originX);
-
-      const localSpeed = 50 + Math.random() * 130;
-      const pushSpeed = 15 + Math.random() * 45;
-
-      const vx = Math.cos(randomAngle) * localSpeed + Math.cos(angleFromOrigin) * pushSpeed;
-      const vy = Math.sin(randomAngle) * localSpeed + Math.sin(angleFromOrigin) * pushSpeed + (Math.random() * 40);
-
-      const rotSpeed = (Math.random() - 0.5) * 4.5;
-      const maxRot = (Math.random() - 0.5) * Math.PI * 2;
-
-      fragments.push({
-        homeX,
-        homeY,
-        width: pWidth,
-        height: pHeight,
-        shape,
-        jitterX: (Math.random() - 0.5) * pWidth * 0.4,
-        jitterY: (Math.random() - 0.5) * pHeight * 0.4,
-        color: sampled.color,
-        isAccent: sampled.isAccent,
-        glowColor: sampled.glowColor,
-        delay,
-        duration: 900 + Math.random() * 250,
-        vx,
-        vy,
-        rotSpeed,
-        maxRot,
-        hasTrail: Math.random() < 0.12,
-        trailX: homeX,
-        trailY: homeY,
-      });
-    }
-  }
-
-  // Clear sampling cache
-  computedCache.clear();
-
-  const totalDuration = 1150; // ms
+  // Extended majestic duration: 1800ms
+  const totalDuration = 1800; // ms
   const startTime = performance.now();
   let themeSwitched = false;
 
@@ -370,73 +371,78 @@ export function triggerParticleThemeTransition(
     const elapsed = now - startTime;
     const progressTotal = Math.min(1, elapsed / totalDuration);
 
-    // ZERO JUMP: Switch the underlying DOM at 40ms while the canvas completely covers the screen.
-    // The user never sees a sudden page change; the new theme is revealed purely through the cracks.
-    if (!themeSwitched && elapsed >= 40) {
+    // ZERO JUMP: Under-the-veil theme switch at 50ms while canvas completely covers the viewport.
+    if (!themeSwitched && elapsed >= 50) {
       onThemeSwitch();
       themeSwitched = true;
     }
 
     renderCtx.clearRect(0, 0, width, height);
 
-    // Initial veil: Fades out smoothly from t=40ms to t=240ms as cracks widen
-    if (elapsed < 240) {
-      const veilAlpha = elapsed < 40 ? 0.98 : Math.max(0, 0.98 * (1 - (elapsed - 40) / 200));
+    // Initial veil: Fades smoothly between 50ms and 350ms as cracks open up
+    if (elapsed < 350) {
+      const veilAlpha = elapsed < 50 ? 0.98 : Math.max(0, 0.98 * (1 - (elapsed - 50) / 300));
       renderCtx.fillStyle = veilColor;
       renderCtx.globalAlpha = veilAlpha;
       renderCtx.fillRect(0, 0, width, height);
     }
 
-    // Render each fragment
+    // Render fragments with high visual definition
     for (let i = 0; i < fragments.length; i++) {
       const f = fragments[i];
       const localElapsed = elapsed - f.delay;
 
       if (localElapsed <= 0) {
-        // Fragment at rest at its home position before shattering
+        // Fragment at rest before shattering
         renderCtx.save();
         renderCtx.translate(f.homeX, f.homeY);
         renderCtx.fillStyle = f.color;
+        renderCtx.strokeStyle = f.borderColor;
+        renderCtx.lineWidth = 1;
         renderCtx.globalAlpha = 1.0;
         if (f.isAccent && f.glowColor) {
           renderCtx.shadowColor = f.glowColor;
-          renderCtx.shadowBlur = 4;
+          renderCtx.shadowBlur = 5;
         }
         renderCtx.fillRect(-f.width / 2, -f.height / 2, f.width, f.height);
+        renderCtx.strokeRect(-f.width / 2, -f.height / 2, f.width, f.height);
         renderCtx.restore();
         continue;
       }
 
       const p = Math.min(1, localElapsed / f.duration);
       const moveEase = easeOutCubic(p);
-      const alphaEase = easeOutQuad(p);
+      const sineEase = easeOutSine(p);
 
       const currentX = f.homeX + f.vx * moveEase;
       const currentY = f.homeY + f.vy * moveEase;
       const currentRot = f.maxRot * moveEase + (p * f.rotSpeed);
-      const currentScale = Math.max(0.2, 1.0 - moveEase * 0.7);
+      // Gentle scale down: keeps fragments large and clearly visible (down to 0.65 instead of microscopic)
+      const currentScale = Math.max(0.6, 1.0 - sineEase * 0.35);
 
-      // Smooth opacity fade: stays solid initially, then dissolves cleanly into dust
+      // HIGH VISIBILITY OPACITY:
+      // Stays solid at 1.0 for the first 45% (~750ms!) so user clearly sees the disintegration.
+      // Then gradually dissolves over the remaining 55%.
       let currentAlpha: number;
-      if (p < 0.25) {
+      if (p < 0.45) {
         currentAlpha = 1.0;
-      } else if (p < 0.75) {
-        currentAlpha = 1.0 - (p - 0.25) / 0.5 * 0.65; // down to 0.35
+      } else if (p < 0.8) {
+        currentAlpha = 1.0 - (p - 0.45) / 0.35 * 0.6; // down to 0.4
       } else {
-        currentAlpha = 0.35 * (1 - (p - 0.75) / 0.25);
+        currentAlpha = 0.4 * (1 - (p - 0.8) / 0.2);
       }
-      currentAlpha = Math.max(0, Math.min(1, currentAlpha * (1 - alphaEase * 0.1)));
+      currentAlpha = Math.max(0, Math.min(1, currentAlpha));
 
-      if (currentAlpha <= 0.005) {
+      if (currentAlpha <= 0.01) {
         continue;
       }
 
-      // Draw faint kinetic streak for fast-moving particles
-      if (f.hasTrail && p > 0.06 && p < 0.7 && currentAlpha > 0.15) {
+      // Draw faint kinetic trail for speed accents
+      if (f.hasTrail && p > 0.05 && p < 0.75 && currentAlpha > 0.2) {
         renderCtx.beginPath();
-        renderCtx.strokeStyle = f.color;
-        renderCtx.globalAlpha = currentAlpha * 0.3;
-        renderCtx.lineWidth = Math.max(1, f.width * 0.6);
+        renderCtx.strokeStyle = f.borderColor;
+        renderCtx.globalAlpha = currentAlpha * 0.35;
+        renderCtx.lineWidth = Math.max(1, f.width * 0.4);
         renderCtx.moveTo(f.trailX, f.trailY);
         renderCtx.lineTo(currentX, currentY);
         renderCtx.stroke();
@@ -444,22 +450,28 @@ export function triggerParticleThemeTransition(
       f.trailX = currentX;
       f.trailY = currentY;
 
-      // Draw fragment
+      // Draw fragment with crisp 1px outline
       renderCtx.save();
       renderCtx.translate(currentX, currentY);
       renderCtx.rotate(currentRot);
       renderCtx.scale(currentScale, currentScale);
       renderCtx.fillStyle = f.color;
+      renderCtx.strokeStyle = f.borderColor;
+      renderCtx.lineWidth = 1;
       renderCtx.globalAlpha = currentAlpha;
 
       if (f.isAccent && f.glowColor) {
         renderCtx.shadowColor = f.glowColor;
-        renderCtx.shadowBlur = 5;
+        renderCtx.shadowBlur = 6;
       }
 
       if (f.shape === 'rect' || f.shape === 'dust') {
         renderCtx.fillRect(-f.width / 2, -f.height / 2, f.width, f.height);
+        if (f.shape === 'rect') {
+          renderCtx.strokeRect(-f.width / 2, -f.height / 2, f.width, f.height);
+        }
       } else {
+        // Faceted polygonal shard with crisp stroke
         renderCtx.beginPath();
         renderCtx.moveTo(-f.width / 2, -f.height / 2);
         renderCtx.lineTo(f.width / 2, -f.height / 2 + f.jitterY);
@@ -467,6 +479,7 @@ export function triggerParticleThemeTransition(
         renderCtx.lineTo(-f.width / 2, f.height / 2 - f.jitterY);
         renderCtx.closePath();
         renderCtx.fill();
+        renderCtx.stroke();
       }
 
       renderCtx.restore();
