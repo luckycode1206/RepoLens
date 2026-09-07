@@ -24,7 +24,7 @@ export const AppHeader: React.FC = () => {
     if (path.startsWith('/issues')) return '';
     if (path.startsWith('/testing')) return '';
     if (path.startsWith('/file-explorer/detail')) return 'File Detail / AST Inspector';
-    if (path.startsWith('/file-explorer')) return 'Repository File Explorer';
+    if (path.startsWith('/file-explorer')) return '';
     if (path.startsWith('/ai-assistant')) return 'RepoLens AI Assistant';
     if (path.startsWith('/settings')) return 'Application Settings';
     return '';
