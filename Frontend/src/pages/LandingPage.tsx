@@ -86,13 +86,19 @@ export const LandingPage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <ThemeToggle size="sm" />
             <button
               onClick={(e) => waterNavigate('/login', e)}
               className="page-link px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold cursor-pointer"
             >
               Sign In
+            </button>
+            <button
+              onClick={(e) => waterNavigate('/signup', e)}
+              className="page-link px-3.5 py-1.5 rounded-lg bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container transition-all font-headline-sm text-xs font-semibold cursor-pointer shadow-sm hover:scale-[1.02] active:scale-[0.98]"
+            >
+              Sign Up
             </button>
           </div>
         </header>

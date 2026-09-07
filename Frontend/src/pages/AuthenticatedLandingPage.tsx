@@ -9,7 +9,7 @@ import lightHeroVideo from '../../vid_light_emerald.mp4';
 export const AuthenticatedLandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { waterNavigate } = useWaterNavigate();
-  const { theme, user } = useApp();
+  const { theme, user, logout } = useApp();
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -171,12 +171,14 @@ export const AuthenticatedLandingPage: React.FC = () => {
 
                   <div className="h-px bg-surface-container-high" />
 
-                  {/* Dummy Sign Out Button */}
+                  {/* Sign Out Button */}
                   <button
                     type="button"
                     className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-error hover:bg-error-container/20 border border-transparent hover:border-error/30 transition-all cursor-pointer"
                     onClick={() => {
-                      // Dummy for now as requested
+                      logout();
+                      setProfileOpen(false);
+                      navigate('/');
                     }}
                   >
                     <span className="material-symbols-outlined text-[16px]">logout</span>
