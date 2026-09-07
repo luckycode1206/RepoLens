@@ -76,18 +76,18 @@ export const SettingsPage: React.FC = () => {
                 </span>
               </div>
               <div className="font-code-sm text-code-sm text-primary-container font-semibold">
-                Graphite &amp; Lime Spark
+                Warm Near-Black &amp; Acid Green
               </div>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Graphite base (#23262F), surface containers (#1A1C21), and surgical Lime Spark (#B6FF2E) technical accents.
+                Near-black base (#0D0F0C), lifted containers (#121511 / #171B16), and surgical Acid Green (#A3E635 / #B6FF3C) technical accents.
               </p>
             </div>
 
             <div className="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#111318]" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#23262F]" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#B6FF2E]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#0D0F0C]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#171B16]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#A3E635]" />
               </div>
               <span className="font-label-caps text-label-caps text-primary-container font-semibold">
                 ACTIVE DEFAULT
@@ -107,7 +107,7 @@ export const SettingsPage: React.FC = () => {
             <div className="space-y-space-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-space-xs">
-                  <span className="w-3 h-3 rounded-full bg-[#064E3B]" />
+                  <span className="w-3 h-3 rounded-full bg-[#046C4E]" />
                   <span className="font-headline-sm text-body-sm font-semibold text-on-surface">
                     Light Mode
                   </span>
@@ -120,19 +120,19 @@ export const SettingsPage: React.FC = () => {
                   {theme === 'light' ? 'check_circle' : 'radio_button_unchecked'}
                 </span>
               </div>
-              <div className="font-code-sm text-code-sm text-[#064E3B] font-semibold">
-                Champagne &amp; Emerald
+              <div className="font-code-sm text-code-sm text-[#046C4E] font-semibold">
+                Champagne White &amp; Deep Emerald
               </div>
               <p className="font-body-sm text-body-sm text-on-surface-variant">
-                Champagne paper base (#F8E7C9), calibrated warm cream surfaces, and dense Emerald Ink (#064E3B) tokens.
+                Warm champagne base (#F7F3E9), calibrated cream surfaces (#FAF6EE / #F2ECE0), and deep Emerald Ink (#046C4E) tokens.
               </p>
             </div>
 
             <div className="p-space-xs rounded bg-surface-container-lowest flex items-center justify-between">
               <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#F8E7C9]" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#E8D7B9]" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-[#064E3B]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#F7F3E9]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#FAF6EE]" />
+                <span className="w-2.5 h-2.5 rounded-sm bg-[#046C4E]" />
               </div>
               <span className="font-label-caps text-label-caps text-on-surface-variant font-medium">
                 LIGHT CONSOLE
