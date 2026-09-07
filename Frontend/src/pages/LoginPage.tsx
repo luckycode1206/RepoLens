@@ -144,7 +144,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Credentials Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Work Email Address */}
+            {/* Email Address */}
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label
@@ -159,7 +159,7 @@ export const LoginPage: React.FC = () => {
                       : 'text-[#181D17]'
                   }`}
                 >
-                  <span>Work Email Address</span>
+                  <span>Email Address</span>
                   {focusedField === 'email' && (
                     <span
                       className={`w-1.5 h-1.5 rounded-full animate-pulse ${
@@ -205,7 +205,7 @@ export const LoginPage: React.FC = () => {
                       : 'text-[#181D17]'
                   }`}
                 >
-                  <span>Workstation Password</span>
+                  <span>Password</span>
                   {focusedField === 'password' && (
                     <span
                       className={`w-1.5 h-1.5 rounded-full animate-pulse ${
