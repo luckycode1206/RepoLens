@@ -87,7 +87,7 @@ export const OverviewPage: React.FC = () => {
       <div
         className={`p-6 sm:p-7 rounded-2xl border transition-all duration-300 relative overflow-hidden ${
           isDark
-            ? 'bg-[#121511] border-[#222920] shadow-[0_4px_24px_rgba(0,0,0,0.3)]'
+            ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] shadow-[0_4px_24px_rgba(0,0,0,0.35)]'
             : 'bg-[#FAF6EE] border-[#E2DAC7] shadow-[0_2px_16px_rgba(0,0,0,0.04)]'
         }`}
       >
@@ -173,7 +173,7 @@ export const OverviewPage: React.FC = () => {
       {/* 2. CRITICAL BLAST ALERT CALLOUT BANNER (Single attention mount pulse, then settles) */}
       <div
         onClick={() => navigate('/blast-radius')}
-        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer group animate-mount-alert ${
+        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer group animate-mount-alert backdrop-blur-[12px] ${
           isDark
             ? 'bg-[#e05252]/10 border-[#e05252]/30 hover:border-[#e05252]/50 hover:bg-[#e05252]/15'
             : 'bg-[#c53030]/08 border-[#c53030]/25 hover:border-[#c53030]/45 hover:bg-[#c53030]/12'
@@ -252,7 +252,7 @@ export const OverviewPage: React.FC = () => {
           onClick={() => navigate('/repositories')}
           className={`lg:col-span-4 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
-              ? 'bg-[#121511] border-[#282F26] hover:border-[#a3e635]/50 shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
+              ? 'bg-[rgba(10,18,15,0.65)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#a3e635]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)]'
               : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#046C4E]/50 shadow-[0_2px_12px_rgba(0,0,0,0.04)]'
           }`}
         >
@@ -367,7 +367,7 @@ export const OverviewPage: React.FC = () => {
           onClick={() => navigate('/security')}
           className={`lg:col-span-3 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
-              ? 'bg-[#121511] border-[#282F26] hover:border-[#e05252]/50 shadow-sm'
+              ? 'bg-[rgba(10,18,15,0.65)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#e05252]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)]'
               : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#c53030]/50 shadow-sm'
           }`}
         >
@@ -433,7 +433,7 @@ export const OverviewPage: React.FC = () => {
           onClick={() => navigate('/architecture')}
           className={`lg:col-span-2 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
-              ? 'bg-[#121511] border-[#282F26] hover:border-[#38bdf8]/50 shadow-sm'
+              ? 'bg-[rgba(10,18,15,0.65)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#38bdf8]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)]'
               : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#0284c7]/50 shadow-sm'
           }`}
         >
@@ -492,7 +492,7 @@ export const OverviewPage: React.FC = () => {
           onClick={() => navigate('/testing')}
           className={`lg:col-span-3 p-6 rounded-2xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
             isDark
-              ? 'bg-[#121511] border-[#282F26] hover:border-[#a3e635]/50 shadow-sm'
+              ? 'bg-[rgba(10,18,15,0.65)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#a3e635]/50 shadow-[0_4px_20px_rgba(0,0,0,0.35)]'
               : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#046C4E]/50 shadow-sm'
           }`}
         >
@@ -599,10 +599,10 @@ export const OverviewPage: React.FC = () => {
                   className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer flex items-center justify-between gap-4 ${
                     isSelected
                       ? isDark
-                        ? 'bg-[#171B16] border-[#a3e635]/40 ring-1 ring-[#a3e635]/25 shadow-sm'
+                        ? 'bg-[rgba(10,18,15,0.70)] backdrop-blur-[12px] border-[#a3e635]/40 ring-1 ring-[#a3e635]/25 shadow-sm'
                         : 'bg-[#F2ECE0] border-[#046C4E]/40 ring-1 ring-[#046C4E]/25 shadow-sm'
                       : isDark
-                      ? 'bg-[#121511] border-[#222920] hover:border-[#2E362C] hover:bg-[#161A14]'
+                      ? 'bg-[rgba(10,18,15,0.52)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[rgba(140,255,40,0.30)] hover:bg-[rgba(10,18,15,0.65)]'
                       : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#D0C5AF] hover:bg-[#FAF6EE]'
                   }`}
                 >
@@ -612,7 +612,7 @@ export const OverviewPage: React.FC = () => {
                     <div
                       className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 border transition-colors ${
                         isDark
-                          ? 'bg-[#0D0F0C] border-[#222920] text-[#7D8878]'
+                          ? 'bg-[rgba(10,18,15,0.60)] border-[rgba(140,255,40,0.12)] text-[#7D8878]'
                           : 'bg-[#F7F3E9] border-[#E2DAC7] text-[#6E7866]'
                       }`}
                       title={repo.isPrivate ? 'Private Repository' : 'Public Repository'}
@@ -743,7 +743,7 @@ export const OverviewPage: React.FC = () => {
               onClick={() => navigate('/architecture')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
-                  ? 'bg-[#121511] border-[#222920] hover:border-[#38bdf8]/50 hover:bg-[#171B16]'
+                  ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#38bdf8]/50 hover:bg-[rgba(10,18,15,0.70)]'
                   : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#0284c7]/50 hover:bg-[#FAF6EE]'
               }`}
             >
@@ -777,7 +777,7 @@ export const OverviewPage: React.FC = () => {
               onClick={() => navigate('/blast-radius')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
-                  ? 'bg-[#121511] border-[#222920] hover:border-[#a3e635]/50 hover:bg-[#171B16]'
+                  ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#a3e635]/50 hover:bg-[rgba(10,18,15,0.70)]'
                   : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#046C4E]/50 hover:bg-[#FAF6EE]'
               }`}
             >
@@ -811,7 +811,7 @@ export const OverviewPage: React.FC = () => {
               onClick={() => navigate('/security')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
-                  ? 'bg-[#121511] border-[#222920] hover:border-[#e05252]/50 hover:bg-[#171B16]'
+                  ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#e05252]/50 hover:bg-[rgba(10,18,15,0.70)]'
                   : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#c53030]/50 hover:bg-[#FAF6EE]'
               }`}
             >
@@ -845,7 +845,7 @@ export const OverviewPage: React.FC = () => {
               onClick={() => navigate('/ai-assistant')}
               className={`p-4 rounded-xl border transition-all duration-150 cursor-pointer space-y-2 group ${
                 isDark
-                  ? 'bg-[#121511] border-[#222920] hover:border-[#a3e635]/50 hover:bg-[#171B16]'
+                  ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)] hover:border-[#a3e635]/50 hover:bg-[rgba(10,18,15,0.70)]'
                   : 'bg-[#FFFFFF] border-[#E2DAC7] hover:border-[#046C4E]/50 hover:bg-[#FAF6EE]'
               }`}
             >
@@ -879,7 +879,7 @@ export const OverviewPage: React.FC = () => {
           <div
             className={`p-4 rounded-xl border space-y-2 ${
               isDark
-                ? 'bg-[#121511] border-[#222920]'
+                ? 'bg-[rgba(10,18,15,0.60)] backdrop-blur-[12px] border-[rgba(140,255,40,0.14)]'
                 : 'bg-[#FFFFFF] border-[#E2DAC7]'
             }`}
           >

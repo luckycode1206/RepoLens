@@ -85,7 +85,7 @@ export const FountainReveal: React.FC<FountainRevealProps> = ({
             duration: 380,
             delay,
             easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            fill: 'both',
+            fill: 'backwards',
           }
         );
 
@@ -98,7 +98,17 @@ export const FountainReveal: React.FC<FountainRevealProps> = ({
           }
         };
 
+        // Guaranteed safety release so cursor hover animations are immediately responsive
+        const safetyTimer = window.setTimeout(() => {
+          try {
+            anim.cancel();
+          } catch {
+            // Ignore
+          }
+        }, delay + 420);
+
         animations.push(anim);
+        return () => window.clearTimeout(safetyTimer);
       } catch {
         // Fallback for environments where Web Animations API is restricted
       }

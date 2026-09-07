@@ -166,7 +166,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   return (
     <div className="relative w-full rounded-xl bg-surface-container-lowest border border-surface-container-high overflow-hidden shadow-inner flex flex-col">
       {/* Top Graph Controls Bar */}
-      <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 p-1 rounded-lg bg-surface-container-low/90 backdrop-blur-sm border border-surface-container-highest shadow-md">
+      <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 p-1 rounded-lg bg-surface-container-low backdrop-blur-[12px] border border-surface-container-highest shadow-md">
         <button
           onClick={handleZoomIn}
           className="p-1.5 rounded hover:bg-surface-container text-outline hover:text-on-surface transition-colors"
@@ -195,7 +195,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
       </div>
 
       {/* Legend Indicator Overlay */}
-      <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 p-2 rounded-lg bg-surface-container-low/90 backdrop-blur-sm border border-surface-container-highest text-[10px] font-code">
+      <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 p-2 rounded-lg bg-surface-container-low backdrop-blur-[12px] border border-surface-container-highest text-[10px] font-code">
         <span className="text-outline uppercase font-semibold">Nodes:</span>
         <div className="flex items-center gap-1">
           <span className="w-2.5 h-2.5 rounded-full bg-[#ffb4ab]" />
@@ -419,7 +419,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
 
       {/* Selected Node Inspector Drawer (Bottom-right overlay) */}
       {selectedNode && (
-        <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:w-96 p-4 rounded-xl bg-surface-container-low/95 backdrop-blur-md border border-surface-container-highest shadow-2xl z-20 animate-slide-up">
+        <div className="absolute bottom-3 left-3 right-3 sm:right-auto sm:w-96 p-4 rounded-xl bg-surface-container-low backdrop-blur-[12px] border border-surface-container-highest shadow-2xl z-20 animate-slide-up">
           <div className="flex items-start justify-between">
             <div className="flex flex-col">
               <div className="flex items-center gap-2">

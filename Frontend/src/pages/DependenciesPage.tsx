@@ -80,7 +80,7 @@ export const DependenciesPage: React.FC = () => {
       </div>
 
       {/* Circular Dependency Warning Callout */}
-      <div className="p-space-md rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-space-md">
+      <div className="p-space-md rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-space-md backdrop-blur-[12px]">
         <span className="material-symbols-outlined text-amber-400 text-[24px] flex-shrink-0 mt-0.5">
           warning
         </span>
