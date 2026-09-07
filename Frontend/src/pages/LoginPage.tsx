@@ -25,7 +25,7 @@ export const LoginPage: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     login(email);
-    waterNavigate('/');
+    waterNavigate('/home');
   };
 
   return (
@@ -283,7 +283,7 @@ export const LoginPage: React.FC = () => {
               type="submit"
               onClick={(e) => {
                 login(email);
-                waterNavigate('/', e);
+                waterNavigate('/home', e);
               }}
               className={`page-link w-full h-11 rounded-xl font-sans text-xs font-bold tracking-wide transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 cursor-pointer ${
                 isDark

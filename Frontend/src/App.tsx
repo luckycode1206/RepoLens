@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import { AppLayout } from './components/layout/AppLayout';
 import { LandingPage } from './pages/LandingPage';
+import { AuthenticatedLandingPage } from './pages/AuthenticatedLandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { StandaloneIngestPage } from './pages/StandaloneIngestPage';
@@ -28,8 +29,10 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <WaterTransitionProvider>
           <Routes>
-            {/* Public Landing, Authentication & Standalone Ingest */}
+            {/* Public Landing, Authenticated Landing, Authentication & Standalone Ingest */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/home" element={<AuthenticatedLandingPage />} />
+            <Route path="/landing" element={<AuthenticatedLandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/ingest" element={<StandaloneIngestPage />} />

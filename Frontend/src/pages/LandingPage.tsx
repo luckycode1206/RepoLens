@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { ThemeToggle } from '../components/common/ThemeToggle';
@@ -9,25 +9,11 @@ import lightHeroVideo from '../../vid_light_emerald.mp4';
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { waterNavigate } = useWaterNavigate();
-  const { theme, user, isAuthenticated } = useApp();
-  const [profileOpen, setProfileOpen] = useState(false);
-  const profileRef = useRef<HTMLDivElement>(null);
+  const { theme } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
   const lightVideoRef = useRef<HTMLVideoElement>(null);
 
   const isLight = theme === 'light';
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
-        setProfileOpen(false);
-      }
-    };
-    if (profileOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [profileOpen]);
 
   useEffect(() => {
     if (!isLight && videoRef.current) {
@@ -102,72 +88,12 @@ export const LandingPage: React.FC = () => {
 
           <div className="flex items-center gap-3">
             <ThemeToggle size="sm" />
-            {!isAuthenticated ? (
-              <button
-                onClick={(e) => waterNavigate('/login', e)}
-                className="page-link px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold cursor-pointer"
-              >
-                Sign In
-              </button>
-            ) : (
-              <div className="relative" ref={profileRef}>
-                <button
-                  type="button"
-                  onClick={() => setProfileOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl bg-surface-container-low/80 hover:bg-surface-container border border-surface-container-highest backdrop-blur-sm transition-all cursor-pointer shadow-sm hover:border-primary-container/60 group"
-                  aria-label="User Profile"
-                  aria-expanded={profileOpen}
-                >
-                  <div className="w-6 h-6 rounded-lg bg-primary-container/20 border border-primary-container/40 text-primary-container font-mono text-xs font-bold flex items-center justify-center group-hover:scale-105 transition-transform">
-                    {user?.email ? user.email.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <span className="hidden sm:inline-block font-mono text-xs text-on-surface max-w-[140px] truncate">
-                    {user?.email || 'developer@repolens.io'}
-                  </span>
-                  <span className="material-symbols-outlined text-[16px] text-outline group-hover:text-on-surface transition-transform duration-200">
-                    {profileOpen ? 'expand_less' : 'expand_more'}
-                  </span>
-                </button>
-
-                {/* Profile Popover Menu */}
-                {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-surface-container-low/95 backdrop-blur-md border border-surface-container-high p-4 shadow-xl z-50 animate-in fade-in zoom-in-95 duration-150 space-y-3">
-                    {/* User Header */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-xl bg-primary-container/20 border border-primary-container/40 text-primary-container font-mono text-sm font-bold flex items-center justify-center flex-shrink-0 shadow-sm">
-                        {user?.email ? user.email.charAt(0).toUpperCase() : 'U'}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-xs font-bold text-on-surface truncate">
-                          {user?.name || 'Authorized User'}
-                        </div>
-                        <div className="font-mono text-[11px] text-on-surface-variant truncate mt-0.5">
-                          {user?.email || 'developer@repolens.io'}
-                        </div>
-                        <span className="inline-flex items-center gap-1 mt-1 px-1.5 py-0.5 rounded bg-primary-container/15 text-primary-container font-mono text-[10px] font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
-                          <span>Active Session</span>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="h-px bg-surface-container-high" />
-
-                    {/* Dummy Sign Out Button */}
-                    <button
-                      type="button"
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-error hover:bg-error-container/20 border border-transparent hover:border-error/30 transition-all cursor-pointer"
-                      onClick={() => {
-                        // Dummy for now as requested
-                      }}
-                    >
-                      <span className="material-symbols-outlined text-[16px]">logout</span>
-                      <span>Sign Out</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+            <button
+              onClick={(e) => waterNavigate('/login', e)}
+              className="page-link px-3.5 py-1.5 rounded-lg text-on-surface hover:bg-surface-container/50 backdrop-blur-sm transition-colors font-headline-sm text-xs font-semibold cursor-pointer"
+            >
+              Sign In
+            </button>
           </div>
         </header>
 
