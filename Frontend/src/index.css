@@ -316,38 +316,44 @@ html.light .repolens-theme-switch input:focus-visible + .slider,
 }
 
 /* ==========================================================================
-   Ink Bleed Mask Page Transition — RepoLens Color Scheme
-   Adapted from CodeFronts Ink Bleed with dynamic origin and dual-theme palettes
+   Lime Spark Wave Page Transition
+   Vibrant electric Lime Spark wave (#B6FF2E / #B6FF3C) with organic radial ink-bleed edges
    ========================================================================== */
 :root {
-  --repolens-ink-dur: 900ms;
-  --repolens-ink-bg: radial-gradient(
+  --repolens-wave-bg: radial-gradient(
     circle at var(--ink-origin-x, 50%) var(--ink-origin-y, 50%),
-    rgba(182, 255, 60, 0.16) 0%,
-    rgba(23, 27, 22, 0.98) 32%,
-    #0D0F0C 70%
+    #F4FFA8 0%,
+    #D2FF52 16%,
+    #B6FF2E 36%,
+    #A3E635 65%,
+    #84CC16 100%
   );
+  --repolens-wave-glow: 0 0 120px rgba(182, 255, 46, 0.75);
 }
 
 html.light,
 [data-theme="light"] {
-  --repolens-ink-bg: radial-gradient(
+  --repolens-wave-bg: radial-gradient(
     circle at var(--ink-origin-x, 50%) var(--ink-origin-y, 50%),
-    rgba(4, 108, 78, 0.14) 0%,
-    rgba(247, 243, 233, 0.98) 32%,
-    #FAF6EE 70%
+    #FAFFD1 0%,
+    #D4FF5E 20%,
+    #B6FF3C 45%,
+    #34D399 75%,
+    #059669 100%
   );
+  --repolens-wave-glow: 0 0 120px rgba(182, 255, 60, 0.55);
 }
 
 .repolens-ink-overlay {
   position: fixed;
-  inset: -10%;
+  inset: -15%;
   z-index: 99999;
-  background: var(--repolens-ink-bg);
+  background: var(--repolens-wave-bg);
+  box-shadow: var(--repolens-wave-glow);
   pointer-events: auto;
   opacity: 0;
-  -webkit-mask-image: radial-gradient(circle, #000 38%, rgba(0, 0, 0, 0.55) 58%, transparent 72%);
-  mask-image: radial-gradient(circle, #000 38%, rgba(0, 0, 0, 0.55) 58%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle, #000 42%, rgba(0, 0, 0, 0.65) 60%, transparent 74%);
+  mask-image: radial-gradient(circle, #000 42%, rgba(0, 0, 0, 0.65) 60%, transparent 74%);
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
@@ -356,11 +362,28 @@ html.light,
   mask-size: 0% 0%;
 }
 
-.repolens-ink-overlay.is-active {
-  animation: repolens-ink-bleed var(--repolens-ink-dur) cubic-bezier(0.45, 0.05, 0.3, 1) both;
+.repolens-ink-overlay.is-entering {
+  opacity: 1;
+  animation: repolens-wave-expand 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes repolens-ink-bleed {
+.repolens-ink-overlay.is-holding {
+  opacity: 1;
+  -webkit-mask-size: 400% 400%;
+  mask-size: 400% 400%;
+  -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+}
+
+.repolens-ink-overlay.is-exiting {
+  -webkit-mask-size: 400% 400%;
+  mask-size: 400% 400%;
+  -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
+  animation: repolens-wave-dissolve 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes repolens-wave-expand {
   0% {
     opacity: 1;
     -webkit-mask-size: 0% 0%;
@@ -368,35 +391,34 @@ html.light,
     -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
     mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
   }
-
-  46%,
-  62% {
-    opacity: 1;
-    -webkit-mask-size: 380% 380%;
-    mask-size: 380% 380%;
-    -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
-    mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
-  }
-
   100% {
-    opacity: 0;
-    -webkit-mask-size: 380% 380%;
-    mask-size: 380% 380%;
+    opacity: 1;
+    -webkit-mask-size: 400% 400%;
+    mask-size: 400% 400%;
     -webkit-mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
     mask-position: var(--ink-origin-x, 50%) var(--ink-origin-y, 50%);
   }
 }
 
+@keyframes repolens-wave-dissolve {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  :root {
-    --repolens-ink-dur: 170ms;
+  .repolens-ink-overlay.is-entering,
+  .repolens-ink-overlay.is-holding,
+  .repolens-ink-overlay.is-exiting {
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    animation: repolens-wave-reduced 150ms ease-in-out forwards;
   }
 
-  .repolens-ink-overlay.is-active {
-    animation: repolens-ink-reduced var(--repolens-ink-dur) ease-in-out both;
-  }
-
-  @keyframes repolens-ink-reduced {
+  @keyframes repolens-wave-reduced {
     0% {
       opacity: 0;
     }
@@ -408,4 +430,5 @@ html.light,
     }
   }
 }
+
 
