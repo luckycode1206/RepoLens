@@ -9,7 +9,6 @@ import {
   ShieldAlert,
   Bot,
   Activity,
-  Plus,
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
@@ -132,7 +131,7 @@ export const OverviewPage: React.FC = () => {
             </div>
 
             <h1
-              className={`text-xl sm:text-2xl lg:text-3xl font-sans font-bold tracking-tight transition-colors ${
+              className={`text-xl sm:text-2xl lg:text-3xl font-heading font-bold tracking-tight transition-colors ${
                 isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
               }`}
             >
@@ -166,19 +165,6 @@ export const OverviewPage: React.FC = () => {
             >
               <Radar size={16} strokeWidth={2} />
               <span>Simulate Blast Radius</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => navigate('/ingest')}
-              className={`inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl font-sans text-xs font-medium border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
-                isDark
-                  ? 'bg-[#171B16] hover:bg-[#1E231D] text-[#E4E8E1] border-[#282F26] focus-visible:ring-[#a3e635]'
-                  : 'bg-[#F2ECE0] hover:bg-[#E8E0D0] text-[#181D17] border-[#DDD3BF] focus-visible:ring-[#046C4E]'
-              }`}
-            >
-              <Plus size={15} strokeWidth={2} />
-              <span>Connect Repo</span>
             </button>
           </div>
         </div>
@@ -297,14 +283,14 @@ export const OverviewPage: React.FC = () => {
             <div>
               <div className="flex items-baseline gap-1">
                 <span
-                  className={`text-4xl sm:text-5xl font-mono font-bold tracking-tight ${
+                  className={`text-4xl sm:text-5xl font-heading font-bold tracking-tight ${
                     isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
                   }`}
                 >
                   {healthScore}
                 </span>
                 <span
-                  className={`text-sm font-mono ${
+                  className={`text-sm font-heading font-medium ${
                     isDark ? 'text-[#7D8878]' : 'text-[#6E7866]'
                   }`}
                 >
@@ -312,7 +298,7 @@ export const OverviewPage: React.FC = () => {
                 </span>
               </div>
               <p
-                className={`text-xs font-mono mt-1 ${
+                className={`text-xs mt-1 ${
                   isDark ? 'text-[#a3e635]' : 'text-[#046C4E]'
                 }`}
               >
@@ -406,14 +392,14 @@ export const OverviewPage: React.FC = () => {
 
           <div className="my-4">
             <div
-              className={`text-3xl sm:text-4xl font-mono font-bold tracking-tight ${
+              className={`text-3xl sm:text-4xl font-heading font-bold tracking-tight ${
                 isDark ? 'text-[#e05252]' : 'text-[#c53030]'
               }`}
             >
               {vulnCount}
             </div>
             <div
-              className={`text-xs font-mono font-semibold mt-1 ${
+              className={`text-xs font-semibold mt-1 ${
                 isDark ? 'text-[#e05252]' : 'text-[#c53030]'
               }`}
             >
@@ -472,14 +458,14 @@ export const OverviewPage: React.FC = () => {
 
           <div className="my-4">
             <div
-              className={`text-3xl sm:text-4xl font-mono font-bold tracking-tight ${
+              className={`text-3xl sm:text-4xl font-heading font-bold tracking-tight ${
                 isDark ? 'text-[#38bdf8]' : 'text-[#0284c7]'
               }`}
             >
               {graphCount.toLocaleString()}
             </div>
             <div
-              className={`text-xs font-mono mt-1 ${
+              className={`text-xs mt-1 ${
                 isDark ? 'text-[#7D8878]' : 'text-[#6E7866]'
               }`}
             >
@@ -531,14 +517,14 @@ export const OverviewPage: React.FC = () => {
 
           <div className="my-4">
             <div
-              className={`text-3xl sm:text-4xl font-mono font-bold tracking-tight ${
+              className={`text-3xl sm:text-4xl font-heading font-bold tracking-tight ${
                 isDark ? 'text-[#a3e635]' : 'text-[#046C4E]'
               }`}
             >
               {coverageScore}%
             </div>
             <div
-              className={`text-xs font-mono mt-1 ${
+              className={`text-xs mt-1 ${
                 isDark ? 'text-[#a3e635]' : 'text-[#046C4E]'
               }`}
             >
@@ -574,7 +560,7 @@ export const OverviewPage: React.FC = () => {
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <h2
-              className={`font-sans font-bold text-base flex items-center gap-2.5 ${
+              className={`font-heading font-bold text-base flex items-center gap-2.5 ${
                 isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
               }`}
             >
@@ -737,7 +723,7 @@ export const OverviewPage: React.FC = () => {
         <div className="lg:col-span-5 space-y-4">
           <div className="flex items-center justify-between">
             <h2
-              className={`font-sans font-bold text-base flex items-center gap-2.5 ${
+              className={`font-heading font-bold text-base flex items-center gap-2.5 ${
                 isDark ? 'text-[#E4E8E1]' : 'text-[#181D17]'
               }`}
             >

@@ -69,7 +69,7 @@ export const LandingPage: React.FC = () => {
 
         {/* Hero Content Area */}
         <div className="pt-12 pb-16 px-4 lg:px-8 max-w-6xl mx-auto flex flex-col items-center text-center space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low/90 backdrop-blur-md border border-surface-container-highest text-xs font-code">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-low/90 backdrop-blur-md border border-surface-container-highest text-xs font-sans">
             <span className="w-2 h-2 rounded-full bg-primary-container animate-pulse" />
             <span className="text-on-surface font-semibold">RepoLens</span>
             <span className="text-surface-variant">•</span>

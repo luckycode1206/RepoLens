@@ -37,7 +37,7 @@ export const RepositoriesPage: React.FC = () => {
             <h1 className="font-headline-lg text-headline-lg text-on-surface font-semibold">
               Repositories
             </h1>
-            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container font-mono">
+            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container">
               FLEET INVENTORY
             </span>
           </div>

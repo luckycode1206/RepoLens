@@ -71,7 +71,7 @@ export const LoginPage: React.FC = () => {
           {/* Bold Headline & Descriptive Subtext */}
           <div className="space-y-2 text-center">
             <h1
-              className={`font-sans text-2xl sm:text-[26px] font-bold tracking-tight ${
+              className={`font-heading text-2xl sm:text-[26px] font-bold tracking-tight ${
                 isDark ? 'text-[#F2F2F2]' : 'text-[#181D17]'
               }`}
             >
@@ -125,7 +125,7 @@ export const LoginPage: React.FC = () => {
               }`}
             />
             <span
-              className={`text-[10px] font-mono font-semibold tracking-widest uppercase ${
+              className={`text-[10px] font-sans font-semibold tracking-widest uppercase ${
                 isDark ? 'text-[#7D8878]' : 'text-[#8A8275]'
               }`}
             >
@@ -215,7 +215,7 @@ export const LoginPage: React.FC = () => {
                   onClick={() =>
                     alert('Password reset link has been dispatched to developer@repolens.io')
                   }
-                  className={`text-xs font-mono font-semibold transition-colors hover:underline ${
+                  className={`text-xs font-sans font-semibold transition-colors hover:underline ${
                     isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
                   }`}
                 >
@@ -340,7 +340,7 @@ export const LoginPage: React.FC = () => {
       </main>
 
       {/* Security Verification Footnote */}
-      <footer className="relative z-10 text-center text-xs font-mono max-w-5xl mx-auto w-full py-2">
+      <footer className="relative z-10 text-center text-xs font-sans max-w-5xl mx-auto w-full py-2">
         <div
           className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] ${
             isDark

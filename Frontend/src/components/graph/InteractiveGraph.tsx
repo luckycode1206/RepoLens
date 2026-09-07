@@ -399,7 +399,8 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
                 setInternalSelectedId(null);
                 if (onNodeSelect) onNodeSelect(null);
               }}
-              className="text-outline hover:text-on-surface p-1 rounded hover:bg-surface-container"
+              className="text-outline hover:text-on-surface p-1 rounded hover:bg-surface-container cursor-pointer transition-colors"
+              title="Close dialog"
             >
               <span className="material-symbols-outlined text-[16px]">close</span>
             </button>

@@ -26,7 +26,7 @@ export const SecurityAnalysisPage: React.FC = () => {
             <h1 className="font-headline-lg text-headline-lg text-on-surface font-semibold">
               Security &amp; Vulnerability Posture
             </h1>
-            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-error-container/30 text-error font-mono font-bold">
+            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-error-container/30 text-error font-bold">
               3 VULNERABILITIES DETECTED
             </span>
           </div>

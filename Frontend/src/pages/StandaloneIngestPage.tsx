@@ -25,8 +25,6 @@ export const StandaloneIngestPage: React.FC = () => {
   const [zipBranch, setZipBranch] = useState('main');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Scan Depth (Default L4 Monorepo Full Blast Radius)
-  const depth = 'l4';
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Handle Drag & Drop
@@ -82,7 +80,7 @@ export const StandaloneIngestPage: React.FC = () => {
       branch: targetBranch || 'main',
       language: isUrl ? 'TypeScript / Node' : 'Python 3.11',
       framework: isUrl ? 'FastAPI / NestJS' : 'Flask / Celery',
-      scanDepth: depth === 'l3' ? 'L3 AST' : depth === 'l4' ? 'Full Monorepo' : 'L1 Static',
+      scanDepth: 'Full Monorepo',
     });
 
     await refreshRepositories();
@@ -99,8 +97,8 @@ export const StandaloneIngestPage: React.FC = () => {
           <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
             <RepoLensLogo size="md" />
           </Link>
-          <span className="hidden sm:inline-block text-surface-variant font-mono text-sm">•</span>
-          <span className="hidden sm:inline-block font-mono text-xs text-outline uppercase tracking-wider">
+          <span className="hidden sm:inline-block text-surface-variant text-sm">•</span>
+          <span className="hidden sm:inline-block font-sans text-xs text-outline uppercase tracking-wider">
             Ingest Codebase
           </span>
         </div>
@@ -378,7 +376,7 @@ export const StandaloneIngestPage: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="py-6 px-4 lg:px-8 border-t border-surface-container-high/40 text-center text-xs text-outline font-mono">
+      <footer className="py-6 px-4 lg:px-8 border-t border-surface-container-high/40 text-center text-xs text-outline font-sans">
         <p>RepoLens AST Engine • Ephemeral Sandboxed Memory • Zero Permanent Source Code Retention</p>
       </footer>
     </div>

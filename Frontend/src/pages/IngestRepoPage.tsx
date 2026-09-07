@@ -101,7 +101,7 @@ export const IngestRepoPage: React.FC = () => {
             <h1 className="font-headline-lg text-headline-lg text-on-surface font-semibold">
               Ingest Repository
             </h1>
-            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container font-mono">
+            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container">
               AST INGESTION WORKSTATION
             </span>
           </div>
@@ -112,7 +112,7 @@ export const IngestRepoPage: React.FC = () => {
 
         <button
           onClick={() => navigate('/repositories')}
-          className="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container border border-surface-container-highest text-outline hover:text-on-surface transition-colors self-start sm:self-auto flex items-center gap-1.5 text-xs font-code"
+          className="p-2 rounded-lg bg-surface-container-low hover:bg-surface-container border border-surface-container-highest text-outline hover:text-on-surface transition-colors self-start sm:self-auto flex items-center gap-1.5 text-xs font-sans font-medium"
         >
           <span className="material-symbols-outlined text-[16px]">folder_data</span>
           <span>View Fleet</span>
@@ -133,7 +133,7 @@ export const IngestRepoPage: React.FC = () => {
                 Single Ingestion Policy: Choose either <strong className="text-on-surface font-semibold">Remote Git Repository</strong> OR <strong className="text-on-surface font-semibold">Local ZIP File</strong>
               </span>
             </div>
-            <div className="self-start sm:self-auto flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/15 border border-primary-container/30 text-primary-container font-mono text-[11px] font-semibold tracking-wide shadow-sm">
+            <div className="self-start sm:self-auto flex items-center gap-2 px-3 py-1 rounded-full bg-primary-container/15 border border-primary-container/30 text-primary-container font-sans text-[11px] font-semibold tracking-wide shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse" />
               <span>{selectedMethod === 'url' ? 'Selected: Remote Git' : 'Selected: ZIP Archive'}</span>
             </div>
@@ -159,7 +159,7 @@ export const IngestRepoPage: React.FC = () => {
                   <span className="material-symbols-outlined text-[22px]">add_link</span>
                 </div>
                 <div>
-                  <h2 className="font-sans text-base sm:text-lg font-bold text-on-surface tracking-tight">
+                  <h2 className="font-heading text-base sm:text-lg font-bold text-on-surface tracking-tight">
                     Upper: Remote Git Repository
                   </h2>
                   <p className="font-sans text-xs text-outline mt-0.5">
@@ -462,7 +462,7 @@ export const IngestRepoPage: React.FC = () => {
                     <h2 className="font-headline-md text-base sm:text-lg font-bold text-on-surface">
                       Local ZIP / Codebase Archive
                     </h2>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-code font-bold uppercase tracking-wider bg-primary-container/15 text-primary-container border border-primary-container/30">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-sans font-bold uppercase tracking-wider bg-primary-container/15 text-primary-container border border-primary-container/30">
                       Local Archive
                     </span>
                   </div>
