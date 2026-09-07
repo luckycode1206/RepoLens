@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../context';
+import { ThemeToggle } from '../components/common/ThemeToggle';
 
 export const SettingsPage: React.FC = () => {
   const {
@@ -43,9 +44,12 @@ export const SettingsPage: React.FC = () => {
               Select interface rendering engine. Themes strictly configure syntax highlighting contrast and chromatic accenting.
             </p>
           </div>
-          <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container uppercase font-semibold">
-            Surface UI
-          </span>
+          <div className="flex items-center gap-3">
+            <ThemeToggle size="md" />
+            <span className="font-label-caps text-label-caps px-space-xs py-space-2xs rounded bg-surface-container text-primary-container uppercase font-semibold">
+              Surface UI
+            </span>
+          </div>
         </div>
 
         {/* Theme Cards Grid */}

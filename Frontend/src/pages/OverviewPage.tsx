@@ -14,7 +14,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useApp } from '../context';
-import { ThemeToggle } from '../components/common/ThemeToggle';
 
 export const OverviewPage: React.FC = () => {
   const { activeRepo, repositories, setActiveRepoId, theme } = useApp();
@@ -171,7 +170,7 @@ export const OverviewPage: React.FC = () => {
 
             <button
               type="button"
-              onClick={() => navigate('/repositories/connect')}
+              onClick={() => navigate('/ingest')}
               className={`inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl font-sans text-xs font-medium border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                 isDark
                   ? 'bg-[#171B16] hover:bg-[#1E231D] text-[#E4E8E1] border-[#282F26] focus-visible:ring-[#a3e635]'
@@ -181,9 +180,6 @@ export const OverviewPage: React.FC = () => {
               <Plus size={15} strokeWidth={2} />
               <span>Connect Repo</span>
             </button>
-
-            {/* Quick Inline Theme Mode Switcher */}
-            <ThemeToggle size="sm" />
           </div>
         </div>
       </div>

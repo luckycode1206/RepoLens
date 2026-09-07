@@ -727,3 +727,18 @@ html.light,
   background: radial-gradient(circle at 50% 50%, rgba(4, 106, 56, 0.18), transparent 75%);
 }
 
+@keyframes tabFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tab-fade {
+  animation: tabFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

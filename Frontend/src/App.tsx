@@ -5,7 +5,7 @@ import { AppLayout } from './components/layout/AppLayout';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
-import { IngestRepoPage } from './pages/IngestRepoPage';
+import { StandaloneIngestPage } from './pages/StandaloneIngestPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { RepositoriesPage } from './pages/RepositoriesPage';
 import { PipelineTelemetryPage } from './pages/PipelineTelemetryPage';
@@ -28,18 +28,17 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <WaterTransitionProvider>
           <Routes>
-            {/* Public Landing & Authentication */}
+            {/* Public Landing, Authentication & Standalone Ingest */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/ingest" element={<StandaloneIngestPage />} />
 
           {/* Authenticated Workspace / Console Layout */}
           <Route element={<AppLayout />}>
             <Route path="/app" element={<OverviewPage />} />
             <Route path="/overview" element={<OverviewPage />} />
-            <Route path="/ingest" element={<IngestRepoPage />} />
             <Route path="/repositories" element={<RepositoriesPage />} />
-            <Route path="/repositories/connect" element={<IngestRepoPage />} />
             <Route path="/progress" element={<PipelineTelemetryPage />} />
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/security" element={<SecurityAnalysisPage />} />

@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
-  ArrowDownToLine,
   FolderGit2,
   Terminal,
   Network,
@@ -79,13 +78,6 @@ export const AppSidebar: React.FC<AppSidebarProps> = ({
       label: 'WORKSPACE',
       items: [
         { label: 'Overview', to: '/app', icon: LayoutDashboard },
-        {
-          label: 'Ingest Codebase',
-          to: '/ingest',
-          icon: ArrowDownToLine,
-          badge: 'NEW',
-          badgeType: 'accent-new',
-        },
         {
           label: 'Repositories',
           to: '/repositories',

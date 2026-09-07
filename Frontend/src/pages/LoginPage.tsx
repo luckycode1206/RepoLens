@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { useApp, useWaterNavigate } from '../context';
-import { ThemeToggle } from '../components/common/ThemeToggle';
 import { DoodleBackdrop } from '../components/common/DoodleBackdrop';
 
 export const LoginPage: React.FC = () => {
@@ -35,7 +34,7 @@ export const LoginPage: React.FC = () => {
       setLoading(false);
       setAuthSuccess(true);
       setTimeout(() => {
-        navigate('/app');
+        navigate('/');
       }, 300);
     }, 550);
   };
@@ -58,9 +57,6 @@ export const LoginPage: React.FC = () => {
         >
           <RepoLensLogo size="md" />
         </button>
-
-        {/* Theme Switch Toggle */}
-        <ThemeToggle size="md" />
       </header>
 
       {/* Main Single-Column Centered Card (~440px) */}
