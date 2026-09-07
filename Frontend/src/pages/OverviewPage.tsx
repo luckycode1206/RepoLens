@@ -585,13 +585,13 @@ export const OverviewPage: React.FC = () => {
 
           {/* Repo List Rows (Left-to-Right reading order, live active dot, fast scanning) */}
           <div className="space-y-2.5">
-            {repositories.map((repo) => {
+            {repositories.map((repo, idx) => {
               const isSelected = repo.id === activeRepo?.id;
               const isActiveStatus = repo.status === 'Active';
 
               return (
                 <div
-                  key={repo.id}
+                  key={`${repo.id}-${idx}`}
                   onClick={() => {
                     setActiveRepoId(repo.id);
                     navigate('/architecture');

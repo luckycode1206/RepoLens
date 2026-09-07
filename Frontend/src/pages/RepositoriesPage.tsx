@@ -113,9 +113,9 @@ export const RepositoriesPage: React.FC = () => {
 
         {/* Table Body Rows */}
         <div className="divide-y divide-surface-container-high">
-          {filteredRepos.map((repo) => (
+          {filteredRepos.map((repo, idx) => (
             <div
-              key={repo.id}
+              key={`${repo.id}-${idx}`}
               className="group grid grid-cols-12 gap-space-sm px-space-lg py-space-md bg-surface-container-low hover:bg-surface-container items-center transition-colors relative cursor-pointer"
               onClick={() => handleSelectRepo(repo.id)}
             >

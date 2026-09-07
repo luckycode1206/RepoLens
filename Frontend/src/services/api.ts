@@ -31,8 +31,11 @@ export const repoService = {
     return Promise.resolve(MOCK_REPOSITORIES.find((r) => r.id === id));
   },
   createRepository: async (newRepo: Partial<Repository>): Promise<Repository> => {
+    const baseId = newRepo.name?.toLowerCase().replace(/\s+/g, '-') || `repo-${Date.now()}`;
+    const idExists = MOCK_REPOSITORIES.some((r) => r.id === baseId);
+    const uniqueId = idExists ? `${baseId}-${Date.now().toString().slice(-4)}` : baseId;
     const created: Repository = {
-      id: newRepo.name?.toLowerCase().replace(/\s+/g, '-') || `repo-${Date.now()}`,
+      id: uniqueId,
       name: newRepo.name || 'new-repository',
       isPrivate: newRepo.isPrivate ?? true,
       branch: newRepo.branch || 'main',
