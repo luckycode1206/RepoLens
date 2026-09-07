@@ -25,3 +25,6 @@ Frontend/.vscode/*
 *.njsproj
 *.sln
 *.sw?
+
+# Media exceeding GitHub 100MB limit
+*hmm.mp4
