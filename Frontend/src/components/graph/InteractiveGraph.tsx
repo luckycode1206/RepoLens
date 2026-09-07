@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { GraphNode, GraphLink } from '../../types';
 import { useApp } from '../../context';
 
@@ -27,7 +27,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
 
   const nodes = initialNodes.map((n) => {
     const pos = draggedPositions[n.id];
-    return pos ? { ...n, x: pos.x, y: pos.y } : n;
+    return pos && Number.isFinite(pos.x) && Number.isFinite(pos.y) ? { ...n, x: pos.x, y: pos.y } : n;
   });
 
   // Pan & Zoom state
@@ -37,7 +37,19 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   const [draggedNodeId, setDraggedNodeId] = useState<string | null>(null);
   const panStartRef = useRef({ x: 0, y: 0 });
   const nodeDragStartRef = useRef({ x: 0, y: 0 });
+  const dragStartClientRef = useRef({ x: 0, y: 0 });
+  const hasDraggedRef = useRef(false);
   const svgRef = useRef<SVGSVGElement>(null);
+
+  // Global mouseup release safety
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsPanning(false);
+      setDraggedNodeId(null);
+    };
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+  }, []);
 
   const activeId = hoveredNodeId || selectedNodeId;
 
@@ -61,6 +73,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
 
   // Node Dragging & Canvas Panning
   const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
+    hasDraggedRef.current = false;
     if ((e.target as HTMLElement).tagName === 'svg' || (e.target as HTMLElement).id === 'graph-bg') {
       setIsPanning(true);
       panStartRef.current = { x: e.clientX - pan.x, y: e.clientY - pan.y };
@@ -70,6 +83,8 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   const handleNodeMouseDown = (e: React.MouseEvent, nodeId: string) => {
     e.stopPropagation();
     setDraggedNodeId(nodeId);
+    hasDraggedRef.current = false;
+    dragStartClientRef.current = { x: e.clientX, y: e.clientY };
     const node = nodes.find((n) => n.id === nodeId);
     if (node) {
       nodeDragStartRef.current = {
@@ -86,12 +101,21 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
         y: e.clientY - panStartRef.current.y,
       });
     } else if (draggedNodeId) {
-      const newX = (e.clientX - pan.x) / zoom - nodeDragStartRef.current.x;
-      const newY = (e.clientY - pan.y) / zoom - nodeDragStartRef.current.y;
-      setDraggedPositions((prev) => ({
-        ...prev,
-        [draggedNodeId]: { x: newX, y: newY },
-      }));
+      const dist = Math.hypot(
+        e.clientX - dragStartClientRef.current.x,
+        e.clientY - dragStartClientRef.current.y
+      );
+      if (dist > 4) {
+        hasDraggedRef.current = true;
+        const newX = (e.clientX - pan.x) / zoom - nodeDragStartRef.current.x;
+        const newY = (e.clientY - pan.y) / zoom - nodeDragStartRef.current.y;
+        if (Number.isFinite(newX) && Number.isFinite(newY)) {
+          setDraggedPositions((prev) => ({
+            ...prev,
+            [draggedNodeId]: { x: newX, y: newY },
+          }));
+        }
+      }
     }
   };
 
@@ -101,10 +125,21 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
   };
 
   const handleNodeClick = (node: GraphNode) => {
+    if (hasDraggedRef.current) return;
     const newId = selectedNodeId === node.id ? null : node.id;
     setInternalSelectedId(newId);
     if (onNodeSelect) {
       onNodeSelect(newId ? node : null);
+    }
+  };
+
+  const handleCanvasClick = (e: React.MouseEvent) => {
+    if (hasDraggedRef.current) return;
+    const targetTag = (e.target as HTMLElement).tagName;
+    const targetId = (e.target as HTMLElement).id;
+    if (targetTag === 'svg' || targetId === 'graph-bg' || (targetTag === 'rect' && (e.target as HTMLElement).getAttribute('fill')?.includes('grid-pattern'))) {
+      setInternalSelectedId(null);
+      if (onNodeSelect) onNodeSelect(null);
     }
   };
 
@@ -120,6 +155,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
 
   const getNodeBorder = (node: GraphNode) => {
     if (node.id === selectedNodeId) return '#ffffff';
+    if (node.id === hoveredNodeId) return 'var(--color-primary-container)';
     if (node.category === 'changed') return '#93000a';
     if (node.category === 'impacted') return '#aff825';
     return 'var(--color-surface-container-highest)';
@@ -188,6 +224,7 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onClick={handleCanvasClick}
       >
         {/* Background Grid Pattern */}
         <defs>
@@ -299,7 +336,8 @@ export const InteractiveGraph: React.FC<InteractiveGraphProps> = ({
               <g
                 key={node.id}
                 transform={`translate(${x}, ${y})`}
-                className={`cursor-pointer transition-opacity duration-200 ${isDimmed ? 'opacity-25' : 'opacity-100'}`}
+                className={`graph-node-group select-none transition-opacity duration-200 ${isDimmed ? 'opacity-40' : 'opacity-100'}`}
+                style={{ cursor: 'pointer' }}
                 onMouseEnter={() => setHoveredNodeId(node.id)}
                 onMouseLeave={() => setHoveredNodeId(null)}
                 onMouseDown={(e) => handleNodeMouseDown(e, node.id)}

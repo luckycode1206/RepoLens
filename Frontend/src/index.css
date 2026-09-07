@@ -787,13 +787,14 @@ html.light,
 /* ==========================================================================
    Universal Element Cursor Reactions
    Every button, card, link, row, and interactive surface reacts to cursor hover
+   SVG elements are strictly excluded to preserve coordinate transforms
    ========================================================================== */
 
 /* Universal smooth cursor transition timing */
 button,
 a,
 [role="button"],
-.cursor-pointer,
+.cursor-pointer:not(svg):not(svg *),
 .page-link,
 [data-hover-react] {
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -818,12 +819,12 @@ a[role="button"]:active,
   transform: translateY(0.5px) scale(0.98);
 }
 
-/* Clickable Cards & Feature Tiles Reaction */
-.cursor-pointer:not(button):not(input):not(label):hover {
+/* Clickable Cards & Feature Tiles Reaction (EXCLUDE ALL SVG ELEMENTS) */
+.cursor-pointer:not(button):not(input):not(label):not(svg):not(svg *):hover {
   transform: translateY(-2px) scale(1.008);
 }
 
-.cursor-pointer:not(button):not(input):not(label):active {
+.cursor-pointer:not(button):not(input):not(label):not(svg):not(svg *):active {
   transform: translateY(0) scale(0.995);
 }
 
@@ -838,13 +839,13 @@ aside a.group:hover {
 }
 
 /* Badges & Pills Hover Reaction */
-.cursor-pointer [class*="font-label-caps"],
-.cursor-pointer [class*="badge"] {
+.cursor-pointer:not(svg):not(svg *) [class*="font-label-caps"],
+.cursor-pointer:not(svg):not(svg *) [class*="badge"] {
   transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.cursor-pointer:hover [class*="font-label-caps"],
-.cursor-pointer:hover [class*="badge"] {
+.cursor-pointer:not(svg):not(svg *):hover [class*="font-label-caps"],
+.cursor-pointer:not(svg):not(svg *):hover [class*="badge"] {
   transform: scale(1.05);
 }
 
