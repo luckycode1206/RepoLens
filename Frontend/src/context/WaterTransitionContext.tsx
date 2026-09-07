@@ -31,19 +31,21 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
       (location.pathname === targetPathRef.current || location.pathname.startsWith(targetPathRef.current))
     ) {
       targetPathRef.current = null;
+      // CRITICAL: Clear all pending fallback timers immediately to eliminate any secondary flash!
+      clearTimers();
 
-      // Double rAF ensures the browser has painted the new view under the opaque water droplet layer
+      // Double rAF ensures the browser has committed and painted the new view under the opaque water droplet layer
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setPhase('exiting');
           const exitTimer = window.setTimeout(() => {
             setPhase('idle');
-          }, 360);
+          }, 300);
           timersRef.current.push(exitTimer);
         });
       });
     }
-  }, [location.pathname, phase]);
+  }, [location.pathname, phase, clearTimers]);
 
   const waterNavigate = useCallback(
     (to: string, event?: React.MouseEvent | { clientX: number; clientY: number }) => {
@@ -74,7 +76,7 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
       if (prefersReduced) {
         navigate(to);
         setPhase('exiting');
-        const t = window.setTimeout(() => setPhase('idle'), 160);
+        const t = window.setTimeout(() => setPhase('idle'), 150);
         timersRef.current.push(t);
         return;
       }
@@ -85,12 +87,12 @@ export const WaterTransitionProvider: React.FC<{ children: React.ReactNode }> = 
         navigate(to);
       }, 280);
 
-      // Safety fallback timer if route listener was interrupted
+      // Safety fallback timer ONLY in case route listener was interrupted
       const fallbackTimer = window.setTimeout(() => {
         setPhase('exiting');
-        const cleanup = window.setTimeout(() => setPhase('idle'), 360);
+        const cleanup = window.setTimeout(() => setPhase('idle'), 300);
         timersRef.current.push(cleanup);
-      }, 800);
+      }, 850);
 
       timersRef.current.push(navTimer, fallbackTimer);
     },

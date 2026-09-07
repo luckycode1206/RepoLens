@@ -343,15 +343,8 @@ html.light,
   position: fixed;
   inset: 0;
   z-index: 999999;
-  pointer-events: none;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.15s ease-out;
-}
-
-.water-transition.is-active {
   pointer-events: auto;
-  opacity: 1;
+  overflow: hidden;
 }
 
 .water-drop {
@@ -411,6 +404,15 @@ html.light,
   animation: water-ripple-wave-2 300ms cubic-bezier(0.12, 0.9, 0.24, 1) 40ms forwards;
 }
 
+/* Suppress ripple rings once submerged and on exit to avoid flashes */
+.water-transition.is-holding .water-drop::before,
+.water-transition.is-holding .water-drop::after,
+.water-transition.is-exiting .water-drop::before,
+.water-transition.is-exiting .water-drop::after {
+  display: none !important;
+  opacity: 0 !important;
+}
+
 /* Holding state: Screen fully immersed in contrasting liquid */
 .water-transition.is-holding .water-drop {
   transform: scale(260);
@@ -419,9 +421,9 @@ html.light,
 
 /* Exiting: Fluid unmasks and dissolves smoothly revealing the new page */
 .water-transition.is-exiting .water-drop {
-  transform: scale(280);
+  transform: scale(270);
   opacity: 1;
-  animation: water-drop-dissolve 320ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: water-drop-dissolve 300ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes water-drop-surge {
