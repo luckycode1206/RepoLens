@@ -221,41 +221,7 @@ export const SettingsPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Section 2: Graph Engine Parameters */}
-      <section className="bg-surface-container-low rounded-xl p-space-lg border border-surface-container-high shadow-sm space-y-space-md">
-        <div className="flex items-center gap-space-xs">
-          <span className="material-symbols-outlined text-primary-container text-[20px]">
-            account_tree
-          </span>
-          <h2 className="font-headline-md text-headline-md text-on-surface font-semibold">
-            Topological Graph Engine
-          </h2>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md text-body-sm">
-          <div className="p-space-md rounded-lg bg-surface-container space-y-2">
-            <div className="font-medium text-on-surface">Max Ripple Hop Traversal</div>
-            <p className="text-xs text-outline">
-              Limits recursive breadth-first search across downstream AST symbols.
-            </p>
-            <div className="flex items-center gap-4 pt-1">
-              <input type="range" min="1" max="6" defaultValue="4" className="flex-1 accent-primary-container" />
-              <span className="font-code text-xs font-bold text-primary-container">4 hops</span>
-            </div>
-          </div>
-
-          <div className="p-space-md rounded-lg bg-surface-container space-y-2">
-            <div className="font-medium text-on-surface">Cycle Detection Sensitivity</div>
-            <p className="text-xs text-outline">
-              Tarjan SCC algorithm depth threshold for circular imports.
-            </p>
-            <div className="flex items-center gap-4 pt-1">
-              <input type="range" min="10" max="100" defaultValue="50" className="flex-1 accent-secondary" />
-              <span className="font-code text-xs font-bold text-secondary">Strict L3</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Section 3: Danger Zone */}
       <section className="bg-surface-container-low rounded-xl p-space-lg border border-error/30 shadow-sm space-y-space-md">
