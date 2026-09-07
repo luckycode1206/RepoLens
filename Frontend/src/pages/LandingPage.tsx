@@ -121,8 +121,8 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <button
-              onClick={() => navigate('/ingest')}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime hover:scale-[1.02] active:scale-[0.98]"
+              onClick={(e) => waterNavigate('/ingest', e)}
+              className="page-link w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-headline-sm text-sm font-semibold transition-all shadow-glow-lime hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
             >
               <span className="material-symbols-outlined text-[20px]">upload_file</span>
               <span>Ingest Repository / Upload ZIP</span>
