@@ -274,15 +274,6 @@ export const SignupPage: React.FC = () => {
                     />
                   )}
                 </label>
-                {focusedField === 'email' && (
-                  <span
-                    className={`text-[10px] font-mono tracking-wider uppercase font-semibold animate-pulse ${
-                      isDark ? 'text-[#B6FF3C]' : 'text-[#046A38]'
-                    }`}
-                  >
-                    Typing...
-                  </span>
-                )}
               </div>
               <div className="repolens-3d-input-group">
                 <div
