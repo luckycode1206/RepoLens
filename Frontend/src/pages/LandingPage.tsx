@@ -4,12 +4,14 @@ import { RepoLensLogo } from '../components/common/RepoLensLogo';
 import { ThemeToggle } from '../components/common/ThemeToggle';
 import { useApp, useWaterNavigate } from '../context';
 import darkHeroVideo from '../../lime_spark_B6FF2E_10s.mp4';
+import lightHeroVideo from '../../negative_white_video_fixed.mp4';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { waterNavigate } = useWaterNavigate();
   const { theme } = useApp();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const lightVideoRef = useRef<HTMLVideoElement>(null);
 
   const isLight = theme === 'light';
 
@@ -18,6 +20,11 @@ export const LandingPage: React.FC = () => {
       videoRef.current.defaultMuted = true;
       videoRef.current.muted = true;
       videoRef.current.play().catch(() => {});
+    } else if (isLight && lightVideoRef.current) {
+      lightVideoRef.current.defaultMuted = true;
+      lightVideoRef.current.muted = true;
+      lightVideoRef.current.playbackRate = 0.6;
+      lightVideoRef.current.play().catch(() => {});
     }
   }, [isLight]);
 
@@ -43,6 +50,32 @@ export const LandingPage: React.FC = () => {
             </video>
             {/* Subtle dark tint to maintain headline and header contrast */}
             <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+            {/* Bottom edge gradient blending smoothly into the solid background */}
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+          </div>
+        )}
+
+        {/* Light Mode Video Background: Reduced speed and reduced opacity */}
+        {isLight && (
+          <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+            <video
+              ref={lightVideoRef}
+              src={lightHeroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              onLoadedMetadata={(e) => {
+                e.currentTarget.playbackRate = 0.6;
+              }}
+              className="w-full h-full object-cover opacity-45"
+            >
+              <source src={lightHeroVideo} type="video/mp4" />
+              <source src="/negative_white_video_fixed.mp4" type="video/mp4" />
+            </video>
+            {/* Subtle overlay to soften contrast and blend with light theme */}
+            <div className="absolute inset-0 bg-surface/20 pointer-events-none" />
             {/* Bottom edge gradient blending smoothly into the solid background */}
             <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
           </div>
